@@ -19,8 +19,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::group([
+        'prefix' => 'staff',
+        'as' => 'staff/',
+    ], function () {
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        
+        Route::get('administrators', ['\App\Http\Controllers\Staff\AdministratorController', 'index'])->name('administrators');
+    });
+});

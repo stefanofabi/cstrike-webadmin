@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+// added
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 class LoginController extends Controller
 {
     /*
@@ -36,5 +40,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        
+
+        if(auth()->attempt(array('email' => $request->email, 'password' => $request->password))) {
+            $redirect = redirect()->route('staff/home');
+        } else {
+            Session::flash('login_failed', Lang::get('auth.failed'));
+
+            $redirect = redirect()->route('login')
+                ->withInput(
+                    $request->except('password')
+                );
+        }
+
+        return $redirect;
     }
 }
