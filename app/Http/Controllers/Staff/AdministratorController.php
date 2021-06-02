@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Staff;
 use Illuminate\Http\Request;
 use  App\Http\Controllers\Controller;
 
+use App\Models\Administrator;
+use App\Models\Rank;
+
+use Lang;
+
 class AdministratorController extends Controller
 {
     /**
@@ -16,7 +21,13 @@ class AdministratorController extends Controller
     {
         //
 
-        return view('staff.administrators.index');
+        $administrators = Administrator::orderBy('expiration', 'DESC')->get();
+        
+        $ranks = Rank::orderBy('name', 'DESC')->get();
+
+        return view('staff.administrators.index')
+            ->with('administrators', $administrators)
+            ->with('ranks', $ranks);
     }
 
     /**
@@ -57,9 +68,11 @@ class AdministratorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
+
+        return Administrator::findOrFail($request->id);
     }
 
     /**
@@ -83,5 +96,13 @@ class AdministratorController extends Controller
     public function destroy($id)
     {
         //
+        
+        $administrator = Administrator::findOrFail($id);
+
+        if (! $administrator->delete($id)) {
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        return redirect()->action([AdministratorController::class,'index']);
     }
 }

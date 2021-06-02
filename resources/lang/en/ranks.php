@@ -13,6 +13,6 @@ return [
     |
     */
 
-    
+    'rank' => 'Rank',    
     
 ];

@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col">
                             <div style="text-align: center;">
-                                <a class="nav-link" style="color: black" href="{{ route('staff/administrators') }}">
+                                <a class="nav-link" style="color: black" href="{{ route('staff/administrators/index') }}">
                                     <h1>
                                         <i style="font-size: 8vw" class="fas fa-users"></i>
                                     </h1>
