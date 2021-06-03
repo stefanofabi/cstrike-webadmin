@@ -7,6 +7,7 @@ use  App\Http\Controllers\Controller;
 
 use App\Models\Administrator;
 use App\Models\Rank;
+use App\Models\Server;
 
 use Lang;
 
@@ -21,9 +22,9 @@ class AdministratorController extends Controller
     {
         //
 
-        $administrators = Administrator::orderBy('expiration', 'DESC')->get();
+        $administrators = Administrator::orderBy('expiration', 'ASC')->get();
         
-        $ranks = Rank::orderBy('name', 'DESC')->get();
+        $ranks = Rank::orderBy('name', 'ASC')->get();
 
         return view('staff.administrators.index')
             ->with('administrators', $administrators)
@@ -38,6 +39,14 @@ class AdministratorController extends Controller
     public function create()
     {
         //
+
+        $ranks = Rank::orderBy('name', 'ASC')->get();
+
+        $servers = Server::orderBy('name', 'ASC')->get();
+
+        return view('staff/administrators/create')
+            ->with('ranks', $ranks)
+            ->with('servers', $servers);
     }
 
     /**
@@ -49,6 +58,14 @@ class AdministratorController extends Controller
     public function store(Request $request)
     {
         //
+
+        $administrator = new Administrator($request->all());
+
+        if (! $administrator->save()) {
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        } 
+
+        return redirect()->action([AdministratorController::class,'index']);
     }
 
     /**

@@ -13,6 +13,7 @@ return [
     |
     */
 
-    
+    'servers_with_access' => 'Servers with access',
+    'no_servers' => 'No servers',
     
 ];

@@ -23,12 +23,14 @@ class CreateAdministratorsTable extends Migration
             $table->date('expiration')->nullable();
 
             $table->unsignedBigInteger('rank_id');
+            $table->unsignedBigInteger('server_id');
 
             // Unique keys
-            $table->unique('auth');
+            $table->unique(['auth', 'server_id']);
 
             // Foreign keys
             $table->foreign('rank_id')->references('id')->on('ranks')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('server_id')->references('id')->on('servers')->onDelete('restrict')->onUpdate('cascade');
 
             $table->timestamps();
             

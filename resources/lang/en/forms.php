@@ -21,5 +21,6 @@ return [
     'confirm' => 'Do you really want to continue?',
     'failed_transaction' => 'Failed transaction',
     'no_data' => 'No data',
+    'submit' => 'Submit',
     
 ];
