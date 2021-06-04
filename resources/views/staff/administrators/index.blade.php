@@ -78,7 +78,12 @@
                         <tr>
                             <td> {{ $administrator->name }} </td>
                             <td> {{ $administrator->auth }} </td>
-                            <td> {{ date('d/m/Y', strtotime($administrator->expiration)) }} </td>
+                            <td>
+                                {{ date('d/m/Y', strtotime($administrator->expiration)) }}
+                                @if (!empty($administrator->expiration) && date('Y-m-d') > $administrator->expiration)
+                                    <span class="badge badge-danger"> {{ trans('administrators.expired') }}</span>  
+                                @endif                         
+                            </td>
                             <td> {{ $administrator->rank->name }} </td>
 
                             <td class="text-right">

@@ -35,5 +35,6 @@ return [
     'success_updated_administrator' => 'Successfully updated administrator',
     'danger_updated_administrator' => 'There was a problem updated the administrator. Please try again later',
     'danger_edited_administrator' => 'There was a problem loading the administrator. Please try again later',
+    'expired' => 'Expired',
 
 ];
