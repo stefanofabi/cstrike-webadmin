@@ -1,7 +1,50 @@
 @extends('staff.app')
 
 @section('js')
+    
     @include('staff/administrators/js')
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#rank').val("{{ @old('rank_id') }}");
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function() {
+        
+            // icon to be able to interact with the element
+            showPassword = document.querySelector('.show-password');
+            showPassword.addEventListener('click', () => {
+        
+            // input elements of type password
+            password1 = document.querySelector('.password1');
+        
+            if ( password1.type === "text" ) {
+                password1.type = "password"
+                password2.type = "password"
+                showPassword.classList.remove('fa-eye-slash');
+            } else {
+                password1.type = "text"
+                password2.type = "text"
+                showPassword.classList.toggle("fa-eye-slash");
+            }
+        })
+        });
+    </script>
+@endsection
+
+@section('style')
+    <style>
+        .password-icon {
+        float: right;
+        position: relative;
+        margin: -25px 10px 0 0;
+        cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('right-content')

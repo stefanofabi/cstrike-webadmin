@@ -18,19 +18,17 @@ class CreateAdministratorsTable extends Migration
             $table->string('name');
             $table->string('auth');
             $table->string('password');
-            $table->string('account_flag');
+            $table->string('account_flags');
 
             $table->date('expiration')->nullable();
 
             $table->unsignedBigInteger('rank_id');
-            $table->unsignedBigInteger('server_id');
 
             // Unique keys
-            $table->unique(['auth', 'server_id']);
+            $table->unique('auth');
 
             // Foreign keys
             $table->foreign('rank_id')->references('id')->on('ranks')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('server_id')->references('id')->on('servers')->onDelete('restrict')->onUpdate('cascade');
 
             $table->timestamps();
             

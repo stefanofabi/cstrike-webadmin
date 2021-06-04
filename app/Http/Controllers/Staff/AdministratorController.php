@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use  App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 use App\Models\Administrator;
 use App\Models\Rank;
 use App\Models\Server;
+use App\Models\Privilege;
 
 use Lang;
 
@@ -26,9 +29,12 @@ class AdministratorController extends Controller
         
         $ranks = Rank::orderBy('name', 'ASC')->get();
 
+        $servers = Server::orderBy('name', 'ASC')->get();
+
         return view('staff.administrators.index')
             ->with('administrators', $administrators)
-            ->with('ranks', $ranks);
+            ->with('ranks', $ranks)
+            ->with('servers', $servers);
     }
 
     /**
@@ -58,14 +64,53 @@ class AdministratorController extends Controller
     public function store(Request $request)
     {
         //
+        
+        $request->validate([
+            'name' => 'required|string',
+            'auth' => 'required|string',
+            'password' => 'string|nullable',
+            'account_flags' => 'required',
+            'servers' => 'required',
+            'rank_id' => 'required|string',
+            'expiration' => 'required|date',           
+        ]);
 
-        $administrator = new Administrator($request->all());
+        DB::beginTransaction();
 
-        if (! $administrator->save()) {
-            return back()->withErrors(Lang::get('forms.failed_transaction'));
-        } 
+        try {
 
-        return redirect()->action([AdministratorController::class,'index']);
+            $administrator = new Administrator(
+                [
+                'name' => $request->name,
+                'auth' => $request->auth,
+                'password' => $request->password,
+                'account_flags' => implode($request->account_flags),
+                'expiration' => $request->expiration,
+                'rank_id' => $request->rank_id,
+                ]
+            );
+
+            $administrator->save();
+
+            foreach ($request->servers as $server) {
+                $server_privilege = new Privilege(
+                    [
+                        'administrator_id' => $administrator->id,
+                        'server_id' => $server
+                    ]
+                );
+
+                $server_privilege->save();
+            }
+
+            DB::commit();
+        } catch(QueryException $exception) {
+            DB::rollBack();
+
+            return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
+        }
+        
+        return redirect()->action([AdministratorController::class, 'index']);
     }
 
     /**
@@ -88,8 +133,13 @@ class AdministratorController extends Controller
     public function edit(Request $request)
     {
         //
+        
+        $administrator = Administrator::findOrFail($request->id);
 
-        return Administrator::findOrFail($request->id);
+        return response()->json([
+            'administrator' => $administrator,
+            'privileges' => $administrator->privileges,
+        ], 200);
     }
 
     /**
@@ -99,9 +149,69 @@ class AdministratorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'name' => 'required|string',
+            'auth' => 'required|string',
+            'password' => 'string|nullable',
+            'account_flags' => 'required',
+            'servers' => 'required',
+            'rank_id' => 'required|string',
+            'expiration' => 'required|date',           
+        ]);
+
+        $administrator = Administrator::findOrFail($request->id);
+
+        DB::beginTransaction();
+
+        try {
+    
+            $administrator->name = $request->name;
+            $administrator->auth = $request->auth;
+            $administrator->password = $request->password;
+            
+            $account_flags = json_decode($request->account_flags);
+            $flags = "";
+ 
+            foreach ($account_flags as $account_flag) {
+                $flags .= "$account_flag->value";
+            }
+
+            $administrator->account_flags = $flags;
+            $administrator->expiration = $request->expiration;
+            $administrator->rank_id = $request->rank_id;
+
+            $administrator->save();
+
+            Privilege::where('administrator_id', $administrator->id)->delete();
+
+            $servers = json_decode($request->servers);
+
+            
+            foreach ($servers as $server) {
+                $server_privilege = new Privilege(
+                    [
+                        'administrator_id' => $administrator->id,
+                        'server_id' => $server->value,
+                    ]
+                );
+
+                $server_privilege->save();
+            }
+
+            DB::commit();
+
+        } catch (QueryException $exception) {
+            DB::rollBack();
+
+            return response([$exception->getMessage()], 500);
+        }
+        
+        return response(['message' => Lang::get('forms.success_edited_administrator')], 200);
+
     }
 
     /**

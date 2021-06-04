@@ -17,7 +17,7 @@ class CreateRanksTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('access_flag');
-            $table->string('price');
+            $table->double('price')->default(0.0);
 
             // Unique keys
             $table->unique('name');

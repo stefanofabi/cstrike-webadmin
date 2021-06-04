@@ -4,6 +4,8 @@
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+
+            $('#rank').val("{{ @old('rank_id') }}");
         });
     </script>
 
@@ -43,8 +45,6 @@
 @endsection
 
 @section('right-content')
-    
-    @include('staff/administrators/edit')
 
     <div class="p-3 my-3 bg-primary text-white">
         <h1> {{ trans('administrators.create_administrator') }} </h1>
@@ -52,16 +52,18 @@
     </div>
 
     <form action="{{ route('staff/administrators/store') }}" method="POST">
+        @csrf
+
         <div class="form-group">
             <label for="name"> <h5> <strong> {{ trans('administrators.name') }}: </h5> </strong> </label>
             
-            <input type="text" class="form-control col-6" placeholder="{{ trans('administrators.enter_name') }}" name="name">
+            <input type="text" class="form-control col-6" placeholder="{{ trans('administrators.enter_name') }}" name="name" value="{{ @old('name') }}" required>
         </div>
 
         <div class="form-group">
             <label for="auth"> <h5> <strong> {{ trans('administrators.auth') }}: </strong> </h5> </label>
             
-            <input type="text" class="form-control col-6" placeholder="{{ trans('administrators.enter_auth') }}" name="auth">
+            <input type="text" class="form-control col-6" placeholder="{{ trans('administrators.enter_auth') }}" name="auth" value="{{ @old('auth') }}" required>
         </div>
 
         <div class="form-group">
@@ -72,46 +74,46 @@
         </div>
 
         <div class="form-group">
-            <h5> <strong> {{ trans('administrators.account_flag') }}: </strong> </h5>
+            <h5> <strong> {{ trans('administrators.account_flags') }}: </strong> </h5>
             
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" id="flag_a" value="a">
                     <span data-toggle="tooltip" data-placement="right" title="Flag a"> {{ trans('administrators.unique_tag') }} </span>
                 </label> 
 
                 <br />
 
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" value="b">
                     <span data-toggle="tooltip" data-placement="right" title="Flag b"> {{ trans('administrators.flexible_tag') }} </span>
                 </label>
 
                 <br />
 
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" value="c">
                     <span data-toggle="tooltip" data-placement="right" title="Flag c"> {{ trans('administrators.it_steam') }} </span>
                 </label>
 
                 <br />
 
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" value="d">
                     <span data-toggle="tooltip" data-placement="right" title="Flag d"> {{ trans('administrators.it_ip') }} </span>
                 </label>
 
                 <br />
                 
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" value="e">
                     <span data-toggle="tooltip" data-placement="right" title="Flag e"> {{ trans('administrators.password_not_checked') }} </span>
                 </label>
 
                 <br />
 
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="account_flags[]" value="k">
                     <span data-toggle="tooltip" data-placement="right" title="Flag k"> {{ trans('administrators.name_tag_case_sensitive') }} </span>
                 </label>
             </div>
@@ -124,7 +126,7 @@
             <div class="form-check">
                 @forelse ($servers as $server)
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input" type="checkbox" name="servers[]" value="{{ $server->id }}">
                         <span data-toggle="tooltip" data-placement="right" title="{{ $server->ip }}"> {{ $server->name }} </span>
                     </label>
 
@@ -136,9 +138,15 @@
         </div>
 
         <div class="form-group">
+            <h5> <strong>{{ trans('administrators.expiration') }}: </strong> </h5>
+
+            <input class="form-control col-6" type="date" name="expiration" value="{{ @old('expiration') ?? date('Y-m-d', strtotime(date('Y-m-d').' + 1 month')) }}" required>
+        </div>
+
+        <div class="form-group">
             <h5> <strong>{{ trans('ranks.rank') }}: </strong> </h5>
 
-            <select class="form-control col-6" id="sel1">
+            <select class="form-control col-6" name="rank_id" id="rank" required>
                 <option value="">  {{ trans('forms.select_option') }} </option>
                 
                 @foreach ($ranks as $rank)
@@ -149,5 +157,8 @@
         
         <button type="submit" class="btn btn-primary float-right mb-3"> {{ trans('forms.submit') }}</button>
     </form>
+    
+    <hr style="clear: both">
 
+    {{ @old('privileges')}}
 @endsection

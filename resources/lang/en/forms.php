@@ -22,5 +22,5 @@ return [
     'failed_transaction' => 'Failed transaction',
     'no_data' => 'No data',
     'submit' => 'Submit',
-    
+    'well_done' => 'Well done',
 ];
