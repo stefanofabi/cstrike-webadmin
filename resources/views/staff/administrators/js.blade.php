@@ -62,6 +62,8 @@
 	}
 
     function updateAdministrator() {
+        var administrator_id = $("#modal_administrator_id").val();
+
 		var parameters = {
             "_token" : '{{ csrf_token() }}',
 			"id" : $("#modal_administrator_id").val(),
@@ -83,6 +85,12 @@
 			},
 			success:  function (response) {
 				$("#modal_administrators_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("administrators.success_updated_administrator") }} </div>');
+
+                // Update the list of administrators
+                $("#administrator_name_"+administrator_id).html(parameters['name']);
+                $("#administrator_auth_"+administrator_id).html(parameters['auth']);
+                $("#administrator_expiration_"+administrator_id).html(parameters['expiration']);
+                $("#administrator_rank_"+administrator_id).html($( "#modal_administrator_rank_id option:selected" ).text());
 			}
 		}).fail( function() {
     		$("#modal_administrators_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("administrators.danger_updated_administrator") }} </div>');

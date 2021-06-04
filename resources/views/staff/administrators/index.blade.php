@@ -76,15 +76,15 @@
                 @if ($administrators->isNotEmpty())
                     @foreach ($administrators as $administrator)
                         <tr>
-                            <td> {{ $administrator->name }} </td>
-                            <td> {{ $administrator->auth }} </td>
-                            <td>
+                            <td id="administrator_name_{{ $administrator->id }}"> {{ $administrator->name }} </td>
+                            <td id="administrator_auth_{{ $administrator->id }}"> {{ $administrator->auth }} </td>
+                            <td id="administrator_expiration_{{ $administrator->id }}">
                                 {{ date('d/m/Y', strtotime($administrator->expiration)) }}
                                 @if (!empty($administrator->expiration) && date('Y-m-d') > $administrator->expiration)
                                     <span class="badge badge-danger"> {{ trans('administrators.expired') }}</span>  
                                 @endif                         
                             </td>
-                            <td> {{ $administrator->rank->name }} </td>
+                            <td id="administrator_rank_{{ $administrator->id }}"> {{ $administrator->rank->name }} </td>
 
                             <td class="text-right">
                                 <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staff/administrators/destroy', ['id' => $administrator->id]) }}">
