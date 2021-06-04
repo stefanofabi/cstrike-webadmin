@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace App\Http\Controllers\Staffs;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,7 +31,7 @@ class AdministratorController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        return view('staff.administrators.index')
+        return view('staffs.administrators.index')
             ->with('administrators', $administrators)
             ->with('ranks', $ranks)
             ->with('servers', $servers);
@@ -50,7 +50,7 @@ class AdministratorController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        return view('staff/administrators/create')
+        return view('staffs.administrators.create')
             ->with('ranks', $ranks)
             ->with('servers', $servers);
     }

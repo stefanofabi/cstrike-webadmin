@@ -1,4 +1,4 @@
-@extends('staff.app')
+@extends('staffs.app')
 
 @section('js')
     <script>

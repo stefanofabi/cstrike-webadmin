@@ -34,5 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         require('ranks.php');
 
+        require('servers.php');
+
     });
 });

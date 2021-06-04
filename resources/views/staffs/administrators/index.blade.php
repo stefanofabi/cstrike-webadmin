@@ -1,8 +1,8 @@
-@extends('staff.app')
+@extends('staffs.app')
 
 @section('js')
     
-    @include('staff/administrators/js')
+    @include('staffs.administrators.js')
 
     <script>
         $(document).ready(function(){
@@ -49,7 +49,7 @@
 
 @section('right-content')
     
-    @include('staff/administrators/edit')
+    @include('staffs.administrators.edit')
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-right">

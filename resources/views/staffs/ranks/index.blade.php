@@ -1,12 +1,12 @@
-@extends('staff.app')
+@extends('staffs.app')
 
 @section('js')
-    @include('staff/ranks/js')
+    @include('staffs.ranks.js')
 @endsection
 
 @section('right-content')
 
-    @include('staff/ranks/edit')
+    @include('staffs.ranks.edit')
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-right">

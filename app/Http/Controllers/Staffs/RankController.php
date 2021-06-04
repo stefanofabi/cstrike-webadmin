@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace App\Http\Controllers\Staffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class RankController extends Controller
 
         $ranks = Rank::OrderBy('name', 'ASC')->get();
         
-        return view('staff/ranks/index')
+        return view('staffs.ranks.index')
             ->with('ranks', $ranks);
     }
 
@@ -36,7 +36,7 @@ class RankController extends Controller
     {
         //
 
-        return view('staff/ranks/create');
+        return view('staffs.ranks.create');
     }
 
     /**
