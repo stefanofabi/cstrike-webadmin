@@ -23,7 +23,7 @@
 
         $.ajax({
             data:  parameters,
-            url:   "{{ route('staff/administrators/edit') }}",
+            url:   "{{ route('staffs/administrators/edit') }}",
             type:  'post',
             dataType: 'json',
             beforeSend: function () {
@@ -79,7 +79,7 @@
 
 		$.ajax({
 			data:  parameters,
-			url:   "{{ route('staff/administrators/update') }}",
+			url:   "{{ route('staffs/administrators/update') }}",
 			type:  'post',
 			beforeSend: function () {
 				$("#modal_administrators_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }}');

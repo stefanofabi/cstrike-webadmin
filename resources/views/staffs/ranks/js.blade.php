@@ -35,7 +35,7 @@
 
         $.ajax({
             data:  parameters,
-            url:   "{{ route('staff/ranks/edit') }}",
+            url:   "{{ route('staffs/ranks/edit') }}",
             type:  'post',
             dataType: 'json',
             beforeSend: function () {
@@ -79,7 +79,7 @@
         
 		$.ajax({
 			data:  parameters,
-			url:   "{{ route('staff/ranks/update') }}",
+			url:   "{{ route('staffs/ranks/update') }}",
 			type:  'post',
 			beforeSend: function () {
 				$("#modal_ranks_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }}');

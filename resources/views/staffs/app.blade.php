@@ -6,15 +6,15 @@
       <nav class="navbar bg-light">
          <ul class="navbar-nav">
             <li class="nav-item">
-                  <a class="nav-link" href="{{ route('staff/administrators/index') }}"> {{ trans('home.administrators') }} </a>
+                  <a class="nav-link" href="{{ route('staffs/administrators/index') }}"> {{ trans('home.administrators') }} </a>
             </li>
          
             <li class="nav-item">
-                  <a class="nav-link" href="{{ route('staff/ranks/index') }}"> {{ trans('home.ranks') }} </a>
+                  <a class="nav-link" href="{{ route('staffs/ranks/index') }}"> {{ trans('home.ranks') }} </a>
             </li>
          
             <li class="nav-item">
-                  <a class="nav-link" href="#"> {{ trans('home.servers') }} </a>
+                  <a class="nav-link" href="{{ route('staffs/servers/index') }}"> {{ trans('home.servers') }} </a>
             </li>
          </ul>
       </nav>

@@ -29,7 +29,7 @@
         <p> {{trans('ranks.create_rank_message') }} </p>
     </div>
 
-    <form action="{{ route('staff/ranks/store') }}" method="POST">
+    <form action="{{ route('staffs/ranks/store') }}" method="POST">
         @csrf
 
         <div class="form-group">

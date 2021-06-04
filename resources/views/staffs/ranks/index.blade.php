@@ -10,7 +10,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-right">
-            <a  href="{{ route('staff/ranks/create') }}" class="btn btn-info"> <span class="fas fa-user-tag"> </span> {{ trans('ranks.create_rank') }} </a>
+            <a  href="{{ route('staffs/ranks/create') }}" class="btn btn-info"> <span class="fas fa-user-tag"> </span> {{ trans('ranks.create_rank') }} </a>
         </div>
 
         <h1> {{ trans('home.ranks') }} </h1>
@@ -35,7 +35,7 @@
                             <td id="rank_price_{{ $rank->id }}"> ${{ number_format($rank->price, 2, ',', '.') }} </td>
 
                             <td class="text-right">
-                                <form id="destroy_rank_{{ $rank->id }}" method="POST" action=" {{ route('staff/ranks/destroy', ['id' => $rank->id]) }}">
+                                <form id="destroy_rank_{{ $rank->id }}" method="POST" action=" {{ route('staffs/ranks/destroy', ['id' => $rank->id]) }}">
                                     @csrf
                                     @method('DELETE')
 

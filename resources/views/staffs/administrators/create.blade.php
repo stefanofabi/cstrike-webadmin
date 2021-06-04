@@ -51,7 +51,7 @@
         <p> {{trans('administrators.create_administrator_message') }} </p>
     </div>
 
-    <form action="{{ route('staff/administrators/store') }}" method="POST">
+    <form action="{{ route('staffs/administrators/store') }}" method="POST">
         @csrf
 
         <div class="form-group">

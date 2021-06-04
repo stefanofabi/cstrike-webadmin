@@ -52,7 +52,7 @@ class LoginController extends Controller
         
 
         if(auth()->attempt(array('email' => $request->email, 'password' => $request->password))) {
-            $redirect = redirect()->route('staff/home');
+            $redirect = redirect()->route('staffs/home');
         } else {
             Session::flash('login_failed', Lang::get('auth.failed'));
 

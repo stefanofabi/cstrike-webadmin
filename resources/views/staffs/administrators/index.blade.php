@@ -53,7 +53,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-right">
-            <a  href="{{ route('staff/administrators/create') }}" class="btn btn-info"> <span class="fas fa-user-plus"> </span> {{ trans('administrators.create_administrator') }} </a>
+            <a  href="{{ route('staffs/administrators/create') }}" class="btn btn-info"> <span class="fas fa-user-plus"> </span> {{ trans('administrators.create_administrator') }} </a>
         </div>
 
         <h1> {{ trans('home.administrators') }} </h1>
@@ -87,7 +87,7 @@
                             <td id="administrator_rank_{{ $administrator->id }}"> {{ $administrator->rank->name }} </td>
 
                             <td class="text-right">
-                                <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staff/administrators/destroy', ['id' => $administrator->id]) }}">
+                                <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staffs/administrators/destroy', ['id' => $administrator->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
