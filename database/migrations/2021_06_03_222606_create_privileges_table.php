@@ -22,8 +22,8 @@ class CreatePrivilegesTable extends Migration
             $table->unique(['administrator_id', 'server_id']);
 
             // Foreign keys
-            $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('server_id')->references('id')->on('servers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
 

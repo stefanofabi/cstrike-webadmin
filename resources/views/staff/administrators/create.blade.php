@@ -155,10 +155,8 @@
             </select>
         </div>
         
-        <button type="submit" class="btn btn-primary float-right mb-3"> {{ trans('forms.submit') }}</button>
+        <button style="clear: both" type="submit" class="btn btn-primary float-right mb-3 mt-4"> {{ trans('forms.submit') }}</button>
     </form>
     
     <hr style="clear: both">
-
-    {{ @old('privileges')}}
 @endsection

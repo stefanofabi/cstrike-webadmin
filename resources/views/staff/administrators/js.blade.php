@@ -40,6 +40,7 @@
                 $("#modal_administrator_name").val(administrator['name']);
                 $("#modal_administrator_auth").val(administrator['auth']);
                 $("#modal_administrator_password").val(administrator['password']);
+                
                 var account_flags = administrator['account_flags'].split('');
 
                 account_flags.forEach(function(account_flag, index) {

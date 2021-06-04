@@ -1,6 +1,12 @@
 @extends('staff.app')
 
+@section('js')
+    @include('staff/ranks/js')
+@endsection
+
 @section('right-content')
+
+    @include('staff/ranks/edit')
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-right">
@@ -25,11 +31,11 @@
                 @if ($ranks->isNotEmpty())
                     @foreach ($ranks as $rank)
                         <tr>
-                            <td> {{ $rank->name }} </td>
-                            <td> ${{ number_format($rank->price, 2, ',', '.') }} </td>
+                            <td id="rank_name_{{ $rank->id }}"> {{ $rank->name }} </td>
+                            <td id="rank_price_{{ $rank->id }}"> ${{ number_format($rank->price, 2, ',', '.') }} </td>
 
                             <td class="text-right">
-                                <form id="destroy_rank_{{ $rank->id }}" method="POST" action="#">
+                                <form id="destroy_rank_{{ $rank->id }}" method="POST" action=" {{ route('staff/ranks/destroy', ['id' => $rank->id]) }}">
                                     @csrf
                                     @method('DELETE')
 

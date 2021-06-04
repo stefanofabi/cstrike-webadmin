@@ -23,4 +23,5 @@ return [
     'no_data' => 'No data',
     'submit' => 'Submit',
     'well_done' => 'Well done',
+    'check_all' => 'Check all'
 ];

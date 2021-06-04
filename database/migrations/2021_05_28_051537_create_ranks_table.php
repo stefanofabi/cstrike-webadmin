@@ -16,7 +16,7 @@ class CreateRanksTable extends Migration
         Schema::create('ranks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('access_flag');
+            $table->string('access_flags');
             $table->double('price')->default(0.0);
 
             // Unique keys

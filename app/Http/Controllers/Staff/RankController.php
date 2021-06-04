@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 use App\Models\Rank;
+
+use Lang; 
 
 class RankController extends Controller
 {
@@ -32,6 +35,8 @@ class RankController extends Controller
     public function create()
     {
         //
+
+        return view('staff/ranks/create');
     }
 
     /**
@@ -43,6 +48,26 @@ class RankController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric|min:0',      
+            'access_flags' => 'required|array',   
+        ]);
+
+        $rank = new Rank(
+            [
+                'name' => $request->name,
+                'price' => $request->price,
+                'access_flags' => implode($request->access_flags),
+            ]
+        );
+
+        if (! $rank->save()) {
+            return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->all());
+        }
+
+        return redirect()->action([RankController::class, 'index']);
     }
 
     /**
@@ -62,9 +87,11 @@ class RankController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
+
+        return Rank::findOrFail($request->id);
     }
 
     /**
@@ -74,9 +101,36 @@ class RankController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        
+        $request->validate([
+            'id' => 'required|numeric|min:1',
+            'name' => 'required|string',
+            'price' => 'required|numeric|min:0',      
+            'access_flags' => 'required',   
+        ]);
+
+        $rank = Rank::findOrFail($request->id);
+
+        $rank->name = $request->name;
+        $rank->price = $request->price;
+
+        $access_flags = json_decode($request->access_flags);
+        $flags = "";
+ 
+        foreach ($access_flags as $access_flag) {
+            $flags .= "$access_flag->value";
+        }
+        
+        $rank->access_flags = $flags;
+        
+        if (! $rank->save()) {
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        }
+
+        return response(['message' => Lang::get('ranks.success_updated_rank')], 200);
     }
 
     /**
@@ -88,5 +142,17 @@ class RankController extends Controller
     public function destroy($id)
     {
         //
+
+        try {
+            $success = Rank::where('id', $id)->delete();
+
+            if (! $success) {
+                return back()->withErrors(Lang::get('forms.failed_transaction'));
+            }
+        } catch (QueryException $exception) {
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        return redirect()->action([RankController::class,'index']);
     }
 }

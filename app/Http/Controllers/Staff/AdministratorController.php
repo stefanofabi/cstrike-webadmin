@@ -69,8 +69,8 @@ class AdministratorController extends Controller
             'name' => 'required|string',
             'auth' => 'required|string',
             'password' => 'string|nullable',
-            'account_flags' => 'required',
-            'servers' => 'required',
+            'account_flags' => 'required|array',
+            'servers' => 'required|array',
             'rank_id' => 'required|string',
             'expiration' => 'required|date',           
         ]);
@@ -81,12 +81,12 @@ class AdministratorController extends Controller
 
             $administrator = new Administrator(
                 [
-                'name' => $request->name,
-                'auth' => $request->auth,
-                'password' => $request->password,
-                'account_flags' => implode($request->account_flags),
-                'expiration' => $request->expiration,
-                'rank_id' => $request->rank_id,
+                    'name' => $request->name,
+                    'auth' => $request->auth,
+                    'password' => $request->password,
+                    'account_flags' => implode($request->account_flags),
+                    'expiration' => $request->expiration,
+                    'rank_id' => $request->rank_id,
                 ]
             );
 
@@ -207,11 +207,10 @@ class AdministratorController extends Controller
         } catch (QueryException $exception) {
             DB::rollBack();
 
-            return response([$exception->getMessage()], 500);
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
         
-        return response(['message' => Lang::get('forms.success_edited_administrator')], 200);
-
+        return response(['message' => Lang::get('forms.success_updated_administrator')], 200);
     }
 
     /**
@@ -224,12 +223,16 @@ class AdministratorController extends Controller
     {
         //
         
-        $administrator = Administrator::findOrFail($id);
+        try {
+            $success = Administrator::where('id', $id)->delete();
 
-        if (! $administrator->delete($id)) {
+            if (! $success) {
+                return back()->withErrors(Lang::get('forms.failed_transaction'));
+            }
+        } catch (QueryException $exception) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
-
+        
         return redirect()->action([AdministratorController::class,'index']);
     }
 }
