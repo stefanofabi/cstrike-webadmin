@@ -32,5 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
         
         require('administrators.php');
 
+        require('ranks.php');
+
     });
 });

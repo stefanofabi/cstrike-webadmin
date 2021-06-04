@@ -94,7 +94,7 @@
                                     <a class="btn btn-info btn-sm float-right" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
                                 </form>
 
-                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')">
+                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
                                     <span class="fas fa-user-edit"></span>
                                 </button>
                                 

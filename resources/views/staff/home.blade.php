@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="col" style="text-align: center;">
-                            <a class="nav-link" style="color: black" href="#">
+                            <a class="nav-link" style="color: black" href="{{ route('staff/ranks/index') }}">
                                 <h1>
                                     <i style="font-size: 8vw" class="fas fa-key"></i>
                                 </h1>

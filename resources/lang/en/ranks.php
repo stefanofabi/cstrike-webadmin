@@ -14,5 +14,11 @@ return [
     */
 
     'rank' => 'Rank',    
+    'price' => 'Price',
+    'name' => 'Name',
+    'create_rank' => 'Create rank',
+    'welcome_message' => 'The message',
+    'edit_rank' => 'Edit rank',
+    'destroy_rank' => 'Destroy rank',
     
 ];

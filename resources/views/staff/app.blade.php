@@ -10,7 +10,7 @@
             </li>
          
             <li class="nav-item">
-                  <a class="nav-link" href="#"> {{ trans('home.ranks') }} </a>
+                  <a class="nav-link" href="{{ route('staff/ranks/index') }}"> {{ trans('home.ranks') }} </a>
             </li>
          
             <li class="nav-item">
