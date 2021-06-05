@@ -1,6 +1,7 @@
 <?php 
 
 Route::group([
+    'permission:crud_administrators',
     'prefix' => 'administrators',
     'as' => 'administrators/',
 ], function () {

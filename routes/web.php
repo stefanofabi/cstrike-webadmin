@@ -20,9 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
-
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['permission:is_staff','auth']], function () {
 
     Route::group([
         'prefix' => 'staffs',

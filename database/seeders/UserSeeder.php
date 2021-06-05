@@ -27,5 +27,6 @@ class UserSeeder extends Seeder
         );
 
         $user_administrator->saveOrFail();
+        $user_administrator->assignRole('staff');
     }
 }

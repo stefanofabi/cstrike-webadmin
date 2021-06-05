@@ -1,6 +1,7 @@
 <?php 
 
 Route::group([
+    'permission:crud_ranks',
     'prefix' => 'ranks',
     'as' => 'ranks/',
 ], function () {

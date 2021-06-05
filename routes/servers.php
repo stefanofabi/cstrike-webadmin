@@ -1,6 +1,7 @@
 <?php 
 
 Route::group([
+    'permission:crud_servers',
     'prefix' => 'servers',
     'as' => 'servers/',
 ], function () {
