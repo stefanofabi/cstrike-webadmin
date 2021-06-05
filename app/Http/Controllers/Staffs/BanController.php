@@ -166,5 +166,21 @@ class BanController extends Controller
     public function destroy($id)
     {
         //
+
+        $ban = Ban::findOrFail($id);
+        $server_id = $ban->server_id;
+        
+        if (! $ban->delete()) {
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        $servers = Server::orderBy('name', 'ASC')->get();
+
+        $bans = Ban::where('server_id', $server_id)->orderBy('expiration', 'ASC')->get();
+
+        return view('staffs.bans.index') 
+            ->with('servers', $servers)
+            ->with('bans', $bans)
+            ->with('server_id', $server_id);
     }
 }

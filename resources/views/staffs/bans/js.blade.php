@@ -73,9 +73,9 @@
 		return false;   	
 	}
 
-    function destroyServer(server_id){
+    function destroyBan(ban_id){
         if (confirm('{{ trans("forms.confirm") }}')) {
-            var form = document.getElementById('destroy_server_'+server_id);
+            var form = document.getElementById('destroy_ban_'+ban_id);
             form.submit();
         }
     }
