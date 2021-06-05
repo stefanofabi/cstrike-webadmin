@@ -59,14 +59,14 @@
 
                         <div class="col">
                             <div style="text-align: center;">
-                                <a class="nav-link" style="color: black" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="nav-link" style="color: black" href="{{ route('staffs/bans/index') }}">
                                     <h1>
-                                        <i style="font-size: 8vw" class="fas fa-sign-out-alt"></i>
+                                        <i style="font-size: 8vw" class="fas fa-ban"></i>
                                     </h1>
 
                                     <br />
 
-                                    {{ trans('auth.logout') }}
+                                    {{ trans('home.bans') }}
                                 </a>
                             </div>
                         </div>
