@@ -20,9 +20,13 @@ class CreateLocksTable extends Migration
             $table->string('ip');
             $table->timestamp('time');
             $table->string('reason');
+            $table->string('private_notes');
             
             $table->unsignedBigInteger('administrator_id')->nullable();
             $table->unsignedBigInteger('server_id');
+
+            $table->unique(['steam_id', 'server_id']);
+            $table->unique(['ip', 'server_id']);
 
             // Foreign keys
             $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('set null')->onUpdate('cascade');
