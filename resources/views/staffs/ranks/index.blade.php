@@ -14,7 +14,7 @@
         </div>
 
         <h1> <span class="fas fa-user-tag"> </span> {{ trans('home.ranks') }} </h1>
-        <p> {{trans('ranks.welcome_message') }} </p>
+        <p class="col-9"> {{trans('ranks.welcome_message') }} </p>
     </div>
 
     <div class="card">

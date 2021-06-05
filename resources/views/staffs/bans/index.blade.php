@@ -26,7 +26,7 @@
         </div>
 
         <h1> <span class="fas fa-ban"> </span> {{ trans('home.bans') }} </h1>
-        <p> {{trans('bans.welcome_message') }} </p>
+        <p class="col-9"> {{trans('bans.welcome_message') }} </p>
     </div>
 
     <div class="form-row">

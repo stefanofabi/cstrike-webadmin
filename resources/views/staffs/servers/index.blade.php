@@ -14,7 +14,7 @@
         </div>
 
         <h1> <span class="fas fa-server"> </span> {{ trans('home.servers') }} </h1>
-        <p> {{trans('servers.welcome_message') }} </p>
+        <p class="col-9"> {{trans('servers.welcome_message') }} </p>
     </div>
 
     <div class="card">

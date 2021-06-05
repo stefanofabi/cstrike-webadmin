@@ -26,7 +26,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <h1> {{ trans('ranks.create_rank') }} </h1>
-        <p> {{trans('ranks.create_rank_message') }} </p>
+        <p class="col-9"> {{trans('ranks.create_rank_message') }} </p>
     </div>
 
     <form action="{{ route('staffs/ranks/store') }}" method="POST">

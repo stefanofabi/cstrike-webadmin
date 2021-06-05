@@ -57,7 +57,7 @@
         </div>
 
         <h1> <span class="fas fa-users"> </span> {{ trans('home.administrators') }} </h1>
-        <p> {{trans('administrators.welcome_message') }} </p>
+        <p class="col-9"> {{trans('administrators.welcome_message') }} </p>
     </div>
 
     <div class="card">

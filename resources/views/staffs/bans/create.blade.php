@@ -25,7 +25,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <h1> {{ trans('bans.create_ban') }} </h1>
-        <p> {{trans('bans.create_ban_message') }} </p>
+        <p class="col-9"> {{trans('bans.create_ban_message') }} </p>
     </div>
 
     <form action="{{ route('staffs/bans/store') }}" method="POST">
