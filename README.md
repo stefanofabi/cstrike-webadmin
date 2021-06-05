@@ -1,4 +1,4 @@
-## Sobre Competitive Maker
+## Sobre cstrike-webadmin
 
 Competitive Maker es un modo competitivo para el juego Counter-Strike 1.6 que incluye las últimas características al estilo CS:GO. Facilitamos las tareas más habituales que se suelen utilizar en cualquier partida competitiva, como por ejemplo:
 
