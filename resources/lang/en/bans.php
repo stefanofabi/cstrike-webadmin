@@ -40,5 +40,8 @@ return [
     '30_days' => '30 days',
     'permanently' => 'Permanently',
     'servers_with_ban' => 'Servers with ban',
-    'admin_immunity' => 'The player you are trying to ban is an administrator with immunity'
+    'admin_immunity' => 'The player you are trying to ban is an administrator with immunity',
+    'not_apply' => 'Not apply',
+    'expired' => 'Expired',
+    
 ];

@@ -66,9 +66,35 @@
                     @foreach ($bans as $ban)
                         <tr>
                             <td> {{ $ban->name }} </td>
-                            <td> {{ $ban->steam_id }} </td>
-                            <td> {{ $ban->ip }} </td>
-                            <td> {{ date('d/m/Y h:m', strtotime($ban->expiration)) }} </td>
+
+                            <td> 
+                                @if (empty($ban->steam_id)) 
+                                    {{ trans('bans.not_apply') }} 
+                                @else 
+                                    {{ $ban->steam_id }} 
+                                @endif
+                            </td>
+
+                            <td> 
+                                @if (empty($ban->ip)) 
+                                {{ trans('bans.not_apply') }} 
+                                @else 
+                                    {{ $ban->ip }} 
+                                @endif
+                            </td>
+
+                            <td>  
+                                @if (empty(date('d/m/Y h:m', strtotime($ban->expiration)))) 
+                                    {{ trans('bans.permanently') }} 
+                                @else 
+
+                                    {{ date('d/m/Y h:m', strtotime($ban->expiration)) }} 
+
+                                    @if ($ban->expiration < date('Y-m-d h:m'))
+                                        <span class="badge badge-success"> {{ trans('bans.expired') }}</span>
+                                    @endif
+                                @endif
+                            </td>
 
                             <td class="text-right">
                                 <form id="destroy_ban_{{ $ban->id }}" method="POST" action=" {{ route('staffs/bans/destroy', ['id' => $ban->id]) }}">
