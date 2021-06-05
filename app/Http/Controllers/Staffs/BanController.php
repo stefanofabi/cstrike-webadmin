@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Staffs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class LockController extends Controller
+use App\Models\Ban;
+
+class BanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +17,11 @@ class LockController extends Controller
     public function index()
     {
         //
+
+        $bans = Ban::orderBy('expiration', 'ASC')->get();
+
+        return view('staffs/bans/index') 
+            ->with('bans', $bans);
     }
 
     /**

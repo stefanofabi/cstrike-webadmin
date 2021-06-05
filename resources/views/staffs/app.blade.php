@@ -16,6 +16,10 @@
             <li class="nav-item">
                   <a class="nav-link" href="{{ route('staffs/servers/index') }}"> {{ trans('home.servers') }} </a>
             </li>
+
+            <li class="nav-item">
+                  <a class="nav-link" href="{{ route('staffs/bans/index') }}"> {{ trans('home.bans') }} </a>
+            </li>
          </ul>
       </nav>
 

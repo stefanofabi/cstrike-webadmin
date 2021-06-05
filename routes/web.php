@@ -29,10 +29,8 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         
         require('administrators.php');
-
         require('ranks.php');
-
         require('servers.php');
-
+        require('bans.php');
     });
 });

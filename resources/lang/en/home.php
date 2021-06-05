@@ -16,5 +16,6 @@ return [
     'administrators' => 'Administrators',
     'ranks' => 'Ranks',
     'servers' => 'Servers',
+    'bans' => 'Bans',
     
 ];
