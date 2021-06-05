@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Ban;
+use App\Models\Server;
 
 class BanController extends Controller
 {
@@ -18,10 +19,30 @@ class BanController extends Controller
     {
         //
 
-        $bans = Ban::orderBy('expiration', 'ASC')->get();
+        $servers = Server::orderBy('name', 'ASC')->get();
 
         return view('staffs/bans/index') 
-            ->with('bans', $bans);
+            ->with('servers', $servers);
+    }
+
+    /**
+     * Load bans
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function load(Request $request)
+    {
+        //
+
+        $servers = Server::orderBy('name', 'ASC')->get();
+
+        $bans = Ban::where('server_id', $request->server_id)->orderBy('expiration', 'ASC')->get();
+
+        return view('staffs/bans/index') 
+            ->with('servers', $servers)
+            ->with('bans', $bans)
+            ->with('server_id', $request->server_id);
     }
 
     /**

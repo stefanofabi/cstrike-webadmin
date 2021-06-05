@@ -1,6 +1,18 @@
 @extends('staffs.app')
 
 @section('js')
+    <script>
+
+        $(document).ready(function(){
+            $('#server').on('change', function() {
+                $('#selectServer').submit();
+            });
+
+            $('#server').val('{{ $server_id ?? '' }}')
+        });
+    
+
+    </script>
     @include('staffs.bans.js')
 @endsection
 
@@ -17,6 +29,26 @@
         <p> {{trans('bans.welcome_message') }} </p>
     </div>
 
+    <div class="form-row">
+        <div class="form-group">
+            <h3> <strong> {{ trans('forms.select_server') }}: </strong> </h3>  
+        </div>
+
+        <div class="form-group col-md-6 ml-3">
+            <form action="{{ route('staffs/bans/load') }}" method="POST" id="selectServer">
+                @csrf
+                
+                <select class="form-control col-12" name="server_id" id="server">
+                    <option value=""> {{ trans('forms.select_option') }}</option>
+                    @foreach ($servers as $server) 
+                        <option value="{{ $server->id }}"> {{ $server->name }} [{{ $server->ip }}] </option>
+                    @endforeach
+                </select>
+
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <table class="table table-striped">
             <thead>
@@ -30,7 +62,7 @@
             </thead>
             
             <tbody>
-                @if ($bans->isNotEmpty())
+                @if (isset($bans) && $bans->isNotEmpty())
                     @foreach ($bans as $ban)
                         <tr>
                             <td> {{ $ban->name }} </td>

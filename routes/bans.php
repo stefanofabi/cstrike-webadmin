@@ -7,6 +7,8 @@ Route::group([
 ], function () {
     Route::get('index', ['\App\Http\Controllers\Staffs\BanController', 'index'])->name('index');
 
+    Route::post('load', ['\App\Http\Controllers\Staffs\BanController', 'load'])->name('load');
+
     Route::get('create', ['\App\Http\Controllers\Staffs\BanController', 'create'])->name('create');
 
     Route::post('store', ['\App\Http\Controllers\Staffs\BanController', 'store'])->name('store');

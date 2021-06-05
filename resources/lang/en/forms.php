@@ -23,5 +23,6 @@ return [
     'no_data' => 'No data',
     'submit' => 'Submit',
     'well_done' => 'Well done',
-    'check_all' => 'Check all'
+    'check_all' => 'Check all',
+    'select_server' => 'Select a server',
 ];

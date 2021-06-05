@@ -20,4 +20,5 @@ return [
     'name' => 'Name',
     'create_ban' => 'Create ban',
     'welcome_message' => 'The welcome message',
+    
 ];
