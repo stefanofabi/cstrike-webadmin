@@ -58,7 +58,7 @@ Password: password
 
 ## Contribuyendo
 
-¡Gracias por considerar contribuir con el complemento Competitive Maker! Podés hacerlo en: 
+¡Gracias por considerar contribuir con la aplicación cstrike-webadmin! Podés hacerlo en: 
 - [MercadoPago](https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808479896d7201798d47849b0243)
 - [PayPal](https://paypal.me/4evergaming)
 - [Bitcoin](https://www.blockchain.com/btc/address/1BxrkKPuLTkYUAeMrxzLEKvr5MGFu3NLpU)
