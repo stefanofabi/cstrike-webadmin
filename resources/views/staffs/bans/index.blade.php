@@ -68,7 +68,7 @@
                             <td> {{ $ban->name }} </td>
                             <td> {{ $ban->steam_id }} </td>
                             <td> {{ $ban->ip }} </td>
-                            <td> {{ $ban->expiration }} </td>
+                            <td> {{ date('d/m/Y', strtotime($ban->expiration)) }} </td>
 
                             <td class="text-right">
                                 <form id="destroy_ban_{{ $ban->id }}" method="POST" action=" {{ route('staffs/bans/destroy', ['id' => $ban->id]) }}">

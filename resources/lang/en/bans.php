@@ -30,5 +30,14 @@ return [
     'incomplete_prohibition_data' => 'Incomplete data of the prohibition. Fill in Steam ID or IP',
     'edit_ban' => 'Edit ban',
     'destroy_ban' => 'Destroy ban',
+    '5_minutes' => '5 minutes',
+    '15_minutes' => '15 minutes',
+    '30_minutes' => '30 minutes',
+    '60_minutes' => '60 minutes',
+    '1_day' => '1 day',
+    '3_days' => '3 days',
+    '5_days' => '5 days',
+    '30_days' => '30 days',
+    'permanently' => 'Permanently',
     
 ];

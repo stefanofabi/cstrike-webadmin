@@ -4,20 +4,32 @@
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
-
-            $("#checkAll").click(function () {  
-                
-                if ($('#checkAll').val() == 'on') {
-                    $('#checkAll').val('off');
-                    $('input:checkbox').attr('checked', false);
-                } else {
-                    $('#checkAll').val('on');
-                    $('input:checkbox').attr('checked', true);
-                }
-            });
         });
 
-        
+        function setBanExpiration(minutes) {
+
+            // Ban permanently
+            if (minutes == "") {
+                $("#expiration").val(''); 
+                return;  
+            }
+
+            var dateVal = new Date();
+            
+            dateVal.setMinutes(dateVal.getMinutes() + parseInt(minutes, 10));
+
+            var day = dateVal.getDate().toString().padStart(2, "0");
+            var month = (1 + dateVal.getMonth()).toString().padStart(2, "0");
+            var hour = dateVal.getHours().toString().padStart(2, "0");
+            var minute = dateVal.getMinutes().toString().padStart(2, "0");
+            //var sec = dateVal.getSeconds().toString().padStart(2, "0");
+            //var ms = dateVal.getMilliseconds().toString().padStart(3, "0");
+
+            var inputDate = dateVal.getFullYear() + "-" + (month) + "-" + (day) + "T" + (hour) + ":" + (minute);        //  + ":" + (sec) + "." + (ms)
+            
+            $("#expiration").val(inputDate);   
+        }
+
     </script>
 @endsection
 
@@ -81,7 +93,19 @@
                         <div class="form-group">
                             <label for="auth"> <h5> <strong> {{ trans('bans.expiration') }}: </strong> </h5> </label>
                             
-                            <input type="datetime-local" class="form-control" placeholder="{{ trans('bans.expiration') }}" name="expiration" value="{{ @old('expiration') }}">
+                            <input type="datetime-local" class="form-control" placeholder="{{ trans('bans.expiration') }}" name="expiration" id="expiration" value="{{ @old('expiration') }}">
+
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('5')"> {{ trans('bans.5_minutes') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('15')"> {{ trans('bans.15_minutes') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('30')"> {{ trans('bans.30_minutes') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('60')"> {{ trans('bans.60_minutes') }}</button>
+                            <br />
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('1440')"> {{ trans('bans.1_day') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('4320')"> {{ trans('bans.3_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('7200')"> {{ trans('bans.5_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
+                        
                         </div>
 
                                 
