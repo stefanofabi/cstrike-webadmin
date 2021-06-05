@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staffs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException; 
 
 use App\Models\Rank;
 
@@ -90,8 +91,14 @@ class RankController extends Controller
     public function edit(Request $request)
     {
         //
+        
+        try {
+            $rank = Rank::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
+        }
 
-        return Rank::findOrFail($request->id);
+        return $rank;
     }
 
     /**
@@ -112,21 +119,27 @@ class RankController extends Controller
             'access_flags' => 'required',   
         ]);
 
-        $rank = Rank::findOrFail($request->id);
+        try {
 
-        $rank->name = $request->name;
-        $rank->price = $request->price;
-
-        $access_flags = json_decode($request->access_flags);
-        $flags = "";
- 
-        foreach ($access_flags as $access_flag) {
-            $flags .= "$access_flag->value";
-        }
+            $access_flags = json_decode($request->access_flags);
+            $flags = "";
+    
+            foreach ($access_flags as $access_flag) {
+                $flags .= "$access_flag->value";
+            }
+            
+            $updated = Rank::where('id', $request->id)->update(
+                [
+                    'name' => $request->name,
+                    'price' => $request->price,
+                    'access_flags' => $flags
+                ]
+            );
         
-        $rank->access_flags = $flags;
-        
-        if (! $rank->save()) {
+            if (! $updated) {
+                return response(['message' => Lang::get('forms.failed_transaction')], 500);
+            }
+        } catch (QueryException) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 

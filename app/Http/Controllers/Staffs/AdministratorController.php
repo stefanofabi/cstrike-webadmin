@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException; 
 
 use App\Models\Administrator;
 use App\Models\Rank;
@@ -134,7 +135,11 @@ class AdministratorController extends Controller
     {
         //
         
-        $administrator = Administrator::findOrFail($request->id);
+        try {
+            $administrator = Administrator::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
+        }
 
         return response()->json([
             'administrator' => $administrator,
@@ -163,16 +168,10 @@ class AdministratorController extends Controller
             'expiration' => 'required|date',           
         ]);
 
-        $administrator = Administrator::findOrFail($request->id);
-
         DB::beginTransaction();
 
         try {
-    
-            $administrator->name = $request->name;
-            $administrator->auth = $request->auth;
-            $administrator->password = $request->password;
-            
+
             $account_flags = json_decode($request->account_flags);
             $flags = "";
  
@@ -180,13 +179,16 @@ class AdministratorController extends Controller
                 $flags .= "$account_flag->value";
             }
 
-            $administrator->account_flags = $flags;
-            $administrator->expiration = $request->expiration;
-            $administrator->rank_id = $request->rank_id;
+            Administrator::where('id', $request->id)->update([
+                'name' => $request->name,
+                'auth' => $request->auth,
+                'password' => $request->password,
+                'account_flags' => $flags,
+                'expiration' => $request->expiration,
+                'rank_id' => $request->rank_id,
+            ]);
 
-            $administrator->save();
-
-            Privilege::where('administrator_id', $administrator->id)->delete();
+            Privilege::where('administrator_id', $request->id)->delete();
 
             $servers = json_decode($request->servers);
 
@@ -194,7 +196,7 @@ class AdministratorController extends Controller
             foreach ($servers as $server) {
                 $server_privilege = new Privilege(
                     [
-                        'administrator_id' => $administrator->id,
+                        'administrator_id' => $request->id,
                         'server_id' => $server->value,
                     ]
                 );
@@ -207,7 +209,7 @@ class AdministratorController extends Controller
         } catch (QueryException $exception) {
             DB::rollBack();
 
-            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+            return response(['message' => $exception->getMessage()], 500);
         }
         
         return response(['message' => Lang::get('forms.success_updated_administrator')], 200);

@@ -56,7 +56,7 @@
             <a  href="{{ route('staffs/administrators/create') }}" class="btn btn-info"> <span class="fas fa-user-plus"> </span> {{ trans('administrators.create_administrator') }} </a>
         </div>
 
-        <h1> {{ trans('home.administrators') }} </h1>
+        <h1> <span class="fas fa-users"> </span> {{ trans('home.administrators') }} </h1>
         <p> {{trans('administrators.welcome_message') }} </p>
     </div>
 
