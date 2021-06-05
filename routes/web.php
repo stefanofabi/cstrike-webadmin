@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    if (auth()->user()) {
+        return redirect()->action(['\App\Http\Controllers\HomeController', 'index']);
+    }
+
+    // guest
     return view('welcome');
 });
 

@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('staffs.home');
+        if (auth()->user()->hasPermissionTo('is_staff')) {
+            return view('staffs.home');
+        }
     }
 }
