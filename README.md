@@ -9,18 +9,18 @@ NPM
 Base de datos relacional (MySQL, MariaDB)
 ```
 
-### Installation 🔧
+### Instalación 🔧
 
 1. Clone el repositorio en su máquina local o servidor
 
 ```
-# git clone https://github.com/stefanofabi/srlab.git
+# git clone https://github.com/stefanofabi/cstrike-webadmin.git
 ```
 
 2. Cree una copia del archivo .env.example y cámbiele el nombre a .env. En su interior editaremos las variables de entorno para establecer la conexión a la base de datos
 
 ```
-# cd srlab
+# cd cstrike-webadmin
 # cp .env.example .env
 # vim .env
 ```
