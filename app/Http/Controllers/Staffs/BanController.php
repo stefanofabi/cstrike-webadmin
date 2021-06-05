@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Staffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Ban;
 use App\Models\Server;
+
+use Lang;
 
 class BanController extends Controller
 {
@@ -39,7 +43,7 @@ class BanController extends Controller
 
         $bans = Ban::where('server_id', $request->server_id)->orderBy('expiration', 'ASC')->get();
 
-        return view('staffs/bans/index') 
+        return view('staffs.bans.index') 
             ->with('servers', $servers)
             ->with('bans', $bans)
             ->with('server_id', $request->server_id);
@@ -53,6 +57,11 @@ class BanController extends Controller
     public function create()
     {
         //
+
+        $servers = Server::orderBy('name', 'ASC')->get();
+
+        return view('staffs.bans.create')
+            ->with('servers', $servers);
     }
 
     /**
@@ -64,6 +73,54 @@ class BanController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'name' => 'required|string',
+            'steam_id' => 'string|nullable',
+            
+            // regex for ip:port
+            'ip' => 'string|regex:/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?/|nullable',
+
+            'expiration' => 'date|nullable',
+            'reason' => 'required|string',
+            'private_notes' => 'string|nullable',
+            'administrator_id' => 'numeric|nullable',
+            'servers' => 'required',
+                      
+        ]);
+
+        if (empty($request->steam_id) && empty($request->ip)) {
+            return back()->withErrors(Lang::get('bans.incomplete_prohibition_data'))->withInput($request->all());
+        }
+        
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->servers as $server) {
+                $ban = new Ban(
+                    [
+                        'name' => $request->name ,
+                        'steam_id' => $request->steam_id,
+                        'ip' => $request->ip,
+                        'expiration' => $request->expiration,
+                        'reason' => $request->reason,
+                        'private_notes' => $request->private_notes,
+                        'server_id' => $server
+                    ]
+                );
+    
+                $ban->save();
+            }   
+
+            DB::commit();
+
+        } catch (QueryException $exception) {
+            DB::rollBack();
+            
+            return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->all());
+        }
+
+        return redirect()->action([BanController::class, 'index']);
     }
 
     /**

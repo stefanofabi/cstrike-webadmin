@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Ban extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'steam_id',
+        'ip',
+        'expiration',
+        'reason',
+        'private_notes',
+        'administrator_id',
+        'server_id',
+    ];
 }

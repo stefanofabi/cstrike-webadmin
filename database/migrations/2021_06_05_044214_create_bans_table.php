@@ -16,17 +16,14 @@ class CreateBansTable extends Migration
         Schema::create('bans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('steam_id');
-            $table->string('ip');
-            $table->timestamp('expiration');
+            $table->string('steam_id')->nullable();
+            $table->string('ip')->nullable();
+            $table->timestamp('expiration')->nullable();
             $table->string('reason');
-            $table->string('private_notes');
+            $table->string('private_notes')->nullable();
             
             $table->unsignedBigInteger('administrator_id')->nullable();
             $table->unsignedBigInteger('server_id');
-
-            $table->unique(['steam_id', 'server_id']);
-            $table->unique(['ip', 'server_id']);
 
             // Foreign keys
             $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('set null')->onUpdate('cascade');

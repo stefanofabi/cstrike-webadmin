@@ -66,10 +66,9 @@
                     @foreach ($bans as $ban)
                         <tr>
                             <td> {{ $ban->name }} </td>
-                            <td id="ban_name_{{ $ban->id }}"> {{ $ban->name }} </td>
-                            <td id="ban_steam_id_{{ $ban->id }}"> {{ $ban->steam_id }} </td>
-                            <td id="ban_ip_{{ $ban->id }}"> {{ $ban->ip }} </td>
-                            <td id="ban_expiration_{{ $ban->id }}"> {{ $ban->expiration }} </td>
+                            <td> {{ $ban->steam_id }} </td>
+                            <td> {{ $ban->ip }} </td>
+                            <td> {{ $ban->expiration }} </td>
 
                             <td class="text-right">
                                 <form id="destroy_ban_{{ $ban->id }}" method="POST" action=" {{ route('staffs/bans/destroy', ['id' => $ban->id]) }}">
