@@ -92,6 +92,20 @@ class BanController extends Controller
         if (empty($request->steam_id) && empty($request->ip)) {
             return back()->withErrors(Lang::get('bans.incomplete_prohibition_data'))->withInput($request->all());
         }
+
+        $count = DB::table('administrators')
+            ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
+            ->where(function ($query) use ($request) {
+                $query->orWhere('administrators.auth', $request->steam_id)
+                    ->orWhere('administrators.auth', $request->ip)
+                    ->orWhere('administrators.auth', $request->name);
+            })
+            ->where('ranks.access_flags', 'like', '%a%')
+            ->count();
+
+        if ($count) {
+            return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
+        }
         
         DB::beginTransaction();
 
@@ -169,7 +183,7 @@ class BanController extends Controller
 
         $ban = Ban::findOrFail($id);
         $server_id = $ban->server_id;
-        
+
         if (! $ban->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
