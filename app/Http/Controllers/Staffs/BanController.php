@@ -41,7 +41,7 @@ class BanController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        $bans = Ban::where('server_id', $request->server_id)->orderBy('expiration', 'ASC')->get();
+        $bans = Ban::where('server_id', $request->server_id)->orderBy('expiration', 'DESC')->get();
 
         return view('staffs.bans.index') 
             ->with('servers', $servers)
@@ -190,7 +190,7 @@ class BanController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        $bans = Ban::where('server_id', $server_id)->orderBy('expiration', 'ASC')->get();
+        $bans = Ban::where('server_id', $server_id)->orderBy('expiration', 'DESC')->get();
 
         return view('staffs.bans.index') 
             ->with('servers', $servers)
