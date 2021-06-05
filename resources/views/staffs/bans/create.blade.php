@@ -100,11 +100,11 @@
                             <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('30')"> {{ trans('bans.30_minutes') }}</button>
                             <button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('60')"> {{ trans('bans.60_minutes') }}</button>
                             <br />
-                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('1440')"> {{ trans('bans.1_day') }}</button>
-                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('4320')"> {{ trans('bans.3_days') }}</button>
-                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('7200')"> {{ trans('bans.5_days') }}</button>
-                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
-                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('1440')"> {{ trans('bans.1_day') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('4320')"> {{ trans('bans.3_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('7200')"> {{ trans('bans.5_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
+                            <button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
                         
                         </div>
 
