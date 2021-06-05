@@ -1,36 +1,13 @@
 ## Sobre cstrike-webadmin
 
-Competitive Maker es un modo competitivo para el juego Counter-Strike 1.6 que incluye las últimas características al estilo CS:GO. Facilitamos las tareas más habituales que se suelen utilizar en cualquier partida competitiva, como por ejemplo:
-
-- Modo auto mix o modo manual
-- Quitar o cambiar la contraseña de servidor
-- Prender o apagar AMXX  
-- Intercambiar equipos
-- Transferirse a espectador
-- Resultado del cerrado y datos de conexión en chat global
-- Modo de desempate
-- Corte de equipos
-- Modo práctica
-- Mostrar equipamiento en tiempo de enfriamiento
-- Pantalla negra a los espectadores
-- Resultado del cerrado en el nombre del servidor
-- Público automático por abandonar la partida
-- Pausar la ronda
-- Posibilidad de rendirse
-- Espectadores activos
-- Control de entrada a los equipos
-- Teletransportación a zona de corte
-- Frags y muertes al cambiar de lado
-- Traspaso de equipos automático
-- Bloquear cambio de nick y uso del chat global
-- Información del jugador al espectear
+El proyecto cstrike-webadmin intenta ser una página que ayude a los administradores agregando las principales características para administrar un servidor actualmente. Facilitamos algunas tareas habituales como gestionar los administradores, asignarle rangos, prohibir jugadores, entre otras cosas.  
 
 ### Pre requisitos 📋
 ```
-AMX Mod X >= 1.8.3
+Composer
+NPM
+Base de datos relacional (MySQL, MariaDB)
 ```
-
-¡Compatible con ReHLDS! 
 
 ### Installation 🔧
 
