@@ -1,62 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Sobre Competitive Maker
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Competitive Maker es un modo competitivo para el juego Counter-Strike 1.6 que incluye las últimas características al estilo CS:GO. Facilitamos las tareas más habituales que se suelen utilizar en cualquier partida competitiva, como por ejemplo:
 
-## About Laravel
+- Modo auto mix o modo manual
+- Quitar o cambiar la contraseña de servidor
+- Prender o apagar AMXX  
+- Intercambiar equipos
+- Transferirse a espectador
+- Resultado del cerrado y datos de conexión en chat global
+- Modo de desempate
+- Corte de equipos
+- Modo práctica
+- Mostrar equipamiento en tiempo de enfriamiento
+- Pantalla negra a los espectadores
+- Resultado del cerrado en el nombre del servidor
+- Público automático por abandonar la partida
+- Pausar la ronda
+- Posibilidad de rendirse
+- Espectadores activos
+- Control de entrada a los equipos
+- Teletransportación a zona de corte
+- Frags y muertes al cambiar de lado
+- Traspaso de equipos automático
+- Bloquear cambio de nick y uso del chat global
+- Información del jugador al espectear
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Pre requisitos 📋
+```
+AMX Mod X >= 1.8.3
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+¡Compatible con ReHLDS! 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Installation 🔧
 
-## Learning Laravel
+1. Clone el repositorio en su máquina local o servidor
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
+# git clone https://github.com/stefanofabi/srlab.git
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Cree una copia del archivo .env.example y cámbiele el nombre a .env. En su interior editaremos las variables de entorno para establecer la conexión a la base de datos
 
-## Laravel Sponsors
+```
+# cd srlab
+# cp .env.example .env
+# vim .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. Proceda a instalar las dependencias requeridas para el proyecto y generar los archivos javascript y estilos
 
-### Premium Partners
+```
+# composer install
+# npm install
+# npm run dev
+```
+4. Cree un enlace a la carpeta de almacenamiento que contiene todo lo relacionado con la aplicación y cree la clave de la aplicación que protegerá las sesiones de los usuarios y otros datos.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+```
+# php artisan storage:link
+# php artisan key:generate
+```
 
-## Contributing
+5. Finalmente ejecute las migraciones y semillas.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+# php artisan migrate
+# php artisan db:seed
+```
 
-## Code of Conduct
+6. La ejecución de las semillas le permitirá iniciar sesión con algunos usuarios de prueba.
+```
+- Administrator 
+Email: admin@community
+Password: password
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+¡Recuerde modificar las contraseñas en producción!
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Contribuyendo
 
-## License
+¡Gracias por considerar contribuir con el complemento Competitive Maker! Podés hacerlo en: 
+- [MercadoPago](https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808479896d7201798d47849b0243)
+- [PayPal](https://paypal.me/4evergaming)
+- [Bitcoin](https://www.blockchain.com/btc/address/1BxrkKPuLTkYUAeMrxzLEKvr5MGFu3NLpU)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Hosting
+¿Estas considerando alquilar un servidor de Counter-Strike 1.6? No dudes en visitar la página de nuestro principal patrocinador [4evergaming](https://4evergaming.com.ar)
