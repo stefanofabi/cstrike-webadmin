@@ -39,5 +39,6 @@ return [
     '5_days' => '5 days',
     '30_days' => '30 days',
     'permanently' => 'Permanently',
+    'servers_with_ban' => 'Servers with ban',
     
 ];
