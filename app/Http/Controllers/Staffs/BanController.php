@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException; 
 
 use App\Models\Ban;
 use App\Models\Server;
@@ -85,25 +86,16 @@ class BanController extends Controller
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
             'administrator_id' => 'numeric|nullable',
-            'servers' => 'required',
-                      
+            'servers' => 'required',          
         ]);
 
         if (empty($request->steam_id) && empty($request->ip)) {
             return back()->withErrors(Lang::get('bans.incomplete_prohibition_data'))->withInput($request->all());
         }
 
-        $count = DB::table('administrators')
-            ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
-            ->where(function ($query) use ($request) {
-                $query->orWhere('administrators.auth', $request->steam_id)
-                    ->orWhere('administrators.auth', $request->ip)
-                    ->orWhere('administrators.auth', $request->name);
-            })
-            ->where('ranks.access_flags', 'like', '%a%')
-            ->count();
+        
 
-        if ($count) {
+        if (canBeBlocked($request->name, $request->steam_id, $request->ip)) {
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
         
@@ -151,12 +143,20 @@ class BanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
+
+        try {
+            $ban = Ban::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
+        }
+
+        return $ban;
     }
 
     /**
@@ -166,9 +166,50 @@ class BanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'name' => 'required|string',
+            'steam_id' => 'string|nullable',
+            
+            // regex for ip:port
+            'ip' => 'string|regex:/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?/|nullable',
+
+            'expiration' => 'date|nullable',
+            'reason' => 'required|string',
+            'private_notes' => 'string|nullable',
+            'administrator_id' => 'numeric|nullable',
+            'server_id' => 'required|numeric|min:1',
+        ]);
+
+        if (empty($request->steam_id) && empty($request->ip)) {
+            return response(['message' => Lang::get('bans.incomplete_prohibition_data')], 500);
+        }
+
+        if (canBeBlocked($request->name, $request->steam_id, $request->ip)) {
+            return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
+        }
+
+        $updated = Ban::where('id', $request->id)
+            ->update(
+                [
+                    'name' => $request->name,
+                    'steam_id' => $request->steam_id,
+                    'ip' => $request->ip,
+                    'expiration' => $request->expiration,
+                    'reason' => $request->reason,
+                    'private_notes' => $request->private_notes,
+                    'server_id' => $request->server_id,
+                ]
+            );
+            
+        if (! $updated) {
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        }
+
+        return response(['message' => Lang::get('bans.success_updated_ban')], 200);
     }
 
     /**
@@ -196,5 +237,17 @@ class BanController extends Controller
             ->with('servers', $servers)
             ->with('bans', $bans)
             ->with('server_id', $server_id);
+    }
+
+    private function canBeBlocked($name, $steam_id, $ip) {
+        return DB::table('administrators')
+            ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
+            ->where(function ($query) use ($name, $steam_id, $ip) {
+                $query->orWhere('administrators.auth', $name)
+                    ->orWhere('administrators.auth', $steam_id)
+                    ->orWhere('administrators.auth', $ip);
+            })
+            ->where('ranks.access_flags', 'like', '%a%')
+            ->count();
     }
 }

@@ -1,71 +1,120 @@
 <script type="text/javascript">
 
+    function setBanExpiration(minutes) {
+
+        // Ban permanently
+        if (minutes == "") {
+            $("#modal_ban_expiration").val(''); 
+            return;  
+        }
+
+        var dateVal = new Date();
+
+        dateVal.setMinutes(dateVal.getMinutes() + parseInt(minutes, 10));
+
+        var day = dateVal.getDate().toString().padStart(2, "0");
+        var month = (1 + dateVal.getMonth()).toString().padStart(2, "0");
+        var hour = dateVal.getHours().toString().padStart(2, "0");
+        var minute = dateVal.getMinutes().toString().padStart(2, "0");
+
+        var inputDate = dateVal.getFullYear() + "-" + (month) + "-" + (day) + "T" + (hour) + ":" + (minute);
+
+        $("#modal_ban_expiration").val(inputDate);   
+    }
+
     function clearData() {
 
-        $("#modal_server_id").val('');
-        $("#modal_server_name").val('');
-        $("#modal_server_ip").val('');
+        $("#modal_ban_name").val('');
+        $("#modal_ban_steam_id").val('');
+        $("#modal_ban_ip").val('');
+        $("#modal_ban_reason").val('');
+        $("#modal_ban_server_id").val('');
+        $("#modal_ban_expiration").val('');
+        $("#modal_ban_private_notes").val('');
+
     }
     
-    function editServer(server) {
+    function editBan(ban) {
         clearData();
 
         var parameters = {
             "_token" : '{{ csrf_token() }}',
-            "id" : server,
+            "id" : ban,
         };
 
         $.ajax({
             data:  parameters,
-            url:   "{{ route('staffs/servers/edit') }}",
+            url:   "{{ route('staffs/bans/edit') }}",
             type:  'post',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal_servers_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }} ');
+                $("#modal_bans_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }} ');
             },
             success:  function (data) {
-                $("#modal_servers_messages").html("");
-
-                clearData();
-
+                $("#modal_bans_messages").html("");
+                
                 // Load results
-                $("#modal_server_id").val(data['id']);
-                $("#modal_server_name").val(data['name']);
-                $("#modal_server_ip").val(data['ip']);
+                $("#modal_ban_id").val(data['id']);
+                $("#modal_ban_name").val(data['name']);
+                $("#modal_ban_steam_id").val(data['steam_id']);
+                $("#modal_ban_ip").val(data['ip']);
+
+                var datetime_expiration = data['expiration'];
+
+                var year = datetime_expiration.substring(0, 4);
+                var day = datetime_expiration.substring(5, 7);
+                var month = datetime_expiration.substring(8, 10);
+                var hour = datetime_expiration.substring(11, 13);
+                var minute = datetime_expiration.substring(14, 16);
+
+                var inputDate = year+ "-" + (month) + "-" + (day) + "T" + (hour) + ":" + (minute);
+                $("#modal_ban_expiration").val(inputDate);
+
+                $("#modal_ban_reason").val(data['reason']);
+                $("#modal_ban_server_id").val(data['server_id']);
+                $("#modal_ban_private_notes").val(data['private_notes']);
+                
             }
         }).fail( function() {
-            $("#modal_servers_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("servers.danger_edited_server") }} </div>');
+            $("#modal_bans_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("bans.danger_edited_ban") }} </div>');
         });
 
         return false;   	
 	}
 
-    function updateServer() {
-        var server_id = $("#modal_server_id").val();
+    function updateBan() {
+        var ban_id = $("#modal_ban_id").val();
 
 		var parameters = {
             "_token" : '{{ csrf_token() }}',
-			"id" : $("#modal_server_id").val(),
-			"name" : $("#modal_server_name").val(),
-			"ip" : $("#modal_server_ip").val(),
+			"id" : $("#modal_ban_id").val(),
+			"name" : $("#modal_ban_name").val(),
+            "steam_id" : $("#modal_ban_steam_id").val(),
+			"ip" : $("#modal_ban_ip").val(),
+            "reason" : $("#modal_ban_reason").val(),
+            "server_id" : $("#modal_ban_server_id").val(),
+            "expiration" : $("#modal_ban_expiration").val(),
+            "private_notes" : $("#modal_ban_private_notes").val(),
 		};
         
 		$.ajax({
 			data:  parameters,
-			url:   "{{ route('staffs/servers/update') }}",
+			url:   "{{ route('staffs/bans/update') }}",
 			type:  'post',
 			beforeSend: function () {
-				$("#modal_servers_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }}');
+				$("#modal_bans_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }}');
 			},
 			success:  function (response) {
-				$("#modal_servers_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("servers.success_updated_server") }} </div>');
+				$("#modal_bans_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("bans.success_updated_ban") }} </div>');
 
                 // Update the list of servers
-                $("#server_name_"+server_id).html(parameters['name']);
-                $("#server_ip_"+server_id).html(parameters['ip']);
+                $("#ban_name_"+ban_id).html(parameters['name']);
+                $("#ban_steam_id_"+ban_id).html(parameters['steam_id']);
+                $("#ban_ip_"+ban_id).html(parameters['ip']);
+                $("#ban_expiration_"+ban_id).html(parameters['expiration']);
 			}
-		}).fail( function() {
-    		$("#modal_servers_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("servers.danger_updated_server") }} </div>');
+		}).fail( function(response) {
+    		$("#modal_bans_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> '+response.responseJSON['message']+' </div>');
 		});
 
         // It would be nice if there is a scroll to the message of the ajax result

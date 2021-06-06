@@ -43,5 +43,7 @@ return [
     'admin_immunity' => 'The player you are trying to ban is an administrator with immunity',
     'not_apply' => 'Not apply',
     'expired' => 'Expired',
-    
+    'success_updated_ban' => 'Successfully updated ban',
+    'danger_updated_ban' => 'There was a problem updated the ban. Please try again later',
+    'danger_edited_ban' => 'There was a problem loading the ban. Please try again later',
 ];

@@ -75,17 +75,14 @@
             <div class="form-group">
                 <h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
 
-                <div class="form-check">
-                    @forelse ($servers as $server)
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="servers[]" value="{{ $server->id }}">
-                            <span data-toggle="tooltip" data-placement="right" title="{{ $server->ip }}"> {{ $server->name }} </span>
-                        </label>               
-                    @empty
-                        <div style="color: red"> {{ trans('servers.no_servers') }} </div>
-                    @endforelse
-                </div>
-            </div>
+				<select class="form-control col-12" name="server_id" id="modal_ban_server_id" required>
+					<option value="">  {{ trans('forms.select_option') }} </option>
+
+					@foreach ($servers as $server)
+						<option value="{{ $server->id }}">  {{ $server->name }} [{{ $server->ip}}] </option>
+					@endforeach
+				</select>
+			</div>
 
             <div class="form-group">
                 <label for="auth"> <h5> <strong> {{ trans('bans.expiration') }}: </strong> </h5> </label>

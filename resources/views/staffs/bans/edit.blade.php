@@ -1,33 +1,89 @@
 <!-- Modal -->
-<div class="modal fade" id="editServer">
-	<div class="modal-dialog modal-dialog-centered modal-s">
+<div class="modal fade" id="editBan">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
 		<div class="modal-content">
 
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel"><i class="fas fa-edit"></i> {{ trans('servers.edit_server') }} </h4>
+				<h4 class="modal-title" id="myModalLabel"><i class="fas fa-edit"></i> {{ trans('bans.edit_ban') }} </h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
 			<!-- Modal body -->
 			<div class="modal-body ml-1 mr-1">
 				<!-- Carga los datos ajax -->
-				<div class="mb-3" id="modal_servers_messages"></div>
+				<div class="mb-3" id="modal_bans_messages"></div>
 				
-				<form class="form-horizontal" method="post" onsubmit="return updateServer();">
+				<form class="form-horizontal" method="post" onsubmit="return updateBan();">
 
-					<input type="hidden" id="modal_server_id" name="id">
+					<input type="hidden" id="modal_ban_id" name="id">
 
-					<div class="form-group">
-						<label for="name"> <h5> <strong> {{ trans('servers.name') }}: </h5> </strong> </label>
-						
-						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_name') }}" name="name" id="modal_server_name" value="{{ @old('name') }}" required>
+					<!-- Left Column -->
+					<div style="width: 50%; float:left; margin-left: 1%; margin-bottom: 2%">
+						<div class="form-group">
+							<label for="name"> <h5> <strong> {{ trans('bans.name') }}: </h5> </strong> </label>
+												
+							<input type="text" class="form-control" placeholder="{{ trans('bans.enter_name') }}" name="name" id="modal_ban_name" required>
+						</div>
+
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('bans.steam_id') }}: </strong> </h5> </label>
+												
+							<input type="text" class="form-control" placeholder="{{ trans('bans.enter_steam_id') }}" name="steam_id" id="modal_ban_steam_id">
+						</div>
+
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('bans.ip') }}: </strong> </h5> </label>
+												
+							<input type="text" class="form-control" placeholder="{{ trans('bans.enter_ip') }}" name="ip" id="modal_ban_ip">
+						</div>
+
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('bans.reason') }}: </strong> </h5> </label>
+												
+							<input type="text" class="form-control" placeholder="{{ trans('bans.enter_reason') }}" name="reason" id="modal_ban_reason" required>
+						</div>
 					</div>
 
-					<div class="form-group">
-						<label for="auth"> <h5> <strong> {{ trans('servers.ip') }}: </strong> </h5> </label>
-						
-						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_ip') }}" name="ip" id="modal_server_ip" value="{{ @old('ip') }}" required>
+					<!-- Right Column -->
+					<div style="width: 47%; ; margin-left: 1%; margin-right: 1%; float:right;padding-left: 3%;">
+						<div class="form-group">
+							<h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
+
+							<select class="form-control col-12" name="server_id" id="modal_ban_server_id" required>
+								<option value="">  {{ trans('forms.select_option') }} </option>
+
+								@foreach ($servers as $server)
+									<option value="{{ $server->id }}">  {{ $server->name }} [{{ $server->ip}}] </option>
+								@endforeach
+							</select>
+						</div>
+
+
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('bans.expiration') }}: </strong> </h5> </label>
+										
+							<input type="datetime-local" class="form-control" placeholder="{{ trans('bans.expiration') }}" name="expiration" id="modal_ban_expiration">
+
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('5')"> {{ trans('bans.5_minutes') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('15')"> {{ trans('bans.15_minutes') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('30')"> {{ trans('bans.30_minutes') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-3" onclick="setBanExpiration('60')"> {{ trans('bans.60_minutes') }}</button>
+									
+							<br />
+									
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('1440')"> {{ trans('bans.1_day') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('4320')"> {{ trans('bans.3_days') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('7200')"> {{ trans('bans.5_days') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
+							<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
+						</div>
+											
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('bans.private_notes') }}: </strong> </h5> </label>
+
+							<textarea class="form-control" rows="3" name="private_notes" id="modal_ban_private_notes"></textarea>
+						</div>
 					</div>
 
 					<!-- Modal footer -->

@@ -10,9 +10,9 @@
 
             $('#server').val('{{ $server_id ?? '' }}')
         });
-    
-
+        
     </script>
+
     @include('staffs.bans.js')
 @endsection
 
