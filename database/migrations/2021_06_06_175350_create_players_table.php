@@ -19,6 +19,10 @@ class CreatePlayersTable extends Migration
             $table->string('steam_id');
             $table->string('ip');
             $table->timestamp('date');
+            $table->unsignedBigInteger('server_id');
+
+            // Foreign keys
+            $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
             

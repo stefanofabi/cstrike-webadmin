@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     use HasFactory;
+
+    /**
+     * Get the server associated with the player.
+     */
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
+    }
 }

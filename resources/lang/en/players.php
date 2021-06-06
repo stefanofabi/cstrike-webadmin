@@ -16,9 +16,8 @@ return [
     'name' => 'Name',   
     'steam_id' => 'Steam ID',  
     'ip' => 'IP', 
-    'welcome_message' => 'The welcome message', 
+    'welcome_message' => 'In this section you will find the information of all the players that enter the servers. Visiting this section periodically will help you keep track of your server.', 
     'destroy_player' => 'Destroy player',
     'ban_player' => 'Ban player',
-    'reason' => 'Reason',
-
+    'server_name' => 'Server name',
 ];

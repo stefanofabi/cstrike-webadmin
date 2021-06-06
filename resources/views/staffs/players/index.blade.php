@@ -17,6 +17,7 @@
                     <th> {{ trans('players.name') }} </th>
                     <th> {{ trans('players.steam_id') }} </th>
                     <th> {{ trans('players.ip') }} </th>
+                    <th> {{ trans('players.server_name') }} </th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                             <td> {{ $player->name }} </td>
                             <td> {{ $player->steam_id }} </td>
                             <td> {{ $player->ip }} </td>
+                            <td> {{ $player->server->name }} </td>
 
                             <td class="text-right">
                                 <form id="destroy_player_{{ $player->id }}" method="POST" action=" {{ route('staffs/players/destroy', ['id' => $player->id]) }}">
