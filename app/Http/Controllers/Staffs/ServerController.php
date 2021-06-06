@@ -145,14 +145,13 @@ class ServerController extends Controller
         try {
             $deleted = Server::where('id', $id)->delete();
 
-            if (! $deleted) {
-                return response(['message' => Lang::get('forms.failed_transaction')], 500);
+            if ($deleted) {
+                return back()->withErrors(Lang::get('forms.failed_transaction'));
             }
         } catch (QueryException $exception) {
-            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
         
-
         return redirect()->action([ServerController::class, 'index']);
     }
 }

@@ -17,5 +17,6 @@ return [
     'ranks' => 'Ranks',
     'servers' => 'Servers',
     'bans' => 'Bans',
+    'players_log' => 'Players log',
     
 ];

@@ -46,4 +46,5 @@ return [
     'success_updated_ban' => 'Successfully updated ban',
     'danger_updated_ban' => 'There was a problem updated the ban. Please try again later',
     'danger_edited_ban' => 'There was a problem loading the ban. Please try again later',
+    'date' => 'Date',
 ];

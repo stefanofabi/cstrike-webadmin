@@ -27,6 +27,7 @@ class RoleSeeder extends Seeder
                 'crud_ranks',
                 'crud_servers',
                 'crud_bans',
+                'crud_players',
         	]
         );
         

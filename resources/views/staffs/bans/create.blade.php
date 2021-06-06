@@ -48,19 +48,19 @@
             <div class="form-group">
                 <label for="name"> <h5> <strong> {{ trans('bans.name') }}: </h5> </strong> </label>
                             
-                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_name') }}" name="name" value="{{ @old('name') }}" required>
+                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_name') }}" name="name" value="@if ($player) {{ $player->name }} @else {{ @old('name') }} @endif" required  @if ($player) readonly @endif>
             </div>
 
             <div class="form-group">
                 <label for="auth"> <h5> <strong> {{ trans('bans.steam_id') }}: </strong> </h5> </label>
                             
-                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_steam_id') }}" name="steam_id" value="{{ @old('steam_id') }}">
+                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_steam_id') }}" name="steam_id" value="@if ($player) {{ $player->steam_id }} @else {{ @old('steam_id') }} @endif" @if ($player) readonly @endif>
             </div>
 
             <div class="form-group">
                 <label for="auth"> <h5> <strong> {{ trans('bans.ip') }}: </strong> </h5> </label>
                             
-                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_ip') }}" name="ip" value="{{ @old('ip') }}">
+                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_ip') }}" name="ip" value="@if ($player) {{ $player->ip }} @else {{ @old('ip') }} @endif" @if ($player) readonly @endif>
             </div>
 
             <div class="form-group">
@@ -73,16 +73,21 @@
 		<!-- Right Column -->
 		<div style="width: 47%; ; margin-left: 1%; margin-right: 1%; float:right;padding-left: 3%;">
             <div class="form-group">
-                <h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
+                <h5> <strong> {{ trans('servers.servers_with_access') }}: </strong> </h5>
 
-				<select class="form-control col-12" name="server_id" id="modal_ban_server_id" required>
-					<option value="">  {{ trans('forms.select_option') }} </option>
+                <div class="form-check">
+                    @forelse ($servers as $server)
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="servers[]" value="{{ $server->id }}">
+                            <span data-toggle="tooltip" data-placement="right" title="{{ $server->ip }}"> {{ $server->name }} </span>
+                        </label>
 
-					@foreach ($servers as $server)
-						<option value="{{ $server->id }}">  {{ $server->name }} [{{ $server->ip}}] </option>
-					@endforeach
-				</select>
-			</div>
+                        <br />
+                    @empty
+                        <div style="color: red"> {{ trans('servers.no_servers') }} </div>
+                    @endforelse
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="auth"> <h5> <strong> {{ trans('bans.expiration') }}: </strong> </h5> </label>

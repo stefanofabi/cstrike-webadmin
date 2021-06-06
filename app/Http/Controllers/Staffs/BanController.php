@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Ban;
 use App\Models\Server;
+use App\Models\Player;
 
 use Lang;
 
@@ -55,14 +56,17 @@ class BanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($player_id = null)
     {
         //
+
+        $player = Player::find($player_id);
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
         return view('staffs.bans.create')
-            ->with('servers', $servers);
+            ->with('servers', $servers)
+            ->with('player', $player);
     }
 
     /**
@@ -93,15 +97,14 @@ class BanController extends Controller
             return back()->withErrors(Lang::get('bans.incomplete_prohibition_data'))->withInput($request->all());
         }
 
-        
-
-        if (canBeBlocked($request->name, $request->steam_id, $request->ip)) {
+        if ($this->playerAdminWithImmunity($request->name, $request->steam_id, $request->ip)) {
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
-        
+
         DB::beginTransaction();
 
         try {
+            // not neccesary json decode
             foreach ($request->servers as $server) {
                 $ban = new Ban(
                     [
@@ -188,7 +191,7 @@ class BanController extends Controller
             return response(['message' => Lang::get('bans.incomplete_prohibition_data')], 500);
         }
 
-        if (canBeBlocked($request->name, $request->steam_id, $request->ip)) {
+        if ($this->playerAdminWithImmunity($request->name, $request->steam_id, $request->ip)) {
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
 
@@ -239,7 +242,7 @@ class BanController extends Controller
             ->with('server_id', $server_id);
     }
 
-    private function canBeBlocked($name, $steam_id, $ip) {
+    private function playerAdminWithImmunity($name, $steam_id, $ip) {
         return DB::table('administrators')
             ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
             ->where(function ($query) use ($name, $steam_id, $ip) {

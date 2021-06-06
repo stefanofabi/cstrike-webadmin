@@ -9,7 +9,7 @@ Route::group([
 
     Route::post('load', ['\App\Http\Controllers\Staffs\BanController', 'load'])->name('load');
 
-    Route::get('create', ['\App\Http\Controllers\Staffs\BanController', 'create'])->name('create');
+    Route::get('create/{player_id?}', ['\App\Http\Controllers\Staffs\BanController', 'create'])->name('create')->where('player_id', '[1-9][0-9]*');
 
     Route::post('store', ['\App\Http\Controllers\Staffs\BanController', 'store'])->name('store');
 

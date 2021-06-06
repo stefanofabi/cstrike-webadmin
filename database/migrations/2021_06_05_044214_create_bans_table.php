@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateBansTable extends Migration
 {
@@ -18,6 +19,7 @@ class CreateBansTable extends Migration
             $table->string('name');
             $table->string('steam_id')->nullable();
             $table->string('ip')->nullable();
+            $table->timestamp('date')->default(DB::raw('NOW()'));
             $table->timestamp('expiration')->nullable();
             $table->string('reason');
             $table->string('private_notes')->nullable();

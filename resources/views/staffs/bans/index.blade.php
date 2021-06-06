@@ -52,7 +52,8 @@
     <div class="card">
         <table class="table table-striped">
             <thead>
-                <tr>
+                <tr>    
+                    <th> {{ trans('bans.date') }} </th>
                     <th> {{ trans('bans.name') }} </th>
                     <th> {{ trans('bans.steam_id') }} </th>
                     <th> {{ trans('bans.ip') }} </th>
@@ -65,6 +66,7 @@
                 @if (isset($bans) && $bans->isNotEmpty())
                     @foreach ($bans as $ban)
                         <tr>
+                            <td> {{ date('d/m/Y H:i', strtotime($ban->date)) }}  </td>
                             <td> {{ $ban->name }} </td>
 
                             <td> 
@@ -112,7 +114,7 @@
                         </tr>
                     @endforeach
                 @else 
-                    <td colspan="5"> {{ trans('forms.no_data' )}} </td>
+                    <td colspan="6"> {{ trans('forms.no_data' )}} </td>
                 @endif
             </tbody>
 
