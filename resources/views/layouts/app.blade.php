@@ -33,7 +33,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <img src="{{ asset('img/logo.png') }}" alt="{{ trans('home.logo') }}" width="150" height="40">
                     </a>
 
                     <div id="navbarSupportedContent">
