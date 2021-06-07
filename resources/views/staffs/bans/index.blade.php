@@ -66,10 +66,10 @@
                 @if (isset($bans) && $bans->isNotEmpty())
                     @foreach ($bans as $ban)
                         <tr>
-                            <td> {{ date('d/m/Y H:i', strtotime($ban->date)) }}  </td>
-                            <td> {{ $ban->name }} </td>
+                            <td id="modal_ban_date"> {{ date('d/m/Y H:i', strtotime($ban->date)) }}  </td>
+                            <td id="modal_ban_name"> {{ $ban->name }} </td>
 
-                            <td> 
+                            <td id="modal_ban_steam_id"> 
                                 @if (empty($ban->steam_id)) 
                                     {{ trans('bans.not_apply') }} 
                                 @else 
@@ -77,7 +77,7 @@
                                 @endif
                             </td>
 
-                            <td> 
+                            <td id="modal_ban_ip"> 
                                 @if (empty($ban->ip)) 
                                 {{ trans('bans.not_apply') }} 
                                 @else 
@@ -85,7 +85,7 @@
                                 @endif
                             </td>
 
-                            <td>  
+                            <td id="modal_ban_expiration">  
                                 @if (empty($ban->expiration)) 
                                     {{ trans('bans.permanently') }} 
                                 @else 

@@ -19,4 +19,8 @@ class Ban extends Model
         'administrator_id',
         'server_id',
     ];
+
+    protected $casts = [
+        'expiration' => 'datetime:Y-m-d\TH:i',
+    ];
 }

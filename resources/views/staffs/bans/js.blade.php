@@ -57,18 +57,8 @@
                 $("#modal_ban_id").val(data['id']);
                 $("#modal_ban_name").val(data['name']);
                 $("#modal_ban_steam_id").val(data['steam_id']);
-                $("#modal_ban_ip").val(data['ip']);
-
-                var datetime_expiration = data['expiration'];
-
-                var year = datetime_expiration.substring(0, 4);
-                var day = datetime_expiration.substring(5, 7);
-                var month = datetime_expiration.substring(8, 10);
-                var hour = datetime_expiration.substring(11, 13);
-                var minute = datetime_expiration.substring(14, 16);
-
-                var inputDate = year+ "-" + (month) + "-" + (day) + "T" + (hour) + ":" + (minute);
-                $("#modal_ban_expiration").val(inputDate);
+                $("#modal_ban_ip").val(data['ip']);                
+                $("#modal_ban_expiration").val(data['expiration']);
 
                 $("#modal_ban_reason").val(data['reason']);
                 $("#modal_ban_server_id").val(data['server_id']);
