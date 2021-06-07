@@ -6,6 +6,7 @@ El proyecto cstrike-webadmin intenta ser una página que ayude a los administrad
 ```
 Composer
 NPM
+PHP 7.x/8.x
 Base de datos relacional (MySQL, MariaDB)
 ```
 
