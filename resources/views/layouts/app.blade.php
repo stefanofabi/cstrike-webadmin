@@ -106,7 +106,7 @@
     </body>
 
 
-    <footer class="bg-white pt-2 text-center" style="bottom: 0; position: absolute; width: 100%;">
+    <footer class="bg-white pt-2 text-center" style="bottom: 0; position: fixed; width: 100%;">
         <div class="float-right mr-3">
 
             <span data-toggle="tooltip" data-placement="top" title="Web">

@@ -31,7 +31,7 @@
       @show
    </div>
 
-   <div style="width: 77%; ; margin-left: 1%; margin-right: 1%; float:right;">
+   <div style="width: 77%; ; margin-left: 1%; margin-right: 1%; float:right; margin-bottom: 5%">
       @section('right-content')
       @show
    </div>
