@@ -82,10 +82,7 @@ class BanController extends Controller
         $request->validate([
             'name' => 'required|string',
             'steam_id' => 'string|nullable',
-            
-            // regex for ip:port
-            'ip' => 'string|regex:/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?/|nullable',
-
+            'ip' => 'string|nullable',
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
@@ -176,10 +173,7 @@ class BanController extends Controller
         $request->validate([
             'name' => 'required|string',
             'steam_id' => 'string|nullable',
-            
-            // regex for ip:port
-            'ip' => 'string|regex:/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?/|nullable',
-
+            'ip' => 'string|nullable',
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',

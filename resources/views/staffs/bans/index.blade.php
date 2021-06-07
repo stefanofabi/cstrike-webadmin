@@ -66,10 +66,10 @@
                 @if (isset($bans) && $bans->isNotEmpty())
                     @foreach ($bans as $ban)
                         <tr>
-                            <td id="modal_ban_date"> {{ date('d/m/Y H:i', strtotime($ban->date)) }}  </td>
-                            <td id="modal_ban_name"> {{ $ban->name }} </td>
+                            <td id="ban_date_{{ $ban->id }}"> {{ date('d/m/Y H:i', strtotime($ban->date)) }}  </td>
+                            <td id="ban_name_{{ $ban->id }}"> {{ $ban->name }} </td>
 
-                            <td id="modal_ban_steam_id"> 
+                            <td id="ban_steam_id_{{ $ban->id }}"> 
                                 @if (empty($ban->steam_id)) 
                                     {{ trans('bans.not_apply') }} 
                                 @else 
@@ -77,7 +77,7 @@
                                 @endif
                             </td>
 
-                            <td id="modal_ban_ip"> 
+                            <td id="ban_ip_{{ $ban->id }}"> 
                                 @if (empty($ban->ip)) 
                                 {{ trans('bans.not_apply') }} 
                                 @else 
@@ -85,14 +85,13 @@
                                 @endif
                             </td>
 
-                            <td id="modal_ban_expiration">  
+                            <td id="ban_expiration_{{ $ban->id }}">  
                                 @if (empty($ban->expiration)) 
-                                    {{ trans('bans.permanently') }} 
+                                    {{ trans('bans.never') }} 
                                 @else 
-
                                     {{ date('d/m/Y H:i', strtotime($ban->expiration)) }} 
 
-                                    @if ($ban->expiration < date('Y-m-d h:m'))
+                                    @if ($ban->expiration < date('Y-m-d\TH:i'))
                                         <span class="badge badge-success"> {{ trans('bans.expired') }}</span>
                                     @endif
                                 @endif

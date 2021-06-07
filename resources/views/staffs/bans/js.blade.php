@@ -99,9 +99,25 @@
 
                 // Update the list of servers
                 $("#ban_name_"+ban_id).html(parameters['name']);
-                $("#ban_steam_id_"+ban_id).html(parameters['steam_id']);
-                $("#ban_ip_"+ban_id).html(parameters['ip']);
-                $("#ban_expiration_"+ban_id).html(parameters['expiration']);
+
+                if (parameters['steam_id'] == "") {
+                    $("#ban_steam_id_"+ban_id).html("{{ trans('bans.not_apply') }}");
+                } else {
+                    $("#ban_steam_id_"+ban_id).html(parameters['steam_id']);        
+                }
+
+                if (parameters['ip'] == "") {
+                    $("#ban_ip_"+ban_id).html("{{ trans('bans.not_apply') }}");
+                } else {
+                    $("#ban_ip_"+ban_id).html(parameters['ip']);        
+                }
+
+                if (parameters['expiration'] == "") {
+                    $("#ban_expiration_"+ban_id).html("{{ trans('bans.never') }}");
+                } else {
+                    $("#ban_expiration_"+ban_id).html(parameters['expiration']);        
+                }
+                
 			}
 		}).fail( function(response) {
     		$("#modal_bans_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> '+response.responseJSON['message']+' </div>');
