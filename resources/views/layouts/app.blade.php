@@ -21,6 +21,12 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
         @section('style')
         @show
 
@@ -98,4 +104,49 @@
             </main>
         </div>
     </body>
+
+
+    <footer class="bg-white pt-2 text-center" style="bottom: 0; position: absolute; width: 100%;">
+        <div class="float-right mr-3">
+
+            <span data-toggle="tooltip" data-placement="top" title="Web">
+                <a style="color: black; text-decoration: none" class="mr-1" href="https://4evergaming.com.ar"> 
+                    <i class="fas fa-globe"></i> 
+                </a> 
+            </span>
+
+            <span data-toggle="tooltip" data-placement="top" title="Facebook">
+                <a style="color: black; text-decoration: none" class="mr-1" href="https://facebook.com/4evergaming.com.ar"> 
+                    <i class="fab fa-facebook"></i> 
+                </a>
+            </span>
+
+            <span data-toggle="tooltip" data-placement="top" title="Instagram">
+                <a style="color: black; text-decoration: none" class="mr-1" href="https://instagram.com/4evergaming.com.ar"> 
+                    <i class="fab fa-instagram"></i> 
+                </a>
+            </span>
+            
+            <span data-toggle="tooltip" data-placement="top" title="YouTube">
+                <a style="color: black; text-decoration: none" class="mr-1" href="https://www.youtube.com/channel/UCOGkRP2uNamUAsWnYUPd2xg"> 
+                    <i class="fab fa-youtube"></i> 
+                </a>
+            </span>
+
+            <span data-toggle="tooltip" data-placement="top" title="WhatsApp">
+                <a style="color: black; text-decoration: none" class="mr-1" href="http://wa.me/5491124002295"> 
+                    <i class="fab fa-whatsapp"></i> 
+                </a>
+            </span>
+
+        </div>
+
+        <p>
+            &copy; @php echo date('Y') @endphp <a style="color: black" href="https://4evergaming.com.ar">4evergaming</a>. Todos los derechos reservados
+        </p>
+       
+    </footer>
+ 
+
+    
 </html>
