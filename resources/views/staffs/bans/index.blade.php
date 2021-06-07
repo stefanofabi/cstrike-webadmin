@@ -98,18 +98,17 @@
                                 @endif
                             </td>
 
-                            <td class="text-right">
+                            <td class="float-right form-inline">
+                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editBan" onclick="return editBan('{{ $ban->id }}')" title="{{ trans('bans.edit_ban') }}">
+                                    <span class="fas fa-edit"></span>
+                                </button>
+
                                 <form id="destroy_ban_{{ $ban->id }}" method="POST" action=" {{ route('staffs/bans/destroy', ['id' => $ban->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a class="btn btn-info btn-sm float-right" title="{{ trans('bans.destroy_ban') }}" onclick="destroyBan('{{ $ban->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('bans.destroy_ban') }}" onclick="destroyBan('{{ $ban->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
                                 </form>
-
-                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editBan" onclick="return editBan('{{ $ban->id }}')" title="{{ trans('bans.edit_ban') }}">
-                                    <span class="fas fa-edit"></span>
-                                </button>
-                                
                             </td>
                         </tr>
                     @endforeach

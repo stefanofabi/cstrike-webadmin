@@ -34,18 +34,17 @@
                             <td id="rank_name_{{ $rank->id }}"> {{ $rank->name }} </td>
                             <td id="rank_price_{{ $rank->id }}"> ${{ number_format($rank->price, 2, ',', '.') }} </td>
 
-                            <td class="text-right">
+                            <td class="float-right form-inline">          
+                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editRank" onclick="return editRank('{{ $rank->id }}')" title="{{ trans('ranks.edit_rank') }}">
+                                    <span class="fas fa-edit"></span>
+                                </button>
+
                                 <form id="destroy_rank_{{ $rank->id }}" method="POST" action=" {{ route('staffs/ranks/destroy', ['id' => $rank->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a class="btn btn-info btn-sm float-right" title="{{ trans('ranks.destroy_rank') }}" onclick="destroyRank('{{ $rank->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
-                                </form>
-
-                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editRank" onclick="return editRank('{{ $rank->id }}')" title="{{ trans('ranks.edit_rank') }}">
-                                    <span class="fas fa-edit"></span>
-                                </button>
-                                
+                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('ranks.destroy_rank') }}" onclick="destroyRank('{{ $rank->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                </form>                               
                             </td>
                         </tr>
                     @endforeach

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreatePlayersTable extends Migration
 {
@@ -18,7 +19,7 @@ class CreatePlayersTable extends Migration
             $table->string('name');
             $table->string('steam_id');
             $table->string('ip');
-            $table->timestamp('date');
+            $table->timestamp('date')->default(DB::raw('NOW()'));
             $table->unsignedBigInteger('server_id');
 
             // Foreign keys

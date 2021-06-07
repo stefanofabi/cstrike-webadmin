@@ -36,18 +36,17 @@
                             <td id="server_name_{{ $server->id }}"> {{ $server->name }} </td>
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
-                            <td class="text-right">
+                            <td class="float-right form-inline">
+                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1 ml-1" data-toggle="modal" data-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
+                                    <span class="fas fa-edit"></span>
+                                </button>
+
                                 <form id="destroy_server_{{ $server->id }}" method="POST" action=" {{ route('staffs/servers/destroy', ['id' => $server->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a class="btn btn-info btn-sm float-right" title="{{ trans('servers.destroy_server') }}" onclick="destroyServer('{{ $server->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                    <a class="btn btn-info btn-sm mb-1 ml-1" title="{{ trans('servers.destroy_server') }}" onclick="destroyServer('{{ $server->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
                                 </form>
-
-                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
-                                    <span class="fas fa-edit"></span>
-                                </button>
-                                
                             </td>
                         </tr>
                     @endforeach

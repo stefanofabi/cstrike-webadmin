@@ -20,4 +20,5 @@ return [
     'destroy_player' => 'Destroy player',
     'ban_player' => 'Ban player',
     'server_name' => 'Server name',
+    'date' => 'Date',
 ];

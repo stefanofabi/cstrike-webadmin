@@ -86,18 +86,17 @@
                             </td>
                             <td id="administrator_rank_{{ $administrator->id }}"> {{ $administrator->rank->name }} </td>
 
-                            <td class="text-right">
+                            <td class="float-right form-inline">
+                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
+                                    <span class="fas fa-user-edit"></span>
+                                </button>
+
                                 <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staffs/administrators/destroy', ['id' => $administrator->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a class="btn btn-info btn-sm float-right" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
-                                </form>
-
-                                <button type="button" class="btn btn-info btn-sm mr-3" data-toggle="modal" data-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
-                                    <span class="fas fa-user-edit"></span>
-                                </button>
-                                
+                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
+                                </form>                                
                             </td>
                         </tr>
                     @endforeach
