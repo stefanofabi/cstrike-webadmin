@@ -25,6 +25,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::group([
+        'prefix' => 'auth',
+        'as' => 'auth/',
+    ], function () {
+        Route::get('change_password', [App\Http\Controllers\Auth\ChangePasswordController::class, 'edit'])->name('change_password');
+        Route::post('change_password', [App\Http\Controllers\Auth\ChangePasswordController::class, 'update'])->name('change_password');
+    });
+});
+
+
 
 Route::group(['middleware' => ['permission:is_staff','auth']], function () {
 
