@@ -21,5 +21,6 @@ return [
     'rules_message' => 'Total or partial ignorance of the rules does not exempt the person from guilt. It is up to you, the users, to read or not the rules. Excuses of ignorance or lack of reading of this will not be accepted. The rules must be accepted outside the community, even in real life.',
     'vigilance' => 'Vigilance',
     'vigilance_message' => 'We maintain a strict control of entry to the servers, this includes the registration of your IP address, authentication data, name in the game, hardware data of your device, among other data that help us bring a certain peace of mind to our users when they play within our servers.',
-    'designed_by' => 'Designed by 4evergaming'
+    'designed_by' => 'Designed by 4evergaming',
+    
 ];  
