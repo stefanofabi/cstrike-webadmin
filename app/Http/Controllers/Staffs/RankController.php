@@ -139,7 +139,7 @@ class RankController extends Controller
             if (! $updated) {
                 return response(['message' => Lang::get('forms.failed_transaction')], 500);
             }
-        } catch (QueryException) {
+        } catch (QueryException $exception) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 
