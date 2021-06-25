@@ -1,8 +1,8 @@
-## Sobre cstrike-webadmin
+## About cstrike-webadmin
 
-El proyecto cstrike-webadmin intenta ser una página que ayude a los administradores agregando las principales características para administrar un servidor actualmente. Facilitamos algunas tareas habituales como gestionar los administradores, asignarle rangos, prohibir jugadores, entre otras cosas.  
+The cstrike-webadmin project tries to be a page that helps administrators by adding the main features to currently manage a server. We facilitate some common tasks such as managing administrators, assigning ranks, banning players, among other things.
 
-### Pre requisitos 📋
+### Pre requirements 📋
 ```
 Composer
 NPM
@@ -10,15 +10,15 @@ PHP 7.x/8.x
 Base de datos relacional (MySQL, MariaDB)
 ```
 
-### Instalación 🔧
+### Installation 🔧
 
-1. Clone el repositorio en su máquina local o servidor
+1. Clone the repository on your local machine or server
 
 ```
 # git clone https://github.com/stefanofabi/cstrike-webadmin.git
 ```
 
-2. Cree una copia del archivo .env.example y cámbiele el nombre a .env. En su interior editaremos las variables de entorno para establecer la conexión a la base de datos
+2. Create a copy of the .env.example file and rename it to .env. Inside we will edit the environment variables to establish the connection to the database
 
 ```
 # cd cstrike-webadmin
@@ -26,43 +26,43 @@ Base de datos relacional (MySQL, MariaDB)
 # vim .env
 ```
 
-3. Proceda a instalar las dependencias requeridas para el proyecto y generar los archivos javascript y estilos
+3. Proceed to install the dependencies required for the project and generate the javascript files and styles
 
 ```
 # composer install
 # npm install
 # npm run dev
 ```
-4. Cree un enlace a la carpeta de almacenamiento que contiene todo lo relacionado con la aplicación y cree la clave de la aplicación que protegerá las sesiones de los usuarios y otros datos.
+4. Create a link to the storage folder that contains everything related to the application and create the application key that will protect user sessions and other data.
 
 ```
 # php artisan storage:link
 # php artisan key:generate
 ```
 
-5. Finalmente ejecute las migraciones y semillas.
+5. Finally run the migrations and seeds.
 
 ```
 # php artisan migrate
 # php artisan db:seed
 ```
 
-6. La ejecución de las semillas le permitirá iniciar sesión con algunos usuarios de prueba.
+6. Running the seeds will allow you to log in with some test users.
 ```
 - Administrator 
 Email: admin@community
 Password: password
 ```
 
-¡Recuerde modificar las contraseñas en producción!
+Remember to modify passwords in production!
 
 
-## Contribuyendo
+## Contributing
 
-¡Gracias por considerar contribuir con la aplicación cstrike-webadmin! Podés hacerlo en: 
+Thank you for considering contributing to the cstrike-webadmin app! You can do it in:
 - [MercadoPago](https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808479cfe0100179dcd305820bf0)
 - [PayPal](https://paypal.me/4evergaming)
 - [Bitcoin](https://www.blockchain.com/btc/address/1BxrkKPuLTkYUAeMrxzLEKvr5MGFu3NLpU)
 
 ## Hosting
-¿Estas considerando alquilar un servidor de Counter-Strike 1.6? No dudes en visitar la página de nuestro principal patrocinador [4evergaming](https://4evergaming.com.ar)
+Considering renting a Counter-Strike 1.6 server? Feel free to visit the page of our main sponsor [4evergaming](https://4evergaming.com.ar)
