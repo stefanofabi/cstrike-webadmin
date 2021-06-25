@@ -7,7 +7,7 @@ The cstrike-webadmin project tries to be a page that helps administrators by add
 Composer
 NPM
 PHP 7.x/8.x
-Base de datos relacional (MySQL, MariaDB)
+Relational database (MySQL, MariaDB)
 ```
 
 ### Installation 🔧
