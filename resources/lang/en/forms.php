@@ -25,4 +25,6 @@ return [
     'well_done' => 'Well done',
     'check_all' => 'Check all',
     'select_server' => 'Select a server',
+    'choose_file' => 'Choose file',
+    
 ];

@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Language Lines
+    | Administrators Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the administrators messages used by

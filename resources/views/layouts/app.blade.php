@@ -74,7 +74,7 @@
 
                                         <a class="dropdown-item" href="{{ route('auth/change_password') }}">  {{ trans('auth.change_password') }}</a>
 
-                                        <a class="dropdown-item" href="{{ route('auth/change_avatar') }}">  {{ trans('auth.change_avatar') }}</a>
+                                        <a class="dropdown-item" href="{{ route('auth/change_avatar') }}">  {{ trans('avatars.change_avatar') }}</a>
 
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

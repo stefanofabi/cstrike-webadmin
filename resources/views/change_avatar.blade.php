@@ -1,39 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card" style="width:720px">
-                <div class="card-header">{{ trans('auth.change_avatar') }}</div>
+    <h2> {{ trans('avatars.change_avatar') }}</h2>
+    
+    <p> {{ trans('avatars.change_avatar_message') }} </p>
+  
+    <div class="card" style="width:400px; height: 600px">
+        <img class="card-img-top" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}" alt="Card image" style="width:100%">
+    
+        <div class="card-body float-right">
+            <h4 class="card-title"> {{ auth()->user()->name }} </h4>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('auth/change_avatar') }}">
-                        @csrf
-
-
-                        <h4 class="card-title"> {{ auth()->user()->name }} </h4>
-
-                        <div class="custom-file mb-3">
-                            <input type="file" class="custom-file-input" id="customFile" name="filename">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ trans('forms.submit') }}
-                                </button>
-                            </div>
-                        </div>
-
-                    </form>
+            <form method="post" action="{{ route('auth/change_avatar') }}" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" name="avatar">
+                    <label class="custom-file-label" for="customFile"> {{ trans('forms.choose_file') }}</label>
                 </div>
 
-                <img class="card-img-bottom" src="{{ asset('storage/avatars/'.auth()->user()->avatar ) }}" alt="Profile image" style="width:100%">
-
-            </div>
+            
+                <div class="mt-3 float-right">
+                    <button type="submit" class="btn btn-primary"> {{ trans('forms.submit') }}</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<br /> 
+<br />
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    // This code goes to the end
+    $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 @endsection

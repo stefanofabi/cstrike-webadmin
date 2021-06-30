@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class AvatarController extends Controller
 {
@@ -67,9 +69,25 @@ class AvatarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'avatar'   =>  'required|mimes:jpg,jpeg,bmp,png|max:2048',
+        ]);
+        
+        $user = auth()->user();
+        $avatar = $request->file('avatar');
+        $ext = $avatar->guessExtension();
+        $avatar_name = "avatar_$user->id.$ext";
+  
+        Storage::disk('public')->put("avatars/$avatar_name",  File::get($avatar));
+
+        $user->avatar = $avatar_name;
+        $user->save();
+
+        return view('change_avatar');
     }
 
     /**

@@ -23,6 +23,5 @@ return [
     'confirm_password' => 'Confirm password',
     'current_password_not_match' => 'Current password not match',
     'passwords_not_matches' => 'Passwords not matches',
-    'change_avatar' => 'Change avatar',
     
 ];
