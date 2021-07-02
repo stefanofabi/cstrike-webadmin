@@ -26,5 +26,11 @@ class HomeController extends Controller
         if (auth()->user()->hasPermissionTo('is_staff')) {
             return view('staffs.home');
         }
+
+        if (auth()->user()->hasPermissionTo('is_user')) {
+            return view('users.home');
+        }
+
+        return view('welcome');
     }
 }

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/', function () {
 
     if (auth()->user()) {
@@ -46,12 +49,22 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
         'prefix' => 'staffs',
         'as' => 'staffs/',
     ], function () {
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         
         require('administrators.php');
         require('ranks.php');
         require('servers.php');
         require('bans.php');
         require('players.php');
+    });
+});
+
+Route::group(['middleware' => ['permission:is_user','auth']], function () {
+
+    Route::group([
+        'prefix' => 'users',
+        'as' => 'users/',
+    ], function () {
+        Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     });
 });

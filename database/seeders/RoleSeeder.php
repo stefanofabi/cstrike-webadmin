@@ -30,6 +30,14 @@ class RoleSeeder extends Seeder
                 'crud_players',
         	]
         );
+
+        $role_user = Role::create(['name' => 'user']);
+
+        $role_user->givePermissionTo(
+        	[
+        		'is_user',
+        	]
+        );
         
     }
 }

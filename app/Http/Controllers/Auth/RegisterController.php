@@ -64,10 +64,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->assignRole('user');
+
+        return $user;
+    }
+
+    protected function redirectTo() {
+        if (auth()->user()->hasPermissionTo('is_staff')) {
+            return 'staffs/home';
+        }
+
+        return 'users/home';
     }
 }
