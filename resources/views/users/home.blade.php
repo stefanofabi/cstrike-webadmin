@@ -16,61 +16,36 @@
                     @endif
 
                     <div class="row">
+                    
                         <div class="col">
                             <div style="text-align: center;">
-                                <a class="nav-link" style="color: black" href="{{ route('staffs/administrators/index') }}">
-                                    <h1>
-                                        <i style="font-size: 8vw" class="fas fa-users"></i>
-                                    </h1>
-
-                                    <br />
-
-                                    {{ trans('home.administrators') }}
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col" style="text-align: center;">
-                            <a class="nav-link" style="color: black" href="{{ route('staffs/ranks/index') }}">
-                                <h1>
-                                    <i style="font-size: 8vw" class="fas fa-key"></i>
-                                </h1>
-
-                                <br />
-                                {{ trans('home.ranks') }}
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div style="text-align: center;">
-                                <a class="nav-link" style="color: black" href="{{ route('staffs/servers/index') }}">
-                                    <h1>
-                                        <i style="font-size: 8vw" class="fas fa-server"></i>
-                                    </h1>
-
-                                    <br />
-
-                                    {{ trans('home.servers') }}
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div style="text-align: center;">
-                                <a class="nav-link" style="color: black" href="{{ route('staffs/bans/index') }}">
+                                <a class="nav-link" style="color: black" href="{{ route('users/bans/index') }}">
                                     <h1>
                                         <i style="font-size: 8vw" class="fas fa-ban"></i>
                                     </h1>
 
                                     <br />
 
-                                    {{ trans('home.bans') }}
+                                    {{ trans('home.my_bans') }}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div style="text-align: center;">
+                                <a class="nav-link" style="color: black" href="{{ route('users/players/index') }}">
+                                    <h1>
+                                        <i style="font-size: 8vw" class="fas fa-users"></i>
+                                    </h1>
+
+                                    <br />
+
+                                    {{ trans('players.players_log') }}
                                 </a>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

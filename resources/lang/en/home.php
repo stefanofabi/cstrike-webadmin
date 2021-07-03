@@ -19,4 +19,6 @@ return [
     'bans' => 'Bans',
     'players_log' => 'Players log',
     'welcome_title' => 'Welcome to :community | Hosted by 4evergaming',
+    'my_bans' => 'My bans',
+
 ];

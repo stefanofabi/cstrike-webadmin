@@ -43,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the administrator associated with the user.
+     */
+    public function administrator()
+    {
+        return $this->hasOne(Administrator::class);
+    }
 }

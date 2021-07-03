@@ -48,4 +48,6 @@ return [
     'danger_edited_ban' => 'There was a problem loading the ban. Please try again later',
     'date' => 'Date',
     'never' => 'Never',
+    'user_welcome_message' => 'In this section are the players blocked from the server by you for not respecting the community rules. Respect them and maintain a friendly and caring community with the public.',
+    
 ];

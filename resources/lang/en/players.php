@@ -21,4 +21,6 @@ return [
     'ban_player' => 'Ban player',
     'server_name' => 'Server name',
     'date' => 'Date',
+    'players_log' => 'Players log',
+
 ];

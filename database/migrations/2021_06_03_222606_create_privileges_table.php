@@ -17,9 +17,9 @@ class CreatePrivilegesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('administrator_id');
             $table->unsignedBigInteger('server_id');
-
+            
             // Unique keys
-            $table->unique(['administrator_id', 'server_id']);
+            $table->unique(['administrator_id', 'server_id']);                  
 
             // Foreign keys
             $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('cascade')->onUpdate('cascade');

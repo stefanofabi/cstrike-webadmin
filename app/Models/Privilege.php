@@ -13,4 +13,12 @@ class Privilege extends Model
         'administrator_id',
         'server_id',
     ];
+    
+    /**
+     * Get the server associated with the privilege.
+     */
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
+    }
 }

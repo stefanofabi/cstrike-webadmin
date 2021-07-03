@@ -33,4 +33,12 @@ class Administrator extends Model
     {
         return $this->hasMany(Privilege::class);
     }
+
+    /**
+     * Get the user associated with the administrator.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
