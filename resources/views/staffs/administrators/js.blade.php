@@ -79,6 +79,7 @@
             "servers" : JSON.stringify($('[name="servers[]"]').serializeArray()),
             "expiration" : $("#modal_administrator_expiration").val(),
             "rank_id" : $("#modal_administrator_rank_id").val(),
+            "user_id" : $("#modal_user_id").val(),
 		};
 
 		$.ajax({
@@ -115,33 +116,34 @@
 
     
     $(function () {
-            $("#modal_administrator_account").autocomplete({
-                minLength: 2,
-                source: function (event, ui) {
-                    var parameters = {
-                        "_token": '{{ csrf_token() }}',
-                        "filter": $("#modal_administrator_account").val()
-                    };
+        $("#modal_administrator_account").autocomplete({
+            appendTo: "#editAdministrator",
+            minLength: 2,
+            source: function (event, ui) {
+                var parameters = {
+                    "_token": '{{ csrf_token() }}',
+                    "filter": $("#modal_administrator_account").val()
+                };
 
-                    $.ajax({
-                        data: parameters,
-                        url: '{{ route("staffs/administrators/load_users") }}',
-                        type: 'post',
-                        dataType: 'json',
-                        beforeSend: function () {
-                            // nothing...
-                        },
-                        success: ui
-                    });
+                $.ajax({
+                    data: parameters,
+                    url: '{{ route("staffs/administrators/load_users") }}',
+                    type: 'post',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        // nothing...
+                    },
+                    success: ui
+                });
 
-                    return ui;
-                },
-                select: function (event, ui) {
-                    event.preventDefault();
-                    $('#modal_administrator_account').val(ui.item.label);
-                    $('#modal_user_id').val(ui.item.id);
-                }
-            });
+                return ui;
+            },
+            select: function (event, ui) {
+                event.preventDefault();
+                $('#modal_administrator_account').val(ui.item.label);
+                $('#modal_user_id').val(ui.item.id);
+            }
         });
+    });
     
 </script>
