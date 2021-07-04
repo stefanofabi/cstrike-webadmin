@@ -37,4 +37,6 @@ return [
     'danger_edited_administrator' => 'There was a problem loading the administrator. Please try again later',
     'expired' => 'Expired',
     'administrator_account' => 'Administrator account',
+    'not_exist_or_already_associated' => 'The user does not exist or is already associated',
+
 ];

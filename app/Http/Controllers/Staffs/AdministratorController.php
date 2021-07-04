@@ -254,7 +254,7 @@ class AdministratorController extends Controller
     {
         //
         
-        return User::select('users.id', 'users.email as label')
+        $users = User::select('users.id', 'users.email as label')
             ->role('user')
             ->leftJoin('administrators', 'users.id', '=', 'administrators.user_id')
             ->where(function ($query) use ($request) {
@@ -265,5 +265,14 @@ class AdministratorController extends Controller
             })
             ->whereNull('administrators.user_id')
             ->get();
+
+        if ($users->isEmpty()) {
+            return [
+                'id' => '',
+                'label' => Lang::get('administrators.not_exist_or_already_associated'),
+            ];
+        }
+
+        return $users;
     }
 }
