@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Rank;
+use App\Models\Server;
 
 use Lang;
 
@@ -77,7 +78,10 @@ class ProfileController extends Controller
 
         $administrator = auth()->user()->administrator;
 
+        $servers = Server::orderBy('ip', 'ASC')->get();
+        
         return view('users.profile.my_administrator')
-            ->with('administrator', $administrator);
+            ->with('administrator', $administrator)
+            ->with('servers', $servers);
     }
 }

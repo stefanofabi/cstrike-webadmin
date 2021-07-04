@@ -55,10 +55,6 @@
             
             <div class="form-check">
 
-            <label class="form-check-label">
-                        
-            </label> 
-
                 <!-- Left column -->
                 <div style="width: 40%; float:left; margin-left: 1%;">
                     <label class="form-check-label">
