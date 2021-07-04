@@ -2,7 +2,7 @@
 
 @section('right-content')
     <div class="p-3 my-3 bg-primary text-white">
-        <h1> <span class="fas fa-list"> </span> {{ trans('home.buy_administrator') }} </h1>
+        <h1> <span class="fas fa-credit-card"> </span> {{ trans('home.buy_administrator') }} </h1>
         <p class="col-9"> {{trans('administrators.buy_administrator_message') }} </p>
     </div>
 

@@ -74,5 +74,10 @@ class ProfileController extends Controller
     public function myAdministrator()
     {
         //
+
+        $administrator = auth()->user()->administrator;
+
+        return view('users.profile.my_administrator')
+            ->with('administrator', $administrator);
     }
 }
