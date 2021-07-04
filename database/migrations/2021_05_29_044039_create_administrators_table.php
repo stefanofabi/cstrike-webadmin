@@ -23,7 +23,7 @@ class CreateAdministratorsTable extends Migration
             $table->date('expiration')->nullable();
 
             $table->unsignedBigInteger('rank_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
 
             // Unique keys
             $table->unique('auth');

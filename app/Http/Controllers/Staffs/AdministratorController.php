@@ -12,6 +12,7 @@ use App\Models\Administrator;
 use App\Models\Rank;
 use App\Models\Server;
 use App\Models\Privilege;
+use App\Models\User;
 
 use Lang;
 
@@ -73,7 +74,8 @@ class AdministratorController extends Controller
             'account_flags' => 'required|array',
             'servers' => 'required|array',
             'rank_id' => 'required|string',
-            'expiration' => 'required|date',           
+            'expiration' => 'required|date', 
+            'user_id' => 'numeric|nullable|min:1',
         ]);
 
         DB::beginTransaction();
@@ -88,6 +90,7 @@ class AdministratorController extends Controller
                     'account_flags' => implode($request->account_flags),
                     'expiration' => $request->expiration,
                     'rank_id' => $request->rank_id,
+                    'user_id' => $request->user_id,
                 ]
             );
 
@@ -107,7 +110,7 @@ class AdministratorController extends Controller
             DB::commit();
         } catch(QueryException $exception) {
             DB::rollBack();
-
+            
             return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
         }
         
@@ -165,7 +168,8 @@ class AdministratorController extends Controller
             'account_flags' => 'required',
             'servers' => 'required',
             'rank_id' => 'required|string',
-            'expiration' => 'required|date',           
+            'expiration' => 'required|date',          
+            'user_id' => 'numeric|nullable|min:1', 
         ]);
 
         DB::beginTransaction();
@@ -186,6 +190,7 @@ class AdministratorController extends Controller
                 'account_flags' => $flags,
                 'expiration' => $request->expiration,
                 'rank_id' => $request->rank_id,
+                'user_id' => $request->user_id,
             ]);
 
             Privilege::where('administrator_id', $request->id)->delete();
@@ -236,5 +241,28 @@ class AdministratorController extends Controller
         }
         
         return redirect()->action([AdministratorController::class,'index']);
+    }
+
+    /**
+     * List all users who do not have an associated administrator account
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function load_users(Request $request)
+    {
+        //
+        
+        return User::select('users.id', 'users.email as label')
+            ->role('user')
+            ->leftJoin('administrators', 'users.id', '=', 'administrators.user_id')
+            ->where(function ($query) use ($request) {
+                if (! empty($request->filter)) {
+                    $query->orWhere("users.name", "like", "%$request->filter%")
+                        ->orWhere("users.email", "like", "%$request->filter%");
+                }
+            })
+            ->whereNull('administrators.user_id')
+            ->get();
     }
 }

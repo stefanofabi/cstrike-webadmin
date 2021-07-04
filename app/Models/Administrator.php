@@ -16,6 +16,7 @@ class Administrator extends Model
         'account_flags',
         'rank_id',
         'expiration',
+        'user_id',
     ];
 
     /**

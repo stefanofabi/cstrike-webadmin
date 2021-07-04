@@ -16,5 +16,7 @@ Route::group([
     Route::post('update', ['\App\Http\Controllers\Staffs\AdministratorController', 'update'])->name('update');
 
     Route::delete('destroy/{id}', ['\App\Http\Controllers\Staffs\AdministratorController', 'destroy'])->name('destroy')->where('id', '[1-9][0-9]*');
+
+    Route::post('load_users', ['\App\Http\Controllers\Staffs\AdministratorController', 'load_users'])->name('load_users');
     
 });
