@@ -33,6 +33,7 @@
 
                 var administrator = data['administrator'];
                 var privileges = administrator['privileges'];
+                var user = administrator['user'];
 
                 // Load results
                 $("#modal_administrator_id").val(administrator['id']);
@@ -52,7 +53,11 @@
 
                 $("#modal_administrator_expiration").val(administrator['expiration']);
                 $("#modal_administrator_rank_id option[value='"+administrator['rank_id']+"']").attr("selected",true);
-                    
+
+                if (user) {
+                    $("#modal_administrator_account").val(user['email']);
+                    $("#modal_user_id").val(administrator['user_id']);     
+                }     
             }
         }).fail( function() {
             $("#modal_administrators_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("administrators.danger_edited_administrator") }} </div>');
@@ -107,4 +112,36 @@
             form.submit();
         }
     }
+
+    
+    $(function () {
+            $("#modal_administrator_account").autocomplete({
+                minLength: 2,
+                source: function (event, ui) {
+                    var parameters = {
+                        "_token": '{{ csrf_token() }}',
+                        "filter": $("#modal_administrator_account").val()
+                    };
+
+                    $.ajax({
+                        data: parameters,
+                        url: '{{ route("staffs/administrators/load_users") }}',
+                        type: 'post',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            // nothing...
+                        },
+                        success: ui
+                    });
+
+                    return ui;
+                },
+                select: function (event, ui) {
+                    event.preventDefault();
+                    $('#modal_administrator_account').val(ui.item.label);
+                    $('#modal_user_id').val(ui.item.id);
+                }
+            });
+        });
+    
 </script>

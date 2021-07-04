@@ -147,6 +147,7 @@ class AdministratorController extends Controller
         return response()->json([
             'administrator' => $administrator,
             'privileges' => $administrator->privileges,
+            'user' => $administrator->user,
         ], 200);
     }
 

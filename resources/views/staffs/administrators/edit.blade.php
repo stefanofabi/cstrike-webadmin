@@ -124,6 +124,13 @@
 								@endforelse
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="auth"> <h5> <strong> {{ trans('administrators.administrator_account') }}: </strong> </h5> </label>
+							
+							<input type="text" class="form-control col-12 ui-front" placeholder="{{ trans('forms.start_typing') }}" id="modal_administrator_account">
+							<input type="hidden" id="modal_user_id">
+						</div>
 					</div>
 
 					<!-- Modal footer -->
