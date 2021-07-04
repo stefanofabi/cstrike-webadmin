@@ -1,7 +1,7 @@
 <?php 
 
 Route::group([
-    'middleware' => ['administrator_with_ban'],
+    'middleware' => ['administrator_associate', 'administrator_with_ban'],
     'permission:crud_bans',
     'prefix' => 'bans',
     'as' => 'bans/',

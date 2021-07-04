@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'administrator_with_ban' => \App\Http\Middleware\AdministratorWithBan::class,
         'administrator_with_server_access' => \App\Http\Middleware\AdministratorWithServerAccess::class,
         'administrator_with_ban_edit' => \App\Http\Middleware\AdministratorWithBanEdit::class,
+        'administrator_associate' => \App\Http\Middleware\AdministratorAssociate::class,
         
     ];
 }

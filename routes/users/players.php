@@ -1,6 +1,7 @@
 <?php 
 
 Route::group([
+    'middleware' => ['administrator_associate'],
     'permission:crud_players',
     'prefix' => 'players',
     'as' => 'players/',
