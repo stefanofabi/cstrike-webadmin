@@ -29,5 +29,6 @@ return [
     'danger_edited_server' => 'There was a problem loading the server. Please try again later',
     'success_updated_server' => 'Successfully updated server',
     'danger_updated_server' => 'There was a problem updated the server. Please try again later',
-
+    'our_servers' => 'Our servers',
+    
 ];

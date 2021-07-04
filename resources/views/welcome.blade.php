@@ -133,5 +133,17 @@
                 </div>
             </div>
         </div>
+
+        <div style="margin-left: 3%; margin-bottom: 1%">
+                <h1> <span class="fas fa-ban"> </span> {{ trans('servers.our_servers') }} </h1>
+                <p class="col-9"> {{trans('welcome.invite_users') }} </p>
+
+
+                @forelse ($servers as $server)
+                <iframe style="margin-right: 1%" src="https://cache.gametracker.com/components/html0/?host={{ $server->ip }}&bgColor=333333&fontColor=cccccc&titleBgColor=222222&titleColor=ff9900&borderColor=555555&linkColor=ffcc00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="412"></iframe>
+                @empty
+                    <div style="color: red"> {{ trans('servers.no_servers') }} </div>
+                @endforelse
+        </div> 
     </body>
 </html>

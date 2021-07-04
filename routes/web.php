@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Server;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,9 @@ Route::get('/', function () {
     }
 
     // guest
-    return view('welcome');
+
+    $servers = Server::orderBy('name', 'ASC')->get();
+    return view('welcome')->with('servers', $servers);
 });
 
 Auth::routes();
