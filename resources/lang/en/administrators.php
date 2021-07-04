@@ -38,5 +38,8 @@ return [
     'expired' => 'Expired',
     'administrator_account' => 'Administrator account',
     'not_exist_or_already_associated' => 'The user does not exist or is already associated',
-
+    'buy_administrator_message' => 'We love that you are considering the idea of contributing to our community. Below you will see the different ranks of administrators that we offer, know that it is not an obligation but if you can, it would help us a lot to continue maintaining and improving the servers.',
+    'no_places_availables' => 'No places availables',
+    'buy_now' => 'Buy now',
+    
 ];

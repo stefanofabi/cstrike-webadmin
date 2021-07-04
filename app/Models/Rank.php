@@ -11,7 +11,8 @@ class Rank extends Model
 
     protected $fillable = [
         'name',
-        'price',
         'access_flags',
+        'price',
+        'purchase_link',
     ];
 }

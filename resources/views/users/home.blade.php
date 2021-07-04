@@ -44,6 +44,34 @@
                                 </a>
                             </div>
                         </div>
+
+                        <div class="col">
+                            <div style="text-align: center;">
+
+                                @if (auth()->user()->administrator)
+                                    <a class="nav-link" style="color: black" href="{{ route('users/my_administrator') }}">
+                                        <h1>
+                                            <i style="font-size: 8vw" class="fas fa-id-badge"></i>
+                                        </h1>
+
+                                        <br />
+
+                                        {{ trans('home.my_administrator') }}
+                                    </a>    
+                                @else 
+                                    <a class="nav-link" style="color: black" href="{{ route('users/buy_administrator') }}">
+                                        <h1>
+                                            <i style="font-size: 8vw" class="fas fa-shopping-cart"></i>
+                                        </h1>
+
+                                        <br />
+
+                                        {{ trans('home.buy_administrator') }}
+                                    </a>   
+
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                 </div>

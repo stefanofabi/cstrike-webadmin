@@ -73,6 +73,10 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
     ], function () {
         
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+        Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
+
+        Route::get('my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('my_administrator');
         
         require('users/bans.php');
         require('users/players.php');
