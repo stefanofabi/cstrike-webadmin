@@ -17,13 +17,18 @@ use App\Models\Server;
 
 Route::get('/', function () {
 
-    if (auth()->user()) {
-        return redirect()->action(['\App\Http\Controllers\HomeController', 'index']);
+    if ($user = auth()->user()) {
+        if ($user->hasPermissionTo('is_staff')) {
+            return redirect()->route('staffs/home');
+        }
+
+        if ($user->hasPermissionTo('is_user')) {
+            return redirect()->route('users/home');
+        }
     }
 
     // guest
-
-    $servers = Server::orderBy('name', 'ASC')->get();
+    $servers = Server::orderBy('ip', 'ASC')->get();
     return view('welcome')->with('servers', $servers);
 });
 

@@ -22,7 +22,7 @@ class ServerController extends Controller
     {
         //
 
-        $servers = Server::orderBy('name', 'ASC')->get();
+        $servers = Server::orderBy('ip', 'ASC')->get();
 
         return view('staffs/servers/index')
             ->with('servers', $servers);
