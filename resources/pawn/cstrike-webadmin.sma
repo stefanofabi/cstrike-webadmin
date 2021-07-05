@@ -26,7 +26,6 @@
 // =========== 
 #define MYSQL_LOG "MYSQL_ERROR.txt"
 #define MAX_LIST 250
-#define MAX_LENGHT_SQL 64
 
 
 // manejador de conexion sql
@@ -36,10 +35,14 @@ enum {
     PLAYERS_INSERT,
     ADMINISTRATORS_SELECT,
     BANS_SELECT,
+    GET_ADMIN_DATA,
 }
 
 new gBanAuth[MAX_LIST+1][44];
 new gBanIp[MAX_LIST+1][32];
+
+new gAdminId[MAX_PLAYERS+1][32];
+new gAdminExpiration[MAX_PLAYERS+1][32];
 
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
@@ -57,7 +60,7 @@ public cmdOpenAdminMenu(id) {
 	
 	if (has_flag(id, "z")) {
 		// Admin expired
-		client_print_color(id, print_chat, "^4%s ^1Your admin has expired", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1Your administrator has expired the day ^4%s", PREFIX, gAdminExpiration[id]);
 		client_print_color(id, print_chat, "^4%s ^1To renew it, go to ^4%s", PREFIX, WEB);
 		
 		return PLUGIN_HANDLED;
@@ -66,6 +69,14 @@ public cmdOpenAdminMenu(id) {
 	if (! is_user_admin(id)) {
 		client_print_color(id, print_chat, "^4%s ^1Command Available only for administrators", PREFIX);
 		client_print_color(id, print_chat, "^4%s ^1Buy your administrator in ^4%s", PREFIX, WEB);
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	if (equal(gAdminId[id], "")) {
+		getAdminData(id);
+		
+		client_print_color(id, print_chat, "^4%s ^1Error getting details from your administrator. Try again later.", PREFIX);
 		
 		return PLUGIN_HANDLED;
 	}
@@ -184,14 +195,48 @@ public loadBans() {
 }
 
 public client_putinserver(id) {
-		
-	registerPlayerLogin(id);
 	
+	clearData(id);
+		
 	if (is_banned_user(id)) {
 		kickPlayer(id, "Your IP or Steam ID is banned on this server");
 		return;
 	}
 	
+	registerPlayerLogin(id);
+	
+	getAdminData(id);
+	
+}
+
+public clearData(id) {
+	gAdminId[id] = "";
+	gAdminExpiration[id] = "";
+}
+
+public getAdminData(id) {
+	
+	if (! is_user_admin(id) && ! has_flag(id, "z")) {
+		return;
+	}
+	
+	static name[32];
+	get_user_name(id, name, 31);
+	
+	static auth[32];
+	get_user_authid(id, auth, charsmax(auth));
+	
+	static ip[32];
+	get_user_ip(id, ip, charsmax(ip), 1);
+	
+	new szQuery[200];
+	formatex(szQuery, charsmax(szQuery), "SELECT id, DATE_FORMAT(expiration, '%s/%s/%s') as expiration FROM administrators WHERE auth = '%s' OR auth = '%s' OR auth = '%s' LIMIT 1", "%d", "%m", "%Y", name, auth, ip)
+
+	executeQuery(szQuery, id, GET_ADMIN_DATA);
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif	
 }
 
 public is_banned_user(id) {
@@ -231,9 +276,8 @@ public registerPlayerLogin(id) {
 	static auth[32];
 	get_user_authid(id, auth, charsmax(auth));
 	
-	
 	static ip[32];
-	get_user_ip(id, ip, charsmax(ip), 1)
+	get_user_ip(id, ip, charsmax(ip), 1);
 	
 	new szQuery[200];
 	formatex(szQuery, charsmax(szQuery), "INSERT INTO `players` (`name`, `steam_id`, `ip`, `server_id`) VALUES (^"%s^", ^"%s^", ^"%s^", ^"%d^");", name, auth, ip, SERVER_ID)
@@ -261,14 +305,15 @@ public executeLoadQuery(szQuery[], action) {
 	SQL_ThreadQuery(g_SqlTuple, "DataLoadHandler", szQuery, data, 1); 
 }
 
-public DataHandler( failstate, Handle:Query, error[ ], error2, data[ ], datasize, Float:time ) {
+public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize, Float:time ) {
 	
 	static id;
 	id = data[0];
     
-	if(!is_user_connected(id))
+	if(!is_user_connected(id)) {
 		return;
-
+	}
+	
 	switch(failstate) {
 		case TQUERY_CONNECT_FAILED: {
 			log_to_file(MYSQL_LOG, "Error connecting to MySQL [%i]: %s",error2, error);
@@ -286,6 +331,36 @@ public DataHandler( failstate, Handle:Query, error[ ], error2, data[ ], datasize
 		case PLAYERS_INSERT: {
 		
 			client_print_color(id, print_chat, "^4%s ^1Your data was recorded when entering the server for security reasons", PREFIX);
+		}
+		
+		case GET_ADMIN_DATA: {
+			if (!SQL_NumResults(query)) {
+				log_amx("No Admin found");
+				return;
+			}
+			
+			new colId = SQL_FieldNameToNum(query, "id");
+			new colExpiration = SQL_FieldNameToNum(query, "expiration");			
+			
+			new administratorId[32];
+			new expiration[32];
+			
+			
+			while(SQL_MoreResults(query)) {
+				
+				SQL_ReadResult(query, colId, administratorId, 31);
+				SQL_ReadResult(query, colExpiration, expiration, 31);
+				
+				gAdminId[id] = administratorId;
+				gAdminExpiration[id] = expiration;
+				
+				#if defined DEBUG
+				server_print("ADMIN DATA - %s %s", gAdminId[id], gAdminExpiration[id]);
+				#endif
+				
+				SQL_NextRow(query);
+			}
+			
 		}
 	}
 }
