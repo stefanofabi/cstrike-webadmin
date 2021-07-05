@@ -63,7 +63,7 @@
                                         {{ trans('home.my_administrator') }}
                                     </a>    
                                 @else 
-                                    <a class="nav-link" style="color: black" href="{{ route('users/profiles/buy_administrator') }}">
+                                    <a class="nav-link" style="color: black" href="{{ route('buy_administrator') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-shopping-cart"></i>
                                         </h1>

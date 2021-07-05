@@ -13,15 +13,9 @@
                   <a class="nav-link" href="{{ route('users/players/index') }}"> {{ trans('home.players_log') }} </a>
             </li>
 
-            @if (auth()->user()->administrator)
-               <li class="nav-item">
-                     <a class="nav-link" href="{{ route('users/profiles/my_administrator') }}"> {{ trans('home.my_administrator') }} </a>
-               </li>
-            @else 
-               <li class="nav-item">
-                     <a class="nav-link" href="{{ route('users/profiles/buy_administrator') }}"> {{ trans('home.buy_administrator') }} </a>
-               </li>
-            @endif
+            <li class="nav-item">
+                  <a class="nav-link" href="{{ route('users/profiles/my_administrator') }}"> {{ trans('home.my_administrator') }} </a>
+            </li>
          </ul>
       </nav>
 

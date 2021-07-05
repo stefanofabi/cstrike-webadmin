@@ -32,7 +32,7 @@ Route::get('/', function () {
     return view('welcome')->with('servers', $servers);
 });
 
-Route::get('profiles/buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('profiles/buy_administrator');
+Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
 
 Auth::routes();
 
