@@ -12,7 +12,7 @@
 
 #define PREFIX "[SERVER]"
 
-#define MAX_LENGHT_SQL 64
+#define WEB "https://4evergaming.com.ar"
 
 #define SERVER_ID 1
 
@@ -21,9 +21,13 @@
 #define SQL_PASSWORD ""
 #define SQL_DATABASE ""
 
-#define MYSQL_LOG "MYSQL_ERROR.txt"
+//#define USE_SXE
 
+// =========== 
+#define MYSQL_LOG "MYSQL_ERROR.txt"
 #define MAX_LIST 250
+#define MAX_LENGHT_SQL 64
+
 
 // manejador de conexion sql
 new Handle:g_SqlTuple;
@@ -40,11 +44,94 @@ new gBanIp[MAX_LIST+1][32];
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
 	
+	register_clcmd("nightvision", "cmdOpenAdminMenu")
+	
 	if (MYSQL_Init()) {
 		loadAdmins();
 		
 		loadBans();
 	}
+}
+
+public cmdOpenAdminMenu(id) {
+	
+	if (! is_user_admin(id)) {
+		client_print_color(id, print_chat, "^4%s ^1Command Available only for administrators", PREFIX); 
+		client_print_color(id, print_chat, "^4%s ^1Buy your administrator in ^4%s", PREFIX, WEB); 
+		return PLUGIN_HANDLED;
+	}
+	
+	new gMenu = menu_create("\r[SERVER] \yAdmins Menu :", "handlerMenu");
+	menu_additem(gMenu, "Kick", "1");
+	menu_additem(gMenu, "Slay/Slap", "2");
+	menu_additem(gMenu, "Ban", "3");   
+	menu_additem(gMenu, "Change map", "4");
+	menu_additem(gMenu, "Transfer players", "5");
+	menu_additem(gMenu, "Start voting of maps", "6");
+	
+	#if defined USE_SXE
+	menu_additem(gMenu, "Open Screens Menu", "7");
+	menu_additem(gMenu, "Open Local Ban menu", "8");
+	#endif
+	
+	menu_setprop( gMenu, MPROP_EXIT, "Cerrar" );
+	menu_display(id, gMenu, 0);
+	
+	return PLUGIN_HANDLED;
+}	
+
+public handlerMenu(id, menu, item) {
+	if (item == MENU_EXIT) {	
+		menu_destroy(menu)       
+		return PLUGIN_HANDLED;    
+	}
+	
+	switch(item) {
+		case 0: {
+			// Kick
+			client_cmd(id , "amx_kickmenu");
+		}
+		
+		case 1: {
+			// Slay-Slap
+			client_cmd(id , "amx_slapmenu");
+		}
+		
+		case 2: {
+			// Ban
+			client_cmd(id , "amx_banmenu");
+		}
+		
+		case 3: {
+			// Change map
+			client_cmd(id , "amx_mapmenu");
+		}
+		
+		case 4: {
+			// Transfer Players
+			client_cmd(id , "amx_teammenu");
+		}
+		
+		case 5: {
+			// Transferir jugador
+			client_cmd(id , "amx_votemapmenu");
+		}
+		
+		#if defined USE_SXE
+		case 6: {
+			// Sxe Screens Menu
+			client_cmd(id , "say /sxescreen");
+		}
+		
+		case 7: {
+			// Sxe Ban Local Menu
+			client_cmd(id , "say /sxeban");
+		}
+		#endif
+	}
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
 }
 
 public MYSQL_Init() {   
@@ -303,3 +390,6 @@ public kickPlayer(id, razon[]) {
 	new userid = get_user_userid(id)
 	server_cmd("kick #%d ^"%s^"",userid, razon)
 }
+/* AMXX-Studio Notes - DO NOT MODIFY BELOW HERE
+*{\\ rtf1\\ ansi\\ deff0{\\ fonttbl{\\ f0\\ fnil Tahoma;}}\n\\ viewkind4\\ uc1\\ pard\\ lang2058\\ f0\\ fs16 \n\\ par }
+*/
