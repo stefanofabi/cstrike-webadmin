@@ -1,5 +1,9 @@
 @extends('staffs.app')
 
+@section('title')
+{{ trans('home.players_log') }}
+@endsection
+
 @section('js')
     @include('staffs.players.js')
 @endsection

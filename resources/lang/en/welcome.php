@@ -23,5 +23,6 @@ return [
     'vigilance_message' => 'We maintain a strict control of entry to the servers, this includes the registration of your IP address, authentication data, name in the game, hardware data of your device, among other data that help us bring a certain peace of mind to our users when they play within our servers.',
     'designed_by' => 'Designed by 4evergaming',
     'invite_users' => 'We invite you to know all our servers. Respect the community rules and have fun with all of us.',
+    'my_community' => 'My community',
     
 ];  

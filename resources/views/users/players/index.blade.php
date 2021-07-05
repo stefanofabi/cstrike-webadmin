@@ -1,5 +1,9 @@
 @extends('users.app')
 
+@section('title')
+{{ trans('home.players_log') }}
+@endsection
+
 @section('right-content')
     <div class="p-3 my-3 bg-primary text-white">
         <h1> <span class="fas fa-list"> </span> {{ trans('home.players_log') }} </h1>

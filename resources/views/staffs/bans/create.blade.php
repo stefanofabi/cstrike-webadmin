@@ -1,5 +1,9 @@
 @extends('staffs.app')
 
+@section('title')
+{{ trans('bans.create_ban') }}
+@endsection
+
 @section('js')
     <script>
         $(document).ready(function(){

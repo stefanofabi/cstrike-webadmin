@@ -1,5 +1,9 @@
 @extends('staffs.app')
 
+@section('title')
+{{ trans('servers.create_server') }}
+@endsection
+
 @section('js')
     <script>
         $(document).ready(function(){

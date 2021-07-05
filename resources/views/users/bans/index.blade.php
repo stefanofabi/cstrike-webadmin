@@ -1,5 +1,9 @@
 @extends('users.app')
 
+@section('title')
+{{ trans('home.bans') }}
+@endsection
+
 @section('js')
     <script>
 

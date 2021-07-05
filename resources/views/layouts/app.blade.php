@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title> @yield('title') | {{ trans('welcome.my_community') }}</title>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>

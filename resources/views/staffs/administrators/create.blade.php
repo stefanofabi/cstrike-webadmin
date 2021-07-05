@@ -1,5 +1,9 @@
 @extends('staffs.app')
 
+@section('title')
+{{ trans('administrators.create_administrator') }}
+@endsection
+
 @section('js')
     <script>
         $(document).ready(function(){

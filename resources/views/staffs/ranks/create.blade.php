@@ -1,5 +1,9 @@
 @extends('staffs.app')
 
+@section('title')
+{{ trans('ranks.create_rank') }}
+@endsection
+
 @section('js')
     <script>
         $(document).ready(function(){

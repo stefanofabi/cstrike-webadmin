@@ -1,5 +1,9 @@
 @extends('users.app')
 
+@section('title')
+{{ trans('home.my_administrator') }}
+@endsection
+
 @section('js')
     <script type="text/javascript">
         $(document).ready(function(){
