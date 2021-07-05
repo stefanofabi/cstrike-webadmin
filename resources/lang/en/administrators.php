@@ -43,5 +43,6 @@ return [
     'buy_now' => 'Buy now',
     'my_administrator_message' => 'Here we present all the data of your administrator. For any questions you can contact a member of the community staff.',
     'renew_now' => 'Renew now',
+    'price_monthly' => 'Price monthly',
 
 ];

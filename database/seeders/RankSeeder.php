@@ -19,14 +19,20 @@ class RankSeeder extends Seeder
 
         Rank::insert([
             [
-                'name' => 'Full Admin with immunity',
+                'name' => 'Staff',
                 'access_flags' => 'abcdefhijkmnopqrstuv',
                 'price' => 3
 
             ],
             [
-                'name' => 'Basic Admin with out reserved slot',
-                'access_flags' => 'cdefhijkmnopqrstuv',
+                'name' => 'Full Admin',
+                'access_flags' => 'bcdefhijkmnopqrstuv',
+                'price' => 2
+
+            ],
+            [
+                'name' => 'Basic Admin',
+                'access_flags' => 'cefhijkmnopqrstuv',
                 'price' => 1
 
             ],

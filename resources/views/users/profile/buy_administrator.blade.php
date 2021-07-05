@@ -34,6 +34,16 @@
                         </tr>
                     @endforeach
 
+                    <tr>    
+                        <td> {{ trans('administrators.price_monthly') }} </td>
+
+                        @foreach ($ranks as $rank)
+                            <td style="text-align: center;">
+                                ${{ $rank->price }}
+                            </td>
+                        @endforeach
+                    </tr>
+
                     <tr style="text-align: center;">    
                         <td> </td>
 
