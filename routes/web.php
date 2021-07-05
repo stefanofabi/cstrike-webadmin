@@ -32,6 +32,8 @@ Route::get('/', function () {
     return view('welcome')->with('servers', $servers);
 });
 
+Route::get('profiles/buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('profiles/buy_administrator');
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
@@ -74,8 +76,6 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
     ], function () {
         
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-        Route::get('profiles/buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('profiles/buy_administrator');
 
         Route::get('profiles/my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('profiles/my_administrator')
             ->middleware('administrator_associate');
