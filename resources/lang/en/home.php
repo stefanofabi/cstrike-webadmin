@@ -22,5 +22,6 @@ return [
     'my_bans' => 'My bans',
     'buy_administrator' => 'Buy administrator',
     'my_administrator' => 'My administrator',
+    'log_viewer' => 'Log viewer',
     
 ];
