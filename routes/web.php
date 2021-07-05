@@ -56,13 +56,13 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
         'as' => 'staffs/',
     ], function () {
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
         
         require('staffs/administrators.php');
         require('staffs/ranks.php');
         require('staffs/servers.php');
         require('staffs/bans.php');
         require('staffs/players.php');
+        require('staffs/logs.php');
     });
 });
 
