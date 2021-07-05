@@ -7,3 +7,4 @@ deployment:
     - npm run dev 
     - php artisan storage:link
     - php migrate:fresh --seed
+    - php artisan permission:cache-reset
