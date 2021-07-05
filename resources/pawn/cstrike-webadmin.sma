@@ -55,9 +55,18 @@ public plugin_init() {
 
 public cmdOpenAdminMenu(id) {
 	
+	if (has_flag(id, "z")) {
+		// Admin expired
+		client_print_color(id, print_chat, "^4%s ^1Your admin has expired", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1To renew it, go to ^4%s", PREFIX, WEB);
+		
+		return PLUGIN_HANDLED;
+	}
+	
 	if (! is_user_admin(id)) {
-		client_print_color(id, print_chat, "^4%s ^1Command Available only for administrators", PREFIX); 
-		client_print_color(id, print_chat, "^4%s ^1Buy your administrator in ^4%s", PREFIX, WEB); 
+		client_print_color(id, print_chat, "^4%s ^1Command Available only for administrators", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1Buy your administrator in ^4%s", PREFIX, WEB);
+		
 		return PLUGIN_HANDLED;
 	}
 	
@@ -390,6 +399,3 @@ public kickPlayer(id, razon[]) {
 	new userid = get_user_userid(id)
 	server_cmd("kick #%d ^"%s^"",userid, razon)
 }
-/* AMXX-Studio Notes - DO NOT MODIFY BELOW HERE
-*{\\ rtf1\\ ansi\\ deff0{\\ fonttbl{\\ f0\\ fnil Tahoma;}}\n\\ viewkind4\\ uc1\\ pard\\ lang2058\\ f0\\ fs16 \n\\ par }
-*/
