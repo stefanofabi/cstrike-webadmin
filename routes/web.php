@@ -74,9 +74,9 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
         
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-        Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
+        Route::get('profiles/buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('profiles/buy_administrator');
 
-        Route::get('my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('my_administrator')
+        Route::get('profiles/my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('profiles/my_administrator')
             ->middleware('administrator_associate');
         
         require('users/bans.php');

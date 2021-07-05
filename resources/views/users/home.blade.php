@@ -49,7 +49,7 @@
                             <div style="text-align: center;">
 
                                 @if (auth()->user()->administrator)
-                                    <a class="nav-link" style="color: black" href="{{ route('users/my_administrator') }}">
+                                    <a class="nav-link" style="color: black" href="{{ route('users/profiles/my_administrator') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-id-badge"></i>
                                         </h1>
@@ -59,7 +59,7 @@
                                         {{ trans('home.my_administrator') }}
                                     </a>    
                                 @else 
-                                    <a class="nav-link" style="color: black" href="{{ route('users/buy_administrator') }}">
+                                    <a class="nav-link" style="color: black" href="{{ route('users/profiles/buy_administrator') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-shopping-cart"></i>
                                         </h1>

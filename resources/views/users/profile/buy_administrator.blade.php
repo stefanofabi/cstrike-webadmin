@@ -39,7 +39,7 @@
 
                         @foreach ($ranks as $rank)
                             <td>
-                                <a href="{{ $rank->purchase_link }}" class="btn btn-info" title="{{ trans('administrators.buy_now') }}"> {{ trans('administrators.buy_now') }} </a>
+                                <a href="{{ $rank->purchase_link }}" target="_blank" class="btn btn-info" title="{{ trans('administrators.buy_now') }}"> {{ trans('administrators.buy_now') }} </a>
                             </td>
                         @endforeach
                     </tr>
