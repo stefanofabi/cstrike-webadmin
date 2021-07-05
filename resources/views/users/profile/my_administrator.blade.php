@@ -72,8 +72,8 @@
 
                 <input class="form-control col-6" type="date" value="{{ $administrator->expiration }}" readonly>
 
-                @if (date('Y-m-d') > $administrator->expiration)
-                    <a href="{{ $administrator->rank->purchase_link }}" class="btn btn-info mt-1" title="{{ trans('administrators.renew_now') }}"> {{ trans('administrators.renew_now') }} </a>
+                @if (date('Y-m-d') > date('Y-m-d', strtotime($administrator->expiration.' - 10 days')))
+                    <a href="{{ $administrator->rank->purchase_link }}" target="_blank" class="btn btn-info mt-1" title="{{ trans('administrators.renew_now') }}"> {{ trans('administrators.renew_now') }} </a>
                 @endif
     </div>
 
