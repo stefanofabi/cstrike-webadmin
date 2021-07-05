@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - cp .env.example .env
+    - composer install
+    - npm install
+    - npm run dev 
+    - php artisan storage:link
+    - php migrate:fresh --seed
