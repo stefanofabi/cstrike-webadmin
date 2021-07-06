@@ -37,14 +37,14 @@
                     @foreach ($servers as $server)
                         <tr>
                             <td> {{ $server->id }} </td>
-                            <td id="server_name_{{ $server->id }}"> 
-                                {{ $server->name }} 
-                                <a class="btn btn-primary btn-sm" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.join') }} </a>
-                            </td>
+                            <td id="server_name_{{ $server->id }}"> {{ $server->name }} </td>
 
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
                             <td class="float-right form-inline">
+
+				<a class="btn btn-success btn-sm mr-1 mb-1 ml-1" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> </a>
+
                                 <button type="button" class="btn btn-info btn-sm mr-1 mb-1 ml-1" data-toggle="modal" data-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
                                     <span class="fas fa-edit"></span>
                                 </button>
