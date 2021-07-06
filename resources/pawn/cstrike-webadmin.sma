@@ -21,9 +21,10 @@
 #define SQL_PASSWORD ""
 #define SQL_DATABASE ""
 
+
 //#define USE_SXE
 
-// =========== 
+// =========== FROM THIS LINE, DO NOT TOUCH ===========
 #define MYSQL_LOG "MYSQL_ERROR.txt"
 #define MAX_LIST 250
 
@@ -36,6 +37,7 @@ enum {
     ADMINISTRATORS_SELECT,
     BANS_SELECT,
     GET_ADMIN_DATA,
+    SHOW_BAN,
 }
 
 new gBanAuth[MAX_LIST+1][44];
@@ -199,7 +201,22 @@ public client_putinserver(id) {
 	clearData(id);
 		
 	if (is_banned_user(id)) {
-		kickPlayer(id, "Your IP or Steam ID is banned on this server");
+		
+		static auth[32];
+		get_user_authid(id, auth, charsmax(auth));
+		
+		static ip[32];
+		get_user_ip(id, ip, charsmax(ip), 1);
+		
+		new szQuery[300];
+		formatex(szQuery, charsmax(szQuery), "SELECT B.id, B.name, B.steam_id, B.ip, B.date, B.expiration, B.reason, A.name as administrator  FROM bans B LEFT JOIN administrators A ON B.administrator_id = A.id WHERE B.server_id = %d AND (steam_id = ^"%s^" OR ip = ^"%s^") LIMIT 1",SERVER_ID, auth, ip);
+		
+		#if defined DEBUG
+			server_print("%s", szQuery);
+		#endif
+		
+		executeQuery(szQuery, id, SHOW_BAN);
+		
 		return;
 	}
 	
@@ -289,6 +306,27 @@ public registerPlayerLogin(id) {
 	#endif
 }
 
+public printBanInformation(id, banId[], name[], steamId[], ip[], dateBan[], expiration[], reason[], administrator[]) {
+	client_cmd(id, "echo ^"^"");
+	
+	client_cmd(id, "echo ^"************************************************^"");
+	client_cmd(id, "echo ^"Name: %s^"", name);
+	client_cmd(id, "echo ^"Steam ID: %s^"", steamId);
+	client_cmd(id, "echo ^"IP: %s^"", ip);
+	client_cmd(id, "echo ^"Date: %s^"", dateBan);
+	client_cmd(id, "echo ^"Expiration: %s^"", expiration);
+	client_cmd(id, "echo ^"Reason: %s^"", reason);
+
+	if (! equal(administrator, "")) {
+		client_cmd(id, "echo ^"Administrator: %s^"", administrator);
+	}
+
+	client_cmd(id, "echo ^"^"");
+
+	client_cmd(id, "echo ^"For more information visit: %s/show_ban/%s^"", WEB, banId);
+	client_cmd(id, "echo ^"************************************************^"");
+
+}
 
 public executeQuery(szQuery[], id, action) {
 	new data[2]
@@ -362,7 +400,56 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 			}
 			
 		}
+		
+		case SHOW_BAN: {
+			
+			if (!SQL_NumResults(query)) {
+				kickPlayer(id, "Your IP or Steam ID is banned on this server");
+				return;
+			}
+			
+			new colId = SQL_FieldNameToNum(query, "id");
+			new colName = SQL_FieldNameToNum(query, "name");
+			new colSteamId = SQL_FieldNameToNum(query, "steam_id");
+			new colIp = SQL_FieldNameToNum(query, "ip");
+			new colDate = SQL_FieldNameToNum(query, "date");
+			new colExpiration = SQL_FieldNameToNum(query, "expiration");
+			new colReason = SQL_FieldNameToNum(query, "reason");
+			new colAdministrator = SQL_FieldNameToNum(query, "administrator");
+			
+			new banId[32];
+			new name[32];
+			new steamId[32];
+			new ip[32];
+			new banDate[32];
+			new expiration[32];
+			new reason[32];
+			new administrator[32];
+			
+			while(SQL_MoreResults(query)) {
+				
+				SQL_ReadResult(query, colId, banId, 31);
+				SQL_ReadResult(query, colName, name, 31);
+				SQL_ReadResult(query, colSteamId, steamId, 31);
+				SQL_ReadResult(query, colIp, ip, 31);
+				SQL_ReadResult(query, colDate, banDate, 31);
+				SQL_ReadResult(query, colExpiration, expiration, 31);
+				SQL_ReadResult(query, colReason, reason, 31);
+				SQL_ReadResult(query, colAdministrator, administrator, 31);
+				
+				printBanInformation(id, banId, name, steamId, ip, banDate, expiration, reason, administrator);
+				
+				SQL_NextRow(query);
+			}
+			
+			set_task(1.0, "TaskDisconnectPlayer", id);
+			//kickPlayer(id, "You are banned from this server, look at your console!");
+		}
 	}
+}
+
+public TaskDisconnectPlayer(id) {
+	server_cmd("kick #%i ^"You are banned from this server. Check your console^"", get_user_userid(id));
 }
 
 
@@ -474,3 +561,6 @@ public kickPlayer(id, razon[]) {
 	new userid = get_user_userid(id)
 	server_cmd("kick #%d ^"%s^"",userid, razon)
 }
+/* AMXX-Studio Notes - DO NOT MODIFY BELOW HERE
+*{\\ rtf1\\ ansi\\ deff0{\\ fonttbl{\\ f0\\ fnil Tahoma;}}\n\\ viewkind4\\ uc1\\ pard\\ lang2058\\ f0\\ fs16 \n\\ par }
+*/
