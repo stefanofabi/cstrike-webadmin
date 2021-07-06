@@ -30,5 +30,6 @@ return [
     'success_updated_server' => 'Successfully updated server',
     'danger_updated_server' => 'There was a problem updated the server. Please try again later',
     'our_servers' => 'Our servers',
+    'join' => 'Join',
     
 ];

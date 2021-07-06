@@ -37,7 +37,11 @@
                     @foreach ($servers as $server)
                         <tr>
                             <td> {{ $server->id }} </td>
-                            <td id="server_name_{{ $server->id }}"> {{ $server->name }} </td>
+                            <td id="server_name_{{ $server->id }}"> 
+                                {{ $server->name }} 
+                                <a class="btn btn-primary btn-sm" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.join') }} </a>
+                            </td>
+
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
                             <td class="float-right form-inline">
