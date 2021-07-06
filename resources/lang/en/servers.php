@@ -32,4 +32,6 @@ return [
     'our_servers' => 'Our servers',
     'join' => 'Join',
     'view_ranking' => 'View ranking',
+    'ranking_url' => 'Ranking URL',
+    
 ];

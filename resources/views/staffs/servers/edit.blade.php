@@ -21,13 +21,19 @@
 					<div class="form-group">
 						<label for="name"> <h5> <strong> {{ trans('servers.name') }}: </h5> </strong> </label>
 						
-						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_name') }}" name="name" id="modal_server_name" value="{{ @old('name') }}" required>
+						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_name') }}" id="modal_server_name" required>
 					</div>
 
 					<div class="form-group">
 						<label for="auth"> <h5> <strong> {{ trans('servers.ip') }}: </strong> </h5> </label>
 						
-						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_ip') }}" name="ip" id="modal_server_ip" value="{{ @old('ip') }}" required>
+						<input type="text" class="form-control col-12" placeholder="{{ trans('servers.enter_ip') }}" id="modal_server_ip" required>
+					</div>
+
+					<div class="form-group">
+						<label for="auth"> <h5> <strong> {{ trans('servers.ranking_url') }}: </strong> </h5> </label>
+						
+						<input type="text" class="form-control col-6" id="modal_ranking_url">
 					</div>
 
 					<!-- Modal footer -->

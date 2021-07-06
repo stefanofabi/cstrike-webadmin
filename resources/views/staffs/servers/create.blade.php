@@ -46,6 +46,12 @@
             
             <input type="text" class="form-control col-6" placeholder="{{ trans('servers.enter_ip') }}" name="ip" value="{{ @old('ip') }}" required>
         </div>
+
+        <div class="form-group">
+            <label for="auth"> <h5> <strong> {{ trans('servers.ranking_url') }}: </strong> </h5> </label>
+            
+            <input type="text" class="form-control col-6" name="ranking_url" value="{{ @old('ranking_url') }}">
+        </div>
         
         <button style="clear: both" type="submit" class="btn btn-primary float-right mb-3 mt-4"> {{ trans('forms.submit') }}</button>
     </form>

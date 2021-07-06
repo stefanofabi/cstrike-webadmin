@@ -5,6 +5,7 @@
         $("#modal_server_id").val('');
         $("#modal_server_name").val('');
         $("#modal_server_ip").val('');
+        $("#modal_ranking_url").val('');
     }
     
     function editServer(server) {
@@ -32,6 +33,7 @@
                 $("#modal_server_id").val(data['id']);
                 $("#modal_server_name").val(data['name']);
                 $("#modal_server_ip").val(data['ip']);
+                $("#modal_ranking_url").val(data['ranking_url']);
             }
         }).fail( function() {
             $("#modal_servers_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("servers.danger_edited_server") }} </div>');
@@ -48,6 +50,7 @@
 			"id" : $("#modal_server_id").val(),
 			"name" : $("#modal_server_name").val(),
 			"ip" : $("#modal_server_ip").val(),
+            "ranking_url" : $("#modal_ranking_url").val(),
 		};
         
 		$.ajax({

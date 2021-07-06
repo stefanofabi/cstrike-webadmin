@@ -119,7 +119,11 @@ class ServerController extends Controller
         ]);
 
         try {
-            $updated = Server::where('id', $request->id)->update(['name' => $request->name, 'ip' => $request->ip]);
+            $updated = Server::where('id', $request->id)->update([
+                'name' => $request->name, 
+                'ip' => $request->ip, 
+                'ranking_url' => $request->ranking_url
+            ]);
 
             if (! $updated) {
                 return response(['message' => Lang::get('forms.failed_transaction')], 500);

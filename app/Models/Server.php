@@ -15,6 +15,7 @@ class Server extends Model
     protected $fillable = [
         'name',
         'ip',
+        'ranking_url',
     ];
 
     public function getActivitylogOptions(): LogOptions
