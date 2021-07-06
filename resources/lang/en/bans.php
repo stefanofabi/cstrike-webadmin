@@ -49,5 +49,6 @@ return [
     'date' => 'Date',
     'never' => 'Never',
     'user_welcome_message' => 'In this section are the players blocked from the server by you for not respecting the community rules. Respect them and maintain a friendly and caring community with the public.',
-    
+    'details_ban' => 'Details ban',
+    'details_ban_message' => 'Hi! We are sorry that this happened, we try to maintain a certain harmony on our servers by expelling all players who violate our rules. If you think this was a mistake, please kindly contact one of our staff members.',
 ];

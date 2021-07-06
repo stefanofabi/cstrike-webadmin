@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Server;
+use App\Models\Ban;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,10 @@ Route::get('/', function () {
 });
 
 Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
+
+Route::get('show_ban/{id}', [App\Http\Controllers\ApiController::class, 'showBan'])
+    ->name('show_ban')
+    ->where('id', '[1-9][0-9]*');
 
 Auth::routes();
 

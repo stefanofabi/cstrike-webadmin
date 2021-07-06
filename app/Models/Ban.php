@@ -27,6 +27,14 @@ class Ban extends Model
         'expiration' => 'datetime:Y-m-d\TH:i',
     ];
 
+    /**
+     * Get the administrator associated with the ban.
+     */
+    public function administrator()
+    {
+        return $this->belongsTo(Administrator::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
