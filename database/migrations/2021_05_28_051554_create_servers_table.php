@@ -17,6 +17,7 @@ class CreateServersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('ip');
+            $table->string('ranking_url');
 
             // Unique keys
             $table->unique('name');

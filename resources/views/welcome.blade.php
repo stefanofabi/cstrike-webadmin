@@ -6,6 +6,10 @@
 
         <title> {{ trans('welcome.welcome_title', ['community' => 'My Community']) }} </title>
 
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
+        <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -134,16 +138,43 @@
             </div>
         </div>
 
-        <div style="margin-left: 3%; margin-bottom: 1%">
-                <h1> <span class="fas fa-ban"> </span> {{ trans('servers.our_servers') }} </h1>
-                <p class="col-9"> {{trans('welcome.invite_users') }} </p>
+        <div style="margin-left: 3%; margin-bottom: 1%;">
+            <h1> <span class="fas fa-server"> </span> {{ trans('servers.our_servers') }} </h1>
+            <p class="col-9"> {{trans('welcome.invite_users') }} </p>
 
 
-                @forelse ($servers as $server)
-                <iframe style="margin-right: 1%" src="https://cache.gametracker.com/components/html0/?host={{ $server->ip }}&bgColor=333333&fontColor=cccccc&titleBgColor=222222&titleColor=ff9900&borderColor=555555&linkColor=ffcc00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="412"></iframe>
-                @empty
-                    <div style="color: red"> {{ trans('servers.no_servers') }} </div>
-                @endforelse
+            @if ($servers->isNotEmpty())
+                <table>
+                    <tr>
+                    @php $count = 1; @endphp
+                        @foreach ($servers as $server)
+                        <td class="pl-3 pt-4">
+                            <iframe style="margin-right: 1%" src="https://cache.gametracker.com/components/html0/?host={{ $server->ip }}&bgColor=333333&fontColor=cccccc&titleBgColor=222222&titleColor=ff9900&borderColor=555555&linkColor=ffcc00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="412"></iframe>
+                            <br />  
+                            <center>
+                                @if ($server->ranking_url)
+                                    <a class="btn btn-secondary" href="{{ $server->ranking_url }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.view_ranking') }} </a>
+                                @endif
+                                
+                                <a class="btn btn-success" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.join') }} </a>
+                            </center>
+                        </td>
+
+                        @if ($count == 5)
+                            @php $count = 0; @endphp
+                            </tr>
+
+                            <tr>
+                        @endif
+
+                        @php $count++; @endphp
+
+                        @endforeach
+                    </tr>
+                </table>
+            @else
+                <div style="color: red"> {{ trans('servers.no_servers') }} </div>
+            @endif
         </div> 
     </body>
 </html>
