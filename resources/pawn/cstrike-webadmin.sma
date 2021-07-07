@@ -168,7 +168,7 @@ public handlerMenu(id, menu, item) {
 public openBanMenu(id) {
 	
 	if (! has_flag(id, "d")) {
-		client_print_color(id, print_chat, "^4%s ^1No tenes acceso para dar Ban", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1You do not have access to ban", PREFIX);
 		
 		return PLUGIN_HANDLED;
 	}
@@ -797,6 +797,3 @@ public kickPlayer(id, razon[]) {
 	new userid = get_user_userid(id)
 	server_cmd("kick #%d ^"%s^"",userid, razon)
 }
-/* AMXX-Studio Notes - DO NOT MODIFY BELOW HERE
-*{\\ rtf1\\ ansi\\ deff0{\\ fonttbl{\\ f0\\ fnil Tahoma;}}\n\\ viewkind4\\ uc1\\ pard\\ lang2058\\ f0\\ fs16 \n\\ par }
-*/
