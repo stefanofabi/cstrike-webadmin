@@ -16,6 +16,7 @@
 
 #define SERVER_ID 1
 
+
 #define SQL_HOST ""
 #define SQL_USER ""
 #define SQL_PASSWORD ""
@@ -38,6 +39,7 @@ enum {
     BANS_SELECT,
     GET_ADMIN_DATA,
     SHOW_BAN,
+    ADD_BAN,
 }
 
 new gBanAuth[MAX_LIST+1][44];
@@ -45,6 +47,13 @@ new gBanIp[MAX_LIST+1][32];
 
 new gAdminId[MAX_PLAYERS+1][32];
 new gAdminExpiration[MAX_PLAYERS+1][32];
+
+// Ban Menu
+new gAdminBanPlayer[MAX_PLAYERS+1];
+new gAdminBanExpiration[MAX_PLAYERS+1][32];
+new gAdminBanReason[MAX_PLAYERS+1][32];
+new gLastPositionBan = 0;
+
 
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
@@ -121,7 +130,7 @@ public handlerMenu(id, menu, item) {
 		
 		case 2: {
 			// Ban
-			client_cmd(id , "amx_banmenu");
+			openBanMenu(id);
 		}
 		
 		case 3: {
@@ -151,6 +160,183 @@ public handlerMenu(id, menu, item) {
 		}
 		#endif
 	}
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
+}
+
+public openBanMenu(id) {
+	
+	if (! has_flag(id, "d")) {
+		client_print_color(id, print_chat, "^4%s ^1No tenes acceso para dar Ban", PREFIX);
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	new option_name[64];
+	new playerId[4];
+		
+	new menu = menu_create("\r[SERVER] \yBan Menu :", "handlerBanMenu");
+	
+	for (new player = 1; player <= MAX_PLAYERS; player++) {
+		if (! is_user_connected(player))
+			continue;
+
+		if (id == player)
+			continue;
+		
+		new name[32];
+		get_user_name(player,name,31);
+		num_to_str(player, playerId,3);
+		
+		if (has_flag(player, "a")) {
+			formatex(option_name, 63, "%s [IMMUNITY]", name);
+		} else {
+			formatex(option_name, 63, "%s", name);
+		}
+		
+		menu_additem(menu, option_name, playerId);
+		
+	}
+	
+	menu_setprop(menu, MPROP_EXIT, "Exit");
+	menu_display(id, menu, 0);
+	
+	return PLUGIN_HANDLED;
+}
+
+public handlerBanMenu(id, menu, item) {
+	if (item == MENU_EXIT) {	
+		menu_destroy(menu)       
+		return PLUGIN_HANDLED;    
+	}
+	
+	new iData[6];
+	new iAccess;
+	
+	menu_item_getinfo(menu, item, iAccess, iData, 5)
+	new player = str_to_num(iData);
+	
+	if (! is_user_connected(player)) {
+		client_print_color(id, print_chat, "^4%s ^1The player to ban is not connected.", PREFIX);
+
+		return PLUGIN_HANDLED;
+	}
+	
+	if (has_flag(player, "a")) {
+		client_print_color(id, print_chat, "^4%s ^1The player to be banned has immunity.", PREFIX);
+
+		return PLUGIN_HANDLED;
+	}
+	
+	gAdminBanPlayer[id] = player;
+	
+	openBanTimeMenu(id);
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
+}
+
+public openBanTimeMenu(id) {
+		
+	new menu = menu_create("\r[SERVER] \yBan Time Menu :", "handlerBanTimeMenu");
+	
+	menu_additem(menu, "15 minutes", "15");
+	menu_additem(menu, "30 minutes", "30");
+	menu_additem(menu, "1 hour", "60");
+	menu_additem(menu, "1 day", "1440");
+	menu_additem(menu, "3 days", "4320");
+	menu_additem(menu, "5 days", "7200");
+	menu_additem(menu, "30 days", "43200");
+	menu_additem(menu, "Permanent", "");
+	
+	menu_setprop(menu, MPROP_EXIT, "Exit");
+	menu_display(id, menu, 0);
+	
+	return PLUGIN_HANDLED;
+}
+
+public handlerBanTimeMenu(id, menu, item) {
+	if (item == MENU_EXIT) {	
+		menu_destroy(menu)       
+		return PLUGIN_HANDLED;    
+	}
+	
+	new iData[10];
+	new iAccess;
+	
+	menu_item_getinfo(menu, item, iAccess, iData, 9)
+	new minutes = str_to_num(iData);
+	new seconds = minutes * 60;
+	
+	format_time(gAdminBanExpiration[id], 31, "%Y-%m-%d %H:%M", (get_systime() + seconds)); 
+	
+	openBanReasonsMenu(id);
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
+}
+
+public openBanReasonsMenu(id) {
+		
+	new menu = menu_create("\r[SERVER] \yBan Reasons Menu :", "handlerBanReasonsMenu");
+	
+	menu_additem(menu, "Cheat detected", "Cheat detected");
+	menu_additem(menu, "Chat flood", "Chat flood");
+	menu_additem(menu, "Voice flood", "Voice flood");
+	menu_additem(menu, "Spam", "Spam");
+	menu_additem(menu, "Player annoying", "Player annoying");
+	menu_additem(menu, "Insults to administrators", "Insults to administrators");
+	menu_additem(menu, "Violence to other players", "Violence to other players");
+	menu_additem(menu, "Another reason", "Another reason");
+	
+	menu_setprop(menu, MPROP_EXIT, "Exit");
+	menu_display(id, menu, 0);
+	
+	return PLUGIN_HANDLED;
+}
+
+public handlerBanReasonsMenu(id, menu, item) {
+	if (item == MENU_EXIT) {	
+		menu_destroy(menu)       
+		return PLUGIN_HANDLED;    
+	}
+	
+	new player = gAdminBanPlayer[id];
+	
+	if (! is_user_connected(player)) {
+		client_print_color(id, print_chat, "^4%s ^1The player to prohibit is not connected.", PREFIX);
+
+		return PLUGIN_HANDLED;
+	}
+	
+	new iAccess;
+	
+	menu_item_getinfo(menu, item, iAccess, gAdminBanReason[id], 31)
+	
+	static name[32];
+	get_user_name(player, name, charsmax(name));
+	
+	static auth[32];
+	get_user_authid(player, auth, charsmax(auth));
+		
+	static ip[32];
+	get_user_ip(player, ip, charsmax(ip), 1);
+	
+	// IF AUTHID == 4294967295 OR VALVE_ID_LAN OR HLTV, BAN PER IP TO NOT BAN EVERYONE */
+	if (equal("4294967295", auth) || equal("HLTV", auth) || equal("STEAM_ID_LAN", auth) || equali("VALVE_ID_LAN", auth)) {
+		auth = "";
+	}
+	
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^",^"%s^",^"%s^",^"%s^",^"%d^")", name, auth, ip, gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif
+	
+	executeQuery(szQuery, id, ADD_BAN);
+	
 	
 	menu_destroy(menu);
 	return PLUGIN_HANDLED;
@@ -187,7 +373,7 @@ public loadAdmins() {
 public loadBans() {
 
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where expiration >= CURRENT_TIMESTAMP() AND server_id = %d", SERVER_ID);
+	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where expiration >= CURRENT_TIMESTAMP() AND server_id = %d ORDER BY expiration DESC LIMIT %d", SERVER_ID, MAX_LIST);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
@@ -321,9 +507,13 @@ public printBanInformation(id, banId[], name[], steamId[], ip[], dateBan[], expi
 		client_cmd(id, "echo ^"Administrator: %s^"", administrator);
 	}
 
-	client_cmd(id, "echo ^"^"");
+	
 
-	client_cmd(id, "echo ^"For more information visit: %s/show_ban/%s^"", WEB, banId);
+	if (! equal(banId, "")) {
+		client_cmd(id, "echo ^"^"");
+		client_cmd(id, "echo ^"For more information visit: %s/show_ban/%s^"", WEB, banId);
+	}
+	
 	client_cmd(id, "echo ^"************************************************^"");
 
 }
@@ -404,7 +594,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 		case SHOW_BAN: {
 			
 			if (!SQL_NumResults(query)) {
-				kickPlayer(id, "Your IP or Steam ID is banned on this server");
+				// The ban was removed before the map was changed
 				return;
 			}
 			
@@ -443,12 +633,48 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 			}
 			
 			set_task(1.0, "TaskDisconnectPlayer", id);
-			//kickPlayer(id, "You are banned from this server, look at your console!");
+		}
+		
+		
+		case ADD_BAN: {
+
+				new playerId = gAdminBanPlayer[id];
+				
+				if (! is_user_connected(playerId))
+					return;
+				
+				
+				new player_name[32];
+				new player_auth[44];
+				new player_ip[32];
+
+				get_user_name(playerId, player_name, 43);
+				get_user_authid(playerId, player_auth, 31);
+				get_user_ip(playerId, player_ip, 31, 1);
+
+				new admin_name[32];
+				get_user_name(id, admin_name, 31);
+				
+	
+				addBanToMatrix(player_auth, player_ip);
+				
+				client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1has ban player ^4%s^1. Reason: ^4%s.", PREFIX, admin_name, player_name, gAdminBanReason[id]);
+				
+				new dateBan[32];
+				format_time(dateBan, 31, "%Y-%m-%d %H:%M", get_systime()); 
+				printBanInformation(playerId, "", player_name, player_auth, player_ip, dateBan, gAdminBanExpiration[id], gAdminBanReason[id], admin_name);
+				
+				
+				set_task(1.0, "TaskDisconnectPlayer", playerId);
 		}
 	}
 }
 
 public TaskDisconnectPlayer(id) {
+	if (! is_user_connected(id))
+		return;
+		
+
 	server_cmd("kick #%i ^"You are banned from this server. Check your console^"", get_user_userid(id));
 }
 
@@ -530,31 +756,41 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 			new steamId[44];
 			new ip[32];
 			
-			new count = 0;
 			
 			while(SQL_MoreResults(query)) {
 				
 				SQL_ReadResult(query, colSteamId, steamId, sizeof(steamId) - 1);
 				SQL_ReadResult(query, colIp, ip, sizeof(ip) -1);
 				
-				gBanAuth[count] = steamId;
-				gBanIp[count] = ip;
-				
-				count++;
+				if (! addBanToMatrix(steamId, ip))
+					break;
 				
 				#if defined DEBUG
 					server_print("BAN LOADED: ^"%s^" ^"%s^"", steamId, ip);
 				#endif
 				
-				if (count == MAX_LIST) {
-					log_amx("Bans limit reached");
-					break;
-				}
 				
 				SQL_NextRow(query);
 			}
 		}
 	}
+}
+
+public addBanToMatrix(steamId[44], ip[32]) {
+	
+	if (gLastPositionBan >= MAX_LIST) {
+		log_amx("Bans limit reached");
+		
+		return false;
+	}
+	
+	gBanAuth[gLastPositionBan] = steamId;
+	gBanIp[gLastPositionBan] = ip;
+	
+	gLastPositionBan++;
+	
+	return true;
+	
 }
 
 public kickPlayer(id, razon[]) {
