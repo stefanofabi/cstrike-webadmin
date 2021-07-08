@@ -114,7 +114,7 @@
             <div class="form-group">
                 <h5> <strong>{{ trans('administrators.expiration') }}: </strong> </h5>
 
-                <input class="form-control col-12" type="date" name="expiration" value="{{ @old('expiration') ?? date('Y-m-d', strtotime(date('Y-m-d').' + 1 month')) }}" required>
+                <input class="form-control col-12" type="date" name="expiration" value="{{ @old('expiration') ?? date('Y-m-d', strtotime(date('Y-m-d').' + 1 month')) }}">
             </div>
 
             <div class="form-group">

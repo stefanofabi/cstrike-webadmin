@@ -17,7 +17,7 @@ class CreateAdministratorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('auth');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('account_flags');
 
             $table->date('expiration')->nullable();
