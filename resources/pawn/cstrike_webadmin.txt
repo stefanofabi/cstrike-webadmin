@@ -1,0 +1,45 @@
+[en]
+ADMINISTRATOR_HAS_EXPIRED_THE_DAY = Your administrator has expired the day
+RENEW_ADMIN = To renew it, go to 
+ONLY_ADMINISTRATORS = Command Available only for administrators
+BUY_ADMINISTRATOR = Buy your administrator in
+ERROR_GETTING_DATA_FOR_ADMINISTRATOR = Error getting details from your administrator. Try again later.
+NOT_ACCESS_TO_BAN = You do not have access to ban
+IMMUNITY = IMMUNITY
+PLAYER_TO_BAN_NOT_CONNECTED = The player to ban is not connected.
+PLAYER_TO_BAN_HAS_IMMUNITY = The player to be banned has immunity.
+PRINT_NAME = NAME
+PRINT_STEAM_ID = STEAM ID
+PRINT_IP = IP
+PRINT_BAN_DATE = BAN DATE
+PRINT_EXPIRATION = EXPIRATION
+PRINT_REASON = REASON
+PRINT_ADMINISTRATOR = ADMINISTRATOR
+PRINT_MORE_INFORMATION_VISIT = For more information visit
+DATA_RECORDED_FOR_SECURITY_REASONS = Your data was recorded when entering the server for security reasons
+HAS_BEEN_BANNED = has ban player
+REASON = Reason
+YOU_ARE_BANNED "You are banned from this server. Check your console"
+
+[es]
+ADMINISTRATOR_HAS_EXPIRED_THE_DAY = Su administrador ha expirado el dia
+RENEW_ADMIN = Para renovarlo, vaya a
+ONLY_ADMINISTRATORS = Comando disponible solo para administradores
+BUY_ADMINISTRATOR = Compra a tu administrador en
+ERROR_GETTING_DATA_FOR_ADMINISTRATOR = Error al obtener los detalles de su administrador. Vuelve a intentarlo mas tarde.
+NOT_ACCESS_TO_BAN = No tienes acceso para prohibir
+IMMUNITY = Inmunidad
+PLAYER_TO_BAN_NOT_CONNECTED = El jugador a prohibir no está conectado.
+PLAYER_TO_BAN_HAS_IMMUNITY = El jugador a ser prohibido tiene inmunidad.
+PRINT_NAME = Nombre
+PRINT_STEAM_ID = STEAM ID
+PRINT_IP = IP
+PRINT_BAN_DATE = Fecha de prohicion
+PRINT_EXPIRATION = Vencimiento
+PRINT_REASON = Razon
+PRINT_ADMINISTRATOR = Administrador
+PRINT_MORE_INFORMATION_VISIT = Para mas informacion visite
+DATA_RECORDED_FOR_SECURITY_REASONS = Sus datos fueron registrados al ingresar al servidor por razones de seguridad
+HAS_BEEN_BANNED = ha prohibido al jugador
+REASON = Razon
+YOU_ARE_BANNED = Estas prohibido en este servidor. Revisa tu consola

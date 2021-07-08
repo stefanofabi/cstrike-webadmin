@@ -58,6 +58,8 @@ new gLastPositionBan = 0;
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
 	
+	register_dictionary("cstrike_webadmin.txt")
+	
 	register_clcmd("nightvision", "cmdOpenAdminMenu")
 	
 	if (MYSQL_Init()) {
@@ -69,17 +71,19 @@ public plugin_init() {
 
 public cmdOpenAdminMenu(id) {
 	
-	if (has_flag(id, "z")) {
+	if (has_flag(id, "z") && !equal(gAdminExpiration[id], "")) {
 		// Admin expired
-		client_print_color(id, print_chat, "^4%s ^1Your administrator has expired the day ^4%s", PREFIX, gAdminExpiration[id]);
-		client_print_color(id, print_chat, "^4%s ^1To renew it, go to ^4%s", PREFIX, WEB);
+		
+		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "ADMINISTRATOR_HAS_EXPIRED_THE_DAY", gAdminExpiration[id]);
+		
+		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "RENEW_ADMIN", WEB);
 		
 		return PLUGIN_HANDLED;
 	}
 	
 	if (! is_user_admin(id)) {
-		client_print_color(id, print_chat, "^4%s ^1Command Available only for administrators", PREFIX);
-		client_print_color(id, print_chat, "^4%s ^1Buy your administrator in ^4%s", PREFIX, WEB);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ONLY_ADMINISTRATORS");
+		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "BUY_ADMINISTRATOR", WEB);
 		
 		return PLUGIN_HANDLED;
 	}
@@ -87,7 +91,7 @@ public cmdOpenAdminMenu(id) {
 	if (equal(gAdminId[id], "")) {
 		getAdminData(id);
 		
-		client_print_color(id, print_chat, "^4%s ^1Error getting details from your administrator. Try again later.", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ERROR_GETTING_DATA_FOR_ADMINISTRATOR");
 		
 		return PLUGIN_HANDLED;
 	}
@@ -105,7 +109,7 @@ public cmdOpenAdminMenu(id) {
 	menu_additem(gMenu, "Open Local Ban menu", "8");
 	#endif
 	
-	menu_setprop( gMenu, MPROP_EXIT, "Cerrar" );
+	menu_setprop( gMenu, MPROP_EXIT, "Exit" );
 	menu_display(id, gMenu, 0);
 	
 	return PLUGIN_HANDLED;
@@ -168,7 +172,7 @@ public handlerMenu(id, menu, item) {
 public openBanMenu(id) {
 	
 	if (! has_flag(id, "d")) {
-		client_print_color(id, print_chat, "^4%s ^1You do not have access to ban", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "NOT_ACCESS_TO_BAN");
 		
 		return PLUGIN_HANDLED;
 	}
@@ -190,7 +194,7 @@ public openBanMenu(id) {
 		num_to_str(player, playerId,3);
 		
 		if (has_flag(player, "a")) {
-			formatex(option_name, 63, "%s [IMMUNITY]", name);
+			formatex(option_name, 63, "%s [%L]", name, id, "IMMUNITY");
 		} else {
 			formatex(option_name, 63, "%s", name);
 		}
@@ -218,13 +222,13 @@ public handlerBanMenu(id, menu, item) {
 	new player = str_to_num(iData);
 	
 	if (! is_user_connected(player)) {
-		client_print_color(id, print_chat, "^4%s ^1The player to ban is not connected.", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "PLAYER_TO_BAN_NOT_CONNECTED");
 
 		return PLUGIN_HANDLED;
 	}
 	
 	if (has_flag(player, "a")) {
-		client_print_color(id, print_chat, "^4%s ^1The player to be banned has immunity.", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "PLAYER_TO_BAN_HAS_IMMUNITY");
 
 		return PLUGIN_HANDLED;
 	}
@@ -305,7 +309,7 @@ public handlerBanReasonsMenu(id, menu, item) {
 	new player = gAdminBanPlayer[id];
 	
 	if (! is_user_connected(player)) {
-		client_print_color(id, print_chat, "^4%s ^1The player to prohibit is not connected.", PREFIX);
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "PLAYER_TO_BAN_NOT_CONNECTED");
 
 		return PLUGIN_HANDLED;
 	}
@@ -496,22 +500,22 @@ public printBanInformation(id, banId[], name[], steamId[], ip[], dateBan[], expi
 	client_cmd(id, "echo ^"^"");
 	
 	client_cmd(id, "echo ^"************************************************^"");
-	client_cmd(id, "echo ^"Name: %s^"", name);
-	client_cmd(id, "echo ^"Steam ID: %s^"", steamId);
-	client_cmd(id, "echo ^"IP: %s^"", ip);
-	client_cmd(id, "echo ^"Date: %s^"", dateBan);
-	client_cmd(id, "echo ^"Expiration: %s^"", expiration);
-	client_cmd(id, "echo ^"Reason: %s^"", reason);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_NAME", name);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_STEAM_ID", steamId);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_IP", ip);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_BAN_DATE", dateBan);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_EXPIRATION", expiration);
+	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_REASON", reason);
 
 	if (! equal(administrator, "")) {
-		client_cmd(id, "echo ^"Administrator: %s^"", administrator);
+		client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_ADMINISTRATOR", administrator);
 	}
 
 	
 
 	if (! equal(banId, "")) {
 		client_cmd(id, "echo ^"^"");
-		client_cmd(id, "echo ^"For more information visit: %s/show_ban/%s^"", WEB, banId);
+		client_cmd(id, "echo ^"%L: %s/show_ban/%s^"", id, "PRINT_MORE_INFORMATION_VISIT", WEB, banId);
 	}
 	
 	client_cmd(id, "echo ^"************************************************^"");
@@ -558,7 +562,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 	switch (data[1]) {
 		case PLAYERS_INSERT: {
 		
-			client_print_color(id, print_chat, "^4%s ^1Your data was recorded when entering the server for security reasons", PREFIX);
+			client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "DATA_RECORDED_FOR_SECURITY_REASONS");
 		}
 		
 		case GET_ADMIN_DATA: {
@@ -658,7 +662,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 	
 				addBanToMatrix(player_auth, player_ip);
 				
-				client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1has ban player ^4%s^1. Reason: ^4%s.", PREFIX, admin_name, player_name, gAdminBanReason[id]);
+				client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", player_name, id, "REASON", gAdminBanReason[id]);
 				
 				new dateBan[32];
 				format_time(dateBan, 31, "%Y-%m-%d %H:%M", get_systime()); 
@@ -675,7 +679,7 @@ public TaskDisconnectPlayer(id) {
 		return;
 		
 
-	server_cmd("kick #%i ^"You are banned from this server. Check your console^"", get_user_userid(id));
+	server_cmd("kick #%i ^"%L^"", get_user_userid(id), id, "YOU_ARE_BANNED");
 }
 
 
