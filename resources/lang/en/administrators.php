@@ -34,7 +34,6 @@ return [
     'create_administrator_message' => 'In this section you can create the administrators you need. Once done you can relax, the changes will take effect on the next map change.',
     'success_updated_administrator' => 'Successfully updated administrator',
     'danger_updated_administrator' => 'There was a problem updated the administrator. Please try again later',
-    'danger_edited_administrator' => 'There was a problem loading the administrator. Please try again later',
     'expired' => 'Expired',
     'administrator_account' => 'Administrator account',
     'not_exist_or_already_associated' => 'The user does not exist or is already associated',

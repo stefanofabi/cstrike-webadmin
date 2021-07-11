@@ -12,16 +12,16 @@ return [
     |
     */
 
-    'dashboard' => 'Dashboard',
-    'administrators' => 'Administrators',
-    'ranks' => 'Ranks',
-    'servers' => 'Servers',
-    'bans' => 'Bans',
-    'players_log' => 'Players log',
-    'my_bans' => 'My bans',
-    'buy_administrator' => 'Buy administrator',
-    'my_administrator' => 'My administrator',
-    'system_logs' => 'System logs',
-    'activity_logs' => 'Activity logs',
+    'dashboard' => 'Tablero',
+    'administrators' => 'Administradores',
+    'ranks' => 'Rangos',
+    'servers' => 'Servidores',
+    'bans' => 'Prohibiciones',
+    'players_log' => 'Registro de jugadores',
+    'my_bans' => 'Mis prohibiciones',
+    'buy_administrator' => 'Comprar administrador',
+    'my_administrator' => 'Mi administrador',
+    'system_logs' => 'Registros del sistema',
+    'activity_logs' => 'Registros de actividad',
     
 ];
