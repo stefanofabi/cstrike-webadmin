@@ -217,22 +217,24 @@
                             </td>
 
                             <td class="text">
-                                @foreach($activity->changes['attributes'] as $key => $val)
+                                @if (isset($activity->changes['attributes']))
+                                    @foreach($activity->changes['attributes'] as $key => $val)
 
-                                    @if (isset($activity->changes['old']) && $val == $activity->changes['old'][$key])
-                                        @continue
-                                    @endif
+                                        @if (isset($activity->changes['old']) && $val == $activity->changes['old'][$key])
+                                            @continue
+                                        @endif
 
-                                    <strong> {{"$key"}} </strong>
+                                        <strong> {{"$key"}} </strong>
 
-                                    @if (isset($activity->changes['old']) && $val != $activity->changes['old'][$key])
-                                        from "{{ $activity->changes['old'][$key] }}"
-                                    @endif
+                                        @if (isset($activity->changes['old']) && $val != $activity->changes['old'][$key])
+                                            from "{{ $activity->changes['old'][$key] }}"
+                                        @endif
 
-                                    to "{{ $val}}"
+                                        to "{{ $val}}"
 
-                                    <br>
-                                @endforeach
+                                        <br>
+                                    @endforeach
+                                @endif
                             </td>
                         </tr>
                     @endforeach
