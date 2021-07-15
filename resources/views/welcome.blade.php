@@ -42,6 +42,23 @@
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">{{ trans('auth.register') }}</a>
                         @endif
                     @endauth
+
+
+                    <div class="dropdown float-right ml-4">
+                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown">
+                            @if (empty(session('lang')))
+                                {{ Lang::getLocale() }}
+                            @else 
+                                {{ session('lang') }}
+                            @endif
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <h5 class="dropdown-header"> {{ trans('lang.languages_availables') }} </h5>
+                            <a class="dropdown-item" href="{{ route('lang', ['lang' => 'en'] )}}"> {{ trans('lang.english') }} </a>
+                            <a class="dropdown-item" href="{{ route('lang', ['lang' => 'es'] )}}"> {{ trans('lang.spanish') }} </a>
+                        </div>
+                    </div>
                 </div>
             @endif
 

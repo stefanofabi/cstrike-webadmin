@@ -27,5 +27,5 @@ return [
     'select_server' => 'Seleccione un servidor',
     'choose_file' => 'Elija el archivo',
     'start_typing' => 'Empiece a escribir y seleccione una opción',
-    
+
 ];

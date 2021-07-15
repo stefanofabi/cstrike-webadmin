@@ -23,7 +23,7 @@ Route::group(['middleware' => ['web']], function () {
         return \Redirect::back();
     })->where([
         'lang' => 'en|es',
-    ]);
+    ])->name('lang');
 });
 
 Route::get('/', function () {
