@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Staffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
-use Illuminate\Database\Eloquent\ModelNotFoundException; 
 
 use App\Models\Server;
 use App\Models\Ban;
@@ -97,9 +94,9 @@ class PlayerController extends Controller
     {
         //
 
-        $deleted = Player::where('id', $id)->delete();
+        $player = Player::findOrFail($id);
 
-        if (! $deleted) {
+        if (! $player->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 

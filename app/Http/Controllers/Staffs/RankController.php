@@ -118,8 +118,10 @@ class RankController extends Controller
             'price' => 'required|numeric|min:0',      
             'access_flags' => 'required',   
         ]);
-
+        
         try {
+
+            $rank = Rank::findOrFail($request->id);
 
             $access_flags = json_decode($request->access_flags);
             $flags = "";
@@ -128,7 +130,7 @@ class RankController extends Controller
                 $flags .= "$access_flag->value";
             }
             
-            $updated = Rank::where('id', $request->id)->update(
+            $updated = $rank->update(
                 [
                     'name' => $request->name,
                     'price' => $request->price,
@@ -141,6 +143,8 @@ class RankController extends Controller
             }
         } catch (QueryException $exception) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
 
         return response(['message' => Lang::get('ranks.success_updated_rank')], 200);
@@ -156,13 +160,9 @@ class RankController extends Controller
     {
         //
 
-        try {
-            $success = Rank::where('id', $id)->delete();
+        $rank = Rank::findOrFail($id);
 
-            if (! $success) {
-                return back()->withErrors(Lang::get('forms.failed_transaction'));
-            }
-        } catch (QueryException $exception) {
+        if (! $rank->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 

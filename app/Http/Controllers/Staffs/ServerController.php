@@ -119,7 +119,9 @@ class ServerController extends Controller
         ]);
 
         try {
-            $updated = Server::where('id', $request->id)->update([
+            $server = Server::findOrFail($request->id);
+
+            $updated = $server->update([
                 'name' => $request->name, 
                 'ip' => $request->ip, 
                 'ranking_url' => $request->ranking_url
@@ -130,6 +132,8 @@ class ServerController extends Controller
             }
         } catch (QueryException $exception) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
         
 
@@ -146,13 +150,9 @@ class ServerController extends Controller
     {
         //
 
-        try {
-            $deleted = Server::where('id', $id)->delete();
+        $server = Server::findOrFail($id);
 
-            if ($deleted) {
-                return back()->withErrors(Lang::get('forms.failed_transaction'));
-            }
-        } catch (QueryException $exception) {
+        if (! $server->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
         

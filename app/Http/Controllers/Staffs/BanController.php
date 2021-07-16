@@ -189,18 +189,23 @@ class BanController extends Controller
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
 
-        $updated = Ban::where('id', $request->id)
-            ->update(
-                [
-                    'name' => $request->name,
-                    'steam_id' => $request->steam_id,
-                    'ip' => $request->ip,
-                    'expiration' => $request->expiration,
-                    'reason' => $request->reason,
-                    'private_notes' => $request->private_notes,
-                    'server_id' => $request->server_id,
-                ]
-            );
+        try {
+            $ban = Ban::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
+        }
+        
+        $updated = $ban->update(
+            [
+                'name' => $request->name,
+                'steam_id' => $request->steam_id,
+                'ip' => $request->ip,
+                'expiration' => $request->expiration,
+                'reason' => $request->reason,
+                'private_notes' => $request->private_notes,
+                'server_id' => $request->server_id,
+            ]
+        );
             
         if (! $updated) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);

@@ -177,6 +177,8 @@ class AdministratorController extends Controller
 
         try {
 
+            $administrator = Administrator::findOrFail($request->id);
+
             $account_flags = json_decode($request->account_flags);
             $flags = "";
  
@@ -184,7 +186,7 @@ class AdministratorController extends Controller
                 $flags .= "$account_flag->value";
             }
 
-            Administrator::where('id', $request->id)->update([
+            $administrator->update([
                 'name' => $request->name,
                 'auth' => $request->auth,
                 'password' => $request->password,
@@ -198,7 +200,6 @@ class AdministratorController extends Controller
 
             $servers = json_decode($request->servers);
 
-            
             foreach ($servers as $server) {
                 $server_privilege = new Privilege(
                     [
@@ -216,6 +217,9 @@ class AdministratorController extends Controller
             DB::rollBack();
 
             return response(['message' => $exception->getMessage()], 500);
+        } catch (ModelNotFoundException $exception) {
+            
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
         
         return response(['message' => Lang::get('forms.success_updated_administrator')], 200);
@@ -231,13 +235,9 @@ class AdministratorController extends Controller
     {
         //
         
-        try {
-            $success = Administrator::where('id', $id)->delete();
+        $administrator = Administrator::findOrFail($id);
 
-            if (! $success) {
-                return back()->withErrors(Lang::get('forms.failed_transaction'));
-            }
-        } catch (QueryException $exception) {
+        if (! $administrator->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
         
