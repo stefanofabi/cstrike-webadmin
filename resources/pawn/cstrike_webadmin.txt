@@ -16,10 +16,12 @@ PRINT_EXPIRATION = EXPIRATION
 PRINT_REASON = REASON
 PRINT_ADMINISTRATOR = ADMINISTRATOR
 PRINT_MORE_INFORMATION_VISIT = For more information visit
+PRINT_PERMANENT = Permanent
 DATA_RECORDED_FOR_SECURITY_REASONS = Your data was recorded when entering the server for security reasons
 HAS_BEEN_BANNED = has ban player
 REASON = Reason
 YOU_ARE_BANNED "You are banned from this server. Check your console"
+HAS_BEEN_UNBANNED = "has unban player"
 
 [es]
 ADMINISTRATOR_HAS_EXPIRED_THE_DAY = Su administrador ha expirado el dia
@@ -34,12 +36,14 @@ PLAYER_TO_BAN_HAS_IMMUNITY = El jugador a ser prohibido tiene inmunidad.
 PRINT_NAME = Nombre
 PRINT_STEAM_ID = STEAM ID
 PRINT_IP = IP
-PRINT_BAN_DATE = Fecha de prohicion
+PRINT_BAN_DATE = Fecha de prohibicion
 PRINT_EXPIRATION = Vencimiento
 PRINT_REASON = Razon
 PRINT_ADMINISTRATOR = Administrador
 PRINT_MORE_INFORMATION_VISIT = Para mas informacion visite
+PRINT_PERMANENT = Permanente
 DATA_RECORDED_FOR_SECURITY_REASONS = Sus datos fueron registrados al ingresar al servidor por razones de seguridad
 HAS_BEEN_BANNED = ha prohibido al jugador
 REASON = Razon
 YOU_ARE_BANNED = Estas prohibido en este servidor. Revisa tu consola
+HAS_BEEN_UNBANNED = "ha desbloqueado al jugador"

@@ -27,7 +27,7 @@
 
 // =========== FROM THIS LINE, DO NOT TOUCH ===========
 #define MYSQL_LOG "MYSQL_ERROR.txt"
-#define MAX_LIST 250
+#define MAX_BANS 250
 
 
 // manejador de conexion sql
@@ -39,11 +39,12 @@ enum {
     BANS_SELECT,
     GET_ADMIN_DATA,
     SHOW_BAN,
-    ADD_BAN,
+    STORE_BAN,
+    DESTROY_BAN,
 }
 
-new gBanAuth[MAX_LIST+1][44];
-new gBanIp[MAX_LIST+1][32];
+new gBanAuth[MAX_BANS+1][44];
+new gBanIp[MAX_BANS+1][32];
 
 new gAdminId[MAX_PLAYERS+1][32];
 new gAdminExpiration[MAX_PLAYERS+1][32];
@@ -53,20 +54,129 @@ new gAdminBanPlayer[MAX_PLAYERS+1];
 new gAdminBanExpiration[MAX_PLAYERS+1][32];
 new gAdminBanReason[MAX_PLAYERS+1][32];
 new gLastPositionBan = 0;
-
+new gUnbanPlayer[MAX_PLAYERS+1][44];
 
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
 	
-	register_dictionary("cstrike_webadmin.txt")
+	register_concmd("amx_ban", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
+	register_concmd("amx_banip", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
+	register_concmd("amx_addban", "CmdBan", ADMIN_BAN, "<name> <authid or ip> <time in minutes> <reason>");
+	register_concmd("amx_unban", "CmdUnban", ADMIN_BAN, "<authid or ip>");
 	
-	register_clcmd("nightvision", "cmdOpenAdminMenu")
+	register_dictionary("cstrike_webadmin.txt");
+	
+	register_clcmd("nightvision", "cmdOpenAdminMenu");
 	
 	if (MYSQL_Init()) {
 		loadAdmins();
 		
 		loadBans();
 	}
+}
+
+public CmdUnban(id) {
+	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
+	
+	// AuthID, IP or tag
+	static arg[44];
+	read_argv(1, arg, sizeof(arg) - 1);
+	
+	gUnbanPlayer[id] = arg;
+	
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "DELETE FROM bans WHERE (steam_id = ^"%s^" OR ip = ^"%s^" OR name = ^"%s^") AND server_id = %d", gUnbanPlayer[id], gUnbanPlayer[id], gUnbanPlayer[id], SERVER_ID);
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif
+	
+	executeQuery(szQuery, id, DESTROY_BAN);
+	
+	return PLUGIN_HANDLED;
+}
+
+public CmdBan(id) {
+	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
+	
+	if (equal(gAdminId[id], "")) {
+		getAdminData(id);
+		
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ERROR_GETTING_DATA_FOR_ADMINISTRATOR");
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	// AuthID, IP or #userid
+	static arg[128];
+	read_argv(1, arg, sizeof(arg) - 1);
+	
+	new target = cmd_target(id, arg, GetTargetFlags(id));
+	if(!target) return PLUGIN_HANDLED;
+	
+	if (has_flag(target, "a")) {
+		client_cmd(id, "echo ^"^4%s ^1%L^"", PREFIX, id, "PLAYER_TO_BAN_HAS_IMMUNITY");
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	static target_authid[35];
+	get_user_authid(target, target_authid, sizeof(target_authid) - 1);
+	
+	static target_authip[35];
+	get_user_ip(target, target_authip, sizeof(target_authip) - 1, 1);
+	
+	for (new i = 0; i < MAX_BANS; i++) {
+		if (equal(target_authid, gBanAuth[i]) || equal(target_authip, gBanIp[i])) {
+			console_print(id, "%s %L", PREFIX, id, "ALREADY_BANNED");
+			return PLUGIN_HANDLED;
+		}
+	}
+	
+	// Time
+	read_argv(2, arg, sizeof(arg) - 1);
+	
+	if (equal(arg, "0")) {
+		gAdminBanExpiration[id] = "null";
+	} else {
+		new minutes = str_to_num(arg);
+		new seconds = minutes * 60;
+		
+		format_time(gAdminBanExpiration[id], 31, "^"%Y-%m-%d %H:%M^"", (get_systime() + seconds)); 
+	}
+	
+	// Reason
+	read_argv(3, arg, sizeof(arg) - 1);
+	formatex(gAdminBanReason[id], charsmax(gAdminBanReason), "%s", arg);
+	
+	static target_name[32];
+	get_user_name(target, target_name, sizeof(target_name) - 1);
+	
+	// IF AUTHID == VALVE_ID_LAN OR HLTV, BAN PER IP TO NOT BAN EVERYONE */
+	if (equal("HLTV", target_authid) || equal("STEAM_ID_LAN", target_authid) || equali("VALVE_ID_LAN", target_authid)) {
+		target_authid = "";
+	}
+	
+	// Save index of the player
+	gAdminBanPlayer[id] = get_user_index(target_name);
+	
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^", %s,^"%s^",^"%s^",^"%d^")", target_name, target_authid, target_authip, gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif
+	
+	executeQuery(szQuery, id, STORE_BAN);
+	
+	return PLUGIN_HANDLED;
+}
+
+GetTargetFlags(id) {
+	static const flags_no_immunity = (CMDTARGET_ALLOW_SELF|CMDTARGET_NO_BOTS);
+	static const flags_immunity = (CMDTARGET_ALLOW_SELF|CMDTARGET_NO_BOTS|CMDTARGET_OBEY_IMMUNITY);
+	
+	return access(id, ADMIN_IMMUNITY) ? flags_no_immunity : flags_immunity;
 }
 
 public cmdOpenAdminMenu(id) {
@@ -252,7 +362,7 @@ public openBanTimeMenu(id) {
 	menu_additem(menu, "3 days", "4320");
 	menu_additem(menu, "5 days", "7200");
 	menu_additem(menu, "30 days", "43200");
-	menu_additem(menu, "Permanent", "");
+	menu_additem(menu, "Permanent", "null");
 	
 	menu_setprop(menu, MPROP_EXIT, "Exit");
 	menu_display(id, menu, 0);
@@ -270,10 +380,15 @@ public handlerBanTimeMenu(id, menu, item) {
 	new iAccess;
 	
 	menu_item_getinfo(menu, item, iAccess, iData, 9)
-	new minutes = str_to_num(iData);
-	new seconds = minutes * 60;
 	
-	format_time(gAdminBanExpiration[id], 31, "%Y-%m-%d %H:%M", (get_systime() + seconds)); 
+	if (equal(iData, "null")) {
+		gAdminBanExpiration[id] = "null";
+	} else {
+		new minutes = str_to_num(iData);
+		new seconds = minutes * 60;
+		
+		format_time(gAdminBanExpiration[id], 31, "^"%Y-%m-%d %H:%M^"", (get_systime() + seconds)); 
+	}
 	
 	openBanReasonsMenu(id);
 	
@@ -327,19 +442,19 @@ public handlerBanReasonsMenu(id, menu, item) {
 	static ip[32];
 	get_user_ip(player, ip, charsmax(ip), 1);
 	
-	// IF AUTHID == 4294967295 OR VALVE_ID_LAN OR HLTV, BAN PER IP TO NOT BAN EVERYONE */
-	if (equal("4294967295", auth) || equal("HLTV", auth) || equal("STEAM_ID_LAN", auth) || equali("VALVE_ID_LAN", auth)) {
+	// IF AUTHID == VALVE_ID_LAN OR HLTV, BAN PER IP TO NOT BAN EVERYONE */
+	if (equal("HLTV", auth) || equal("STEAM_ID_LAN", auth) || equali("VALVE_ID_LAN", auth)) {
 		auth = "";
 	}
 	
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^",^"%s^",^"%s^",^"%s^",^"%d^")", name, auth, ip, gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
+	formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^", %s,^"%s^",^"%s^",^"%d^")", name, auth, ip, gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
 	#endif
 	
-	executeQuery(szQuery, id, ADD_BAN);
+	executeQuery(szQuery, id, STORE_BAN);
 	
 	
 	menu_destroy(menu);
@@ -377,7 +492,7 @@ public loadAdmins() {
 public loadBans() {
 
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where expiration >= CURRENT_TIMESTAMP() AND server_id = %d ORDER BY expiration DESC LIMIT %d", SERVER_ID, MAX_LIST);
+	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where expiration >= CURRENT_TIMESTAMP() AND server_id = %d ORDER BY expiration DESC LIMIT %d", SERVER_ID, MAX_BANS);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
@@ -456,7 +571,7 @@ public is_banned_user(id) {
 	new banned = false;
 	
 	
-	while (i < MAX_LIST && !banned) {
+	while (i < MAX_BANS && !banned) {
 		
 		static auth[32];
 		get_user_authid(id, auth, charsmax(auth));
@@ -504,7 +619,13 @@ public printBanInformation(id, banId[], name[], steamId[], ip[], dateBan[], expi
 	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_STEAM_ID", steamId);
 	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_IP", ip);
 	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_BAN_DATE", dateBan);
-	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_EXPIRATION", expiration);
+	
+	if (equal(expiration, "null") || equal(expiration, "")) {
+		client_cmd(id, "echo ^"%L: %L^"", id, "PRINT_EXPIRATION", id, "PRINT_PERMANENT");
+	} else {
+		client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_EXPIRATION", expiration);
+	}
+	
 	client_cmd(id, "echo ^"%L: %s^"", id, "PRINT_REASON", reason);
 
 	if (! equal(administrator, "")) {
@@ -631,6 +752,8 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				SQL_ReadResult(query, colReason, reason, 31);
 				SQL_ReadResult(query, colAdministrator, administrator, 31);
 				
+				server_print("la fecha del ban es %s", expiration);
+				
 				printBanInformation(id, banId, name, steamId, ip, banDate, expiration, reason, administrator);
 				
 				SQL_NextRow(query);
@@ -640,7 +763,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 		}
 		
 		
-		case ADD_BAN: {
+		case STORE_BAN: {
 
 				new playerId = gAdminBanPlayer[id];
 				
@@ -663,6 +786,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				addBanToMatrix(player_auth, player_ip);
 				
 				client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", player_name, id, "REASON", gAdminBanReason[id]);
+				client_cmd(id, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", player_name, id, "REASON", gAdminBanReason[id]);
 				
 				new dateBan[32];
 				format_time(dateBan, 31, "%Y-%m-%d %H:%M", get_systime()); 
@@ -670,6 +794,18 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				
 				
 				set_task(1.0, "TaskDisconnectPlayer", playerId);
+		}
+		
+		case DESTROY_BAN: {
+			
+			new admin_name[32];
+			get_user_name(id, admin_name, 31);
+				
+			removeBanToMatrix(gUnbanPlayer[id]);
+				
+			client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s", PREFIX, admin_name, id, "HAS_BEEN_UNBANNED", gUnbanPlayer[id]);
+			client_cmd(id, "^4%s ^1ADMIN ^4%s ^1%L ^4%s", PREFIX, admin_name, id, "HAS_BEEN_UNBANNED", gUnbanPlayer[id]);	
+		
 		}
 	}
 }
@@ -782,7 +918,7 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 
 public addBanToMatrix(steamId[44], ip[32]) {
 	
-	if (gLastPositionBan >= MAX_LIST) {
+	if (gLastPositionBan >= MAX_BANS) {
 		log_amx("Bans limit reached");
 		
 		return false;
@@ -795,6 +931,17 @@ public addBanToMatrix(steamId[44], ip[32]) {
 	
 	return true;
 	
+}
+
+public removeBanToMatrix(ban[]) {
+	
+	for (new i=0; i < MAX_BANS; i++) {
+		if (equal(gBanAuth[i], ban)) {
+			gBanAuth[i] = "";
+		} else if (equal(gBanAuth[i], ban)) {
+			gBanIp[i] = "";
+		}
+	}
 }
 
 public kickPlayer(id, razon[]) {
