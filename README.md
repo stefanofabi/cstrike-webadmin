@@ -56,6 +56,8 @@ Password: password
 
 Remember to modify passwords in production!
 
+7. Finally you have to connect the servers to the application using the plugin provided
+
 
 ## Contributing
 
