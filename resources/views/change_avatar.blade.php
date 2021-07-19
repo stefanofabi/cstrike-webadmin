@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+{{ trans('avatars.change_avatar') }}
+@endsection
+
 @section('content')
 
 <div class="container">
