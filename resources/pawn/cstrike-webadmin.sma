@@ -64,9 +64,12 @@ public plugin_init() {
 	register_concmd("amx_addban", "CmdBan", ADMIN_BAN, "<name> <authid or ip> <time in minutes> <reason>");
 	register_concmd("amx_unban", "CmdUnban", ADMIN_BAN, "<authid or ip>");
 	
-	register_dictionary("cstrike_webadmin.txt");
+	register_saycmd("adminmenu","cmdOpenAdminMenu", ADMIN_ADMIN,"Open Admin Menu");
 	
 	register_clcmd("nightvision", "cmdOpenAdminMenu");
+	
+	register_dictionary("cstrike_webadmin.txt");
+	
 	
 	if (MYSQL_Init()) {
 		loadAdmins();
@@ -947,4 +950,20 @@ public removeBanToMatrix(ban[]) {
 public kickPlayer(id, razon[]) {
 	new userid = get_user_userid(id)
 	server_cmd("kick #%d ^"%s^"",userid, razon)
+}
+
+stock register_saycmd(saycommand[], function[], flags, info[]) {
+	new temp[64];
+	format(temp, 63, "say /%s", saycommand);
+	register_clcmd(temp, function, flags, info);
+	format(temp, 63, "say .%s", saycommand);
+	register_clcmd(temp, function, flags, info);
+	format(temp, 63, "say_team /%s", saycommand);
+	register_clcmd(temp, function, flags, info);
+	format(temp, 63, "say_team .%s", saycommand);
+	register_clcmd(temp, function, flags, info);
+	format(temp, 63, ".%s", saycommand);
+	register_clcmd(temp, function, flags, info);
+	format(temp, 63, "/%s", saycommand);
+	register_clcmd(temp, function, flags, info);
 }
