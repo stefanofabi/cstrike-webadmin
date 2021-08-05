@@ -78,6 +78,12 @@ public plugin_init() {
 	}
 }
 
+public plugin_cfg()
+{
+    if(is_plugin_loaded("Pause Plugins") > -1)
+        server_cmd("amx_pausecfg add ^"%s^"", PLUGIN);
+}  
+
 public CmdUnban(id) {
 	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
 	
