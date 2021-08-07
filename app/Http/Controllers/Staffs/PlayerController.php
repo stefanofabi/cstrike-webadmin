@@ -11,6 +11,9 @@ use App\Models\Player;
 
 class PlayerController extends Controller
 {
+
+    private const LIMIT_PLAYERS = 100;
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +25,7 @@ class PlayerController extends Controller
 
         $servers = Server::orderBy('name', 'DESC')->get();
 
-        $players = Player::orderBy('date', 'DESC')->get();
+        $players = Player::orderBy('date', 'DESC')->limit(self::LIMIT_PLAYERS)->get();
 
         return view('staffs.players.index')
             ->with('servers', $servers)
