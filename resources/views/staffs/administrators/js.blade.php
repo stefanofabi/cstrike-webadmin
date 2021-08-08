@@ -7,6 +7,7 @@
         $("#modal_administrator_auth").val('');
         $("#modal_administrator_password").val('');
         $("#modal_administrator_expiration").val('');
+        $("#modal_administrator_account").val('');
 
         // Uncheck all checkboxes
         $('input:checkbox').attr('checked', false);
