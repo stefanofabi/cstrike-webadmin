@@ -107,6 +107,10 @@ class BanController extends Controller
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
 
+        if (!empty($request->steam_id) && strpos($request->steam_id, "STEAM_ID_LAN") !== false) {
+            return back()->withErrors(Lang::get('bans.steam_id_not_valid'))->withInput($request->except('steam_id'));
+        }
+
         DB::beginTransaction();
 
         try {

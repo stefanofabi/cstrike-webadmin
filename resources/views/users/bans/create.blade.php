@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label for="auth"> <h5> <strong> {{ trans('bans.steam_id') }}: </strong> </h5> </label>
                             
-                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_steam_id') }}" name="steam_id" value="@if ($player) {{ $player->steam_id }} @else {{ @old('steam_id') }} @endif" @if ($player) readonly @endif>
+                <input type="text" class="form-control" placeholder="{{ trans('bans.enter_steam_id') }}" name="steam_id" value="@if ($player && strpos($player->steam_id, "STEAM_ID_LAN") === false) {{ $player->steam_id }} @else {{ @old('steam_id') }} @endif" @if ($player) readonly @endif>
             </div>
 
             <div class="form-group">
