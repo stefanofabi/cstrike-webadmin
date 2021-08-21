@@ -27,18 +27,6 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::get('/', function () {
-
-    if ($user = auth()->user()) {
-        if ($user->hasPermissionTo('is_staff')) {
-            return redirect()->route('staffs/home');
-        }
-
-        if ($user->hasPermissionTo('is_user')) {
-            return redirect()->route('users/home');
-        }
-    }
-
-    // guest
     $servers = Server::orderBy('ip', 'ASC')->get();
     return view('welcome')->with('servers', $servers);
 });
