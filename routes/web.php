@@ -49,7 +49,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
         
         Route::delete('destroy/{id}', [App\Http\Controllers\ChatController::class, 'destroy'])->name('destroy')
-            ->where('id', '[1-9][0-9]*');
+            ->where('id', '[1-9][0-9]*')
+            ->middleware('permission:is_staff');
     });
 
     Route::group([
