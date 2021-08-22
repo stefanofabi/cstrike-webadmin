@@ -10,16 +10,20 @@
                     <tr>
                         <td>
                             <div class="container">
-                                <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px">
-                                    <p> 
-                                        @if ($chat_message->user->hasRole('staff')) 
-                                            <strong style="color: green"> {{ $chat_message->user->name }}</strong>
-                                        @elseif ($chat_message->user->administrator)
-                                            <strong style="color: {{ $chat_message->user->administrator->rank->color }}"> {{ $chat_message->user->name }}</strong>
-                                        @else 
-                                            <strong style="color: black"> {{ $chat_message->user->name }}</strong>
-                                        @endif: {{ $chat_message->message }} 
-                                    </p>
+
+                                <a href="#" data-toggle="popover" title="{{ $chat_message->user->name }}" data-content="{{ $chat_message->user->short_description }}">  
+                                    <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px"> 
+                                </a>
+                                
+                                <p> 
+                                    @if ($chat_message->user->hasRole('staff')) 
+                                        <strong style="color: green"> {{ $chat_message->user->name }}</strong>
+                                     @elseif ($chat_message->user->administrator)
+                                        <strong style="color: {{ $chat_message->user->administrator->rank->color }}"> {{ $chat_message->user->name }}</strong>
+                                    @else 
+                                        <strong style="color: black"> {{ $chat_message->user->name }}</strong>
+                                    @endif: {{ $chat_message->message }} 
+                                </p>
                             </div> 
                         </td>
 

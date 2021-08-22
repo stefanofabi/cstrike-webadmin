@@ -10,17 +10,24 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-        @role('staff')
+        
             <script> 
-                function destroy_chat(chat_id)
-                {
-                    if (confirm('{{ trans("forms.confirm") }}')) {
-                        var form = document.getElementById('destroy_chat_'+chat_id);
-                        form.submit();
+
+                $(document).ready(function(){
+                    $('[data-toggle="popover"]').popover();   
+                });
+
+                @role('staff')
+                    function destroy_chat(chat_id)
+                    {
+                        if (confirm('{{ trans("forms.confirm") }}')) {
+                            var form = document.getElementById('destroy_chat_'+chat_id);
+                            form.submit();
+                        }
                     }
-                }
+                @endrole
             </script>
-        @endrole
+        
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
