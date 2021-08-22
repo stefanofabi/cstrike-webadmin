@@ -21,20 +21,22 @@ class RankSeeder extends Seeder
             [
                 'name' => 'Staff',
                 'access_flags' => 'abcdefhijkmnopqrstuv',
-                'price' => 3
+                'price' => 3,
+                'color' => '#FF0000',
 
             ],
             [
                 'name' => 'Full Admin',
                 'access_flags' => 'bcdefhijkmnopqrstuv',
-                'price' => 2
+                'price' => 2,
+                'color' => '#0CFF00',
 
             ],
             [
                 'name' => 'Basic Admin',
                 'access_flags' => 'cefhijkmnopqrstuv',
-                'price' => 1
-
+                'price' => 1,
+                'color' => '#FFA200',
             ],
         ]);
     }
