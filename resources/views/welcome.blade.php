@@ -115,7 +115,7 @@
                                                 <td>
                                                     <div class="container">
                                                         <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px">
-                                                        <p> <strong> {{ $chat_message->user->name }}: </strong> {{ $chat_message->message }} </p>
+                                                        <p> <strong> {{ $chat_message->user->name }}</strong>: {{ $chat_message->message }} </p>
                                                     </div> 
                                                 </td>
 

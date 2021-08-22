@@ -30,7 +30,7 @@ Route::get('/', function () {
     return view('welcome')->with('servers', $servers);
 });*/
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
 Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
 

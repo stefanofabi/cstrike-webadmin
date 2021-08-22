@@ -51,24 +51,16 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        
 
-        if(auth()->attempt(array('email' => $request->email, 'password' => $request->password))) {
-            
-            if (auth()->user()->hasPermissionTo('is_staff')) {
-                $redirect = redirect()->route('staffs/home');
-            } else {
-                $redirect = redirect()->route('users/home');
-            }
-        } else {
+        if(! auth()->attempt(array('email' => $request->email, 'password' => $request->password))) {
             Session::flash('login_failed', Lang::get('auth.failed'));
 
-            $redirect = redirect()->route('login')
+            return redirect()->route('login')
                 ->withInput(
                     $request->except('password')
                 );
         }
 
-        return $redirect;
+        return redirect()->route('welcome');
     }
 }
