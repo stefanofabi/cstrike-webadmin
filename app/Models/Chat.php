@@ -9,6 +9,11 @@ class Chat extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'message',
+    ];
+
     /**
      * Get the user associated with the message.
      */

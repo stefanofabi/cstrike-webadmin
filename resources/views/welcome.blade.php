@@ -10,6 +10,16 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+        <script> 
+            function destroy_chat(chat_id)
+            {
+                if (confirm('{{ trans("forms.confirm") }}')) {
+                    var form = document.getElementById('destroy_chat_'+chat_id);
+                    form.submit();
+                }
+            }
+        </script>
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -24,26 +34,25 @@
             }
         </style>
 
+        <style>
+            .container img {
+                float: left;
+                max-width: 30px;
+                width: 100%;
+                margin-right: 20px;
+                border-radius: 50%;
+            }
 
-<style>
-    .container img {
-        float: left;
-        max-width: 30px;
-        width: 100%;
-        margin-right: 20px;
-        border-radius: 50%;
-    }
-
-    .my-custom-scrollbar {
-        position: relative;
-        height: 368px;
-        overflow: auto;
-    }
-    
-    .table-wrapper-scroll-y {
-        display: block;
-    }
-</style>
+            .my-custom-scrollbar {
+                position: relative;
+                height: 368px;
+                overflow: auto;
+            }
+            
+            .table-wrapper-scroll-y {
+                display: block;
+            }
+        </style>
 
     </head>
     <body class="antialiased">
@@ -104,12 +113,21 @@
                                                 <td>
                                                     <div class="container">
                                                         <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px">
-                                                        <p> <strong> {{ $chat_message->user->name }}: </strong> {{ $chat_message->message }}</p>
+                                                        <p> <strong> {{ $chat_message->user->name }}: </strong> {{ $chat_message->message }} </p>
                                                     </div> 
                                                 </td>
 
                                                 <td class="float-right"> 
                                                     {{ date('d/m/Y H:m', strtotime($chat_message->date)) }}  
+
+                                                    <a class="btn btn-info btn-sm mb-1 ml-1" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_chat('{{ $chat_message->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+
+                                                    @role('staff')
+                                                    <form id="destroy_chat_{{ $chat_message->id }}" method="POST" action="{{ route('chats/destroy', ['id' => $chat_message->id]) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>   
+                                                    @endrole
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -117,13 +135,12 @@
                                 </table>
                             </div>
 
-                            <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="{{ trans('welcome.write_your_message') }}"> 
-
-                            <form id="" method="POST" action="">
+                            <form method="POST" action="{{ route('chats/store') }}">
                                 @csrf
-                                @method('DELETE')
 
-                                <a class="btn btn-info mt-3 mr-3 mb-3 float-right" title="" onclick=""> <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </a>
+                                <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="{{ trans('welcome.write_your_message') }}" name="message" required> 
+ 
+                                <button class="btn btn-info mt-3 mr-3 mb-3 float-right" type="submit">  <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </button>
                             </form> 
                             
                     </div>

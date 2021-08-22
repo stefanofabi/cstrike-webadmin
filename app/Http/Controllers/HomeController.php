@@ -8,6 +8,7 @@ use App\Models\Server;
 
 class HomeController extends Controller
 {
+    const LIMIT_CHAT_MESSAGE = 25;
 
     /**
      * Show the application dashboard.
@@ -19,7 +20,7 @@ class HomeController extends Controller
 
         $chat_messages = Chat::orderBy('date', 'DESC')->get();
 
-        $servers = Server::orderBy('ip', 'ASC')->get();
+        $servers = Server::orderBy('ip', 'ASC')->limit(self::LIMIT_CHAT_MESSAGE)->get();
 
         return view('welcome')
             ->with('chat_messages', $chat_messages)

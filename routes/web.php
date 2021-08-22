@@ -41,6 +41,17 @@ Route::get('show_ban/{id}', [App\Http\Controllers\ApiController::class, 'showBan
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
+
+    Route::group([
+        'prefix' => 'chats',
+        'as' => 'chats/',
+    ], function () {
+        Route::post('store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
+        
+        Route::delete('destroy/{id}', [App\Http\Controllers\ChatController::class, 'destroy'])->name('destroy')
+            ->where('id', '[1-9][0-9]*');
+    });
+
     Route::group([
         'prefix' => 'auth',
         'as' => 'auth/',
