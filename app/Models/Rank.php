@@ -17,6 +17,7 @@ class Rank extends Model
         'access_flags',
         'price',
         'purchase_link',
+        'color',
     ];
 
     public function getActivitylogOptions(): LogOptions

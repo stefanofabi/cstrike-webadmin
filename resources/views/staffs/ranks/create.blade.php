@@ -49,6 +49,12 @@
         </div>
 
         <div class="form-group">
+            <label for="auth"> <h5> <strong> {{ trans('ranks.color') }}: </strong> </h5> </label>
+            
+            <input type="color" class="form-control col-6" name="color" value="{{ @old('color') }}" required>
+        </div>
+
+        <div class="form-group">
             <h5> 
                 <strong> {{ trans('ranks.access_flags') }}: </strong>  
 

@@ -51,5 +51,6 @@ return [
     'danger_updated_rank' => 'There was a problem updated the rank. Please try again later',
     'danger_edited_rank' => 'There was a problem loading the rank. Please try again later',
     'not_recommended' => 'Not recommended!',
-
+    'color' => 'Color',
+    
 ];

@@ -54,6 +54,7 @@ class RankController extends Controller
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',      
             'access_flags' => 'required|array',   
+            'color' => 'required',
         ]);
 
         $rank = new Rank(
@@ -61,6 +62,7 @@ class RankController extends Controller
                 'name' => $request->name,
                 'price' => $request->price,
                 'access_flags' => implode($request->access_flags),
+                'color' => $request->color,
             ]
         );
 
@@ -117,6 +119,7 @@ class RankController extends Controller
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',      
             'access_flags' => 'required',   
+            'color' => 'required',
         ]);
         
         try {
@@ -134,7 +137,8 @@ class RankController extends Controller
                 [
                     'name' => $request->name,
                     'price' => $request->price,
-                    'access_flags' => $flags
+                    'access_flags' => $flags,
+                    'color' => $request->color,
                 ]
             );
         

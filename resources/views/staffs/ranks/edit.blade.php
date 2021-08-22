@@ -21,13 +21,19 @@
 					<div class="form-group">
 						<label for="name"> <h5> <strong> {{ trans('ranks.name') }}: </h5> </strong> </label>
 						
-						<input type="text" class="form-control col-6" placeholder="{{ trans('ranks.enter_name') }}" name="name" id="modal_rank_name" value="{{ @old('name') }}" required>
+						<input type="text" class="form-control col-6" placeholder="{{ trans('ranks.enter_name') }}" name="name" id="modal_rank_name" required>
 					</div>
 
 					<div class="form-group">
 						<label for="auth"> <h5> <strong> {{ trans('ranks.price') }}: </strong> </h5> </label>
 						
-						<input type="number" class="form-control col-6" placeholder="{{ trans('ranks.enter_price') }}" name="price" id="modal_rank_price" value="{{ @old('price') }}" step="0.1" required>
+						<input type="number" class="form-control col-6" placeholder="{{ trans('ranks.enter_price') }}" name="price" id="modal_rank_price" step="0.1" required>
+					</div>
+
+					<div class="form-group">
+						<label for="auth"> <h5> <strong> {{ trans('ranks.color') }}: </strong> </h5> </label>
+						
+						<input type="color" class="form-control col-6" name="color" id="modal_rank_color" required>
 					</div>
 
 					<div class="form-group">

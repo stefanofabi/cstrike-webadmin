@@ -20,6 +20,7 @@
         $("#modal_rank_id").val('');
         $("#modal_rank_name").val('');
         $("#modal_rank_price").val('');
+        $("#modal_rank_color").val('');
 
         // All checkboxes
         $('input:checkbox').attr('checked', false);
@@ -50,6 +51,7 @@
                 $("#modal_rank_id").val(data['id']);
                 $("#modal_rank_name").val(data['name']);
                 $("#modal_rank_price").val(data['price']);
+                $("#modal_rank_color").val(data['color']);
 
                 var access_flags = data['access_flags'].split('');
 
@@ -72,6 +74,7 @@
 			"id" : $("#modal_rank_id").val(),
 			"name" : $("#modal_rank_name").val(),
 			"price" : $("#modal_rank_price").val(),
+            "color" : $("#modal_rank_color").val(),
             "access_flags" : JSON.stringify($('[name="access_flags[]"]').serializeArray()),
 		};
 
