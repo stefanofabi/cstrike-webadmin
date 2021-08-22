@@ -27,5 +27,6 @@ return [
     'chat_messages' => 'Chat messages',
     'write_your_message' => 'Write your message and click send. Be kind and respectful.',
     'publish_message' => 'Publish message',
-    
+    'show_chat_online' => 'To see the online chat log in',
+
 ];  
