@@ -19,6 +19,7 @@ class CreateRanksTable extends Migration
             $table->string('access_flags');
             $table->double('price')->default(0.0);
             $table->string('purchase_link')->nullable();
+            $table->string('color')->default('black');
 
             // Unique keys
             $table->unique('name');
