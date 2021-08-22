@@ -23,6 +23,28 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+
+
+<style>
+    .container img {
+        float: left;
+        max-width: 30px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 368px;
+        overflow: auto;
+    }
+    
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+</style>
+
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
@@ -34,7 +56,6 @@
                         @else
                             <a href="{{ route('users/home') }}" class="text-sm text-gray-700 underline">Home</a>
                         @endrole
-
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">{{ trans('auth.login') }}</a>
 
@@ -68,8 +89,48 @@
                         <img src="{{ asset('img/logo.png') }}" alt="{{ trans('home.logo') }}" width="300" height="80">
                     </a>
                 </div>
+                
+                @auth
+                    <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg mb-3">
+                            <div class="ml-3 mt-3">
+                                <h2> <i class="fas fa-comments"> </i> <strong> {{ trans('welcome.chat_messages') }} </strong> </h2>
+                            </div>
+
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        @foreach ($chat_messages as $chat_message)
+                                            <tr>
+                                                <td>
+                                                    <div class="container">
+                                                        <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px">
+                                                        <p> <strong> {{ $chat_message->user->name }}: </strong> {{ $chat_message->message }}</p>
+                                                    </div> 
+                                                </td>
+
+                                                <td class="float-right"> 
+                                                    {{ date('d/m/Y H:m', strtotime($chat_message->date)) }}  
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="{{ trans('welcome.write_your_message') }}"> 
+
+                            <form id="" method="POST" action="">
+                                @csrf
+                                @method('DELETE')
+
+                                <a class="btn btn-info mt-3 mr-3 mb-3 float-right" title="" onclick=""> <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </a>
+                            </form> 
+                            
+                    </div>
+                @endauth
 
                 <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
                             <div class="flex items-center">

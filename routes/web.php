@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Server;
 use App\Models\Ban;
 
 /*
@@ -25,11 +24,13 @@ Route::group(['middleware' => ['web']], function () {
         'lang' => 'en|es',
     ])->name('lang');
 });
-
+/*
 Route::get('/', function () {
     $servers = Server::orderBy('ip', 'ASC')->get();
     return view('welcome')->with('servers', $servers);
-});
+});*/
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
 
@@ -60,7 +61,7 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
         'prefix' => 'staffs',
         'as' => 'staffs/',
     ], function () {
-        Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('home', [App\Http\Controllers\HomeController::class, 'user_staff'])->name('home');
         
         require('staffs/administrators.php');
         require('staffs/ranks.php');
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
         'as' => 'users/',
     ], function () {
         
-        Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('home', [App\Http\Controllers\HomeController::class, 'user_home'])->name('home');
 
         Route::get('profiles/my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('profiles/my_administrator')
             ->middleware('administrator_associate');

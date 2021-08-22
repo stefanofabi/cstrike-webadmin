@@ -24,5 +24,8 @@ return [
     'designed_by' => 'Designed by 4evergaming',
     'invite_users' => 'We invite you to know all our servers. Respect the community rules and have fun with all of us.',
     'my_community' => 'My community',
+    'chat_messages' => 'Chat messages',
+    'write_your_message' => 'Write your message and click send. Be kind and respectful.',
+    'publish_message' => 'Publish message',
     
 ];  

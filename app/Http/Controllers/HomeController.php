@@ -3,18 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Chat; 
+use App\Models\Server;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Show the application dashboard.
@@ -23,14 +16,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasPermissionTo('is_staff')) {
-            return view('staffs.home');
-        }
 
-        if (auth()->user()->hasPermissionTo('is_user')) {
-            return view('users.home');
-        }
+        $chat_messages = Chat::orderBy('date', 'DESC')->get();
 
-        return view('welcome');
+        $servers = Server::orderBy('ip', 'ASC')->get();
+
+        return view('welcome')
+            ->with('chat_messages', $chat_messages)
+            ->with('servers', $servers);
+    }
+
+    public function user_staff() 
+    {
+        return view('staffs.home');
+    }
+
+    public function user_home() 
+    {
+        return view('users.home');
     }
 }
