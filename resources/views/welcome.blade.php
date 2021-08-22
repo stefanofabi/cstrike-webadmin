@@ -120,13 +120,14 @@
                                                 <td class="float-right"> 
                                                     {{ date('d/m/Y H:m', strtotime($chat_message->date)) }}  
 
-                                                    <a class="btn btn-info btn-sm mb-1 ml-1" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_chat('{{ $chat_message->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
-
                                                     @role('staff')
-                                                    <form id="destroy_chat_{{ $chat_message->id }}" method="POST" action="{{ route('chats/destroy', ['id' => $chat_message->id]) }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>   
+                                                        <a class="btn btn-info btn-sm mb-1 ml-1" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_chat('{{ $chat_message->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+
+                                                        
+                                                        <form id="destroy_chat_{{ $chat_message->id }}" method="POST" action="{{ route('chats/destroy', ['id' => $chat_message->id]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>   
                                                     @endrole
                                                 </td>
                                             </tr>
