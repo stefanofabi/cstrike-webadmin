@@ -52,7 +52,7 @@
     <form method="POST" action="{{ route('chats/store') }}">
         @csrf
 
-        <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="{{ trans('welcome.write_your_message') }}" name="message" required> 
+        <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="{{ trans('welcome.write_your_message') }}" name="message" required @guest disabled @endguest> 
             
         <button class="btn btn-info mt-3 mr-3 mb-3 float-right" type="submit" @guest disabled @endguest>  <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </button>
     </form>     
