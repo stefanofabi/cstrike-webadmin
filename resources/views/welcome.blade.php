@@ -110,10 +110,6 @@
                 
                 @include('chat')
                 
-                @guest
-                    <i class="fas fa-comments"> </i> {{ trans('welcome.publish_on_chat_online') }}
-                @endguest
-
                 <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
