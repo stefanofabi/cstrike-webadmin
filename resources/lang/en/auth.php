@@ -25,5 +25,9 @@ return [
     'passwords_not_matches' => 'Passwords not matches',
     'login' => 'Login',
     'register' => 'Register',
-    
+    'email_address' => 'Email Address',
+    'password' => 'Password',
+    'remember_me' => 'Remember me',
+    'forgot_your_password' => 'Forgot your password?',
+
 ];

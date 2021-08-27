@@ -23,5 +23,6 @@ return [
     'my_administrator' => 'My administrator',
     'system_logs' => 'System logs',
     'activity_logs' => 'Activity logs',
-    
+    'home' => 'Home',
+
 ];

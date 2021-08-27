@@ -25,5 +25,9 @@ return [
     'passwords_not_matches' => 'Las contraseñas no coinciden',
     'login' => 'Iniciar sesión',
     'register' => 'Registrarse',
-    
+    'email_address' => 'Correo electrónico',
+    'password' => 'Contraseña',
+    'remember_me' => 'Recordarme',
+    'forgot_your_password' => '¿Perdiste la contraseña?',
+
 ];

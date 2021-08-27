@@ -25,7 +25,7 @@ return [
     'invite_users' => 'Te invitamos a conocer todos nuestros servidores. Respeta las reglas de la comunidad y diviértete con todos nosotros.',
     'my_community' => 'Mi comunidad',
     'chat_messages' => 'Mensajes del chat',
-    'write_your_message' => 'Escribí tu mensaje y hacé click en publicar. Recuerde ser amable y respetuoso.',
+    'write_your_message' => 'Escribí tu mensaje y hacé click en publicar. Recordá ser amable y respetuoso.',
     'publish_message' => 'Publicar mensaje',
     'show_chat_online' => 'Para ver el chat en línea, inicie sesión',
     
