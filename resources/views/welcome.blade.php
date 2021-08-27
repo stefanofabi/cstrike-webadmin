@@ -108,12 +108,10 @@
                     </a>
                 </div>
                 
-                @auth
-                    @include('chat')
-                @endauth
-
+                @include('chat')
+                
                 @guest
-                    <i class="fas fa-comments"> </i> {{ trans('welcome.show_chat_online') }}
+                    <i class="fas fa-comments"> </i> {{ trans('welcome.publish_on_chat_online') }}
                 @endguest
 
                 <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">

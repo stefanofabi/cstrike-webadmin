@@ -27,6 +27,6 @@ return [
     'chat_messages' => 'Mensajes del chat',
     'write_your_message' => 'Escribí tu mensaje y hacé click en publicar. Recordá ser amable y respetuoso.',
     'publish_message' => 'Publicar mensaje',
-    'show_chat_online' => 'Para ver el chat en línea, inicie sesión',
+    'publish_on_chat_online' => 'Por favor, inicie sesión para publicar en el chat en línea',
     
 ];  
