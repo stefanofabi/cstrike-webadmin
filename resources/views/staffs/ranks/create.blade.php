@@ -49,6 +49,12 @@
         </div>
 
         <div class="form-group">
+            <label for="name"> <h5> <strong> {{ trans('ranks.purchase_link') }}: </h5> </strong> </label>
+            
+            <input type="text" class="form-control col-6" name="purchase_link" value="{{ @old('purchase_link') }}" required>
+        </div>
+
+        <div class="form-group">
             <label for="auth"> <h5> <strong> {{ trans('ranks.color') }}: </strong> </h5> </label>
             
             <input type="color" class="form-control col-6" name="color" value="{{ @old('color') }}" required>

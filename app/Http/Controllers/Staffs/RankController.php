@@ -63,6 +63,7 @@ class RankController extends Controller
                 'price' => $request->price,
                 'access_flags' => implode($request->access_flags),
                 'color' => $request->color,
+                'purchase_link' => $request->purchase_link,
             ]
         );
 
@@ -139,6 +140,7 @@ class RankController extends Controller
                     'price' => $request->price,
                     'access_flags' => $flags,
                     'color' => $request->color,
+                    'purchase_link' => $request->purchase_link,
                 ]
             );
         

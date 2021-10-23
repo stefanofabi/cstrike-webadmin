@@ -52,5 +52,6 @@ return [
     'danger_edited_rank' => 'Hubo un problema al cargar el rango. Por favor, inténtelo de nuevo más tarde',
     'not_recommended' => 'No recomendado!',
     'color' => 'Color',
+    'purchase_link' => 'Enlace de compra',
 
 ];
