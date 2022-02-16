@@ -77,7 +77,7 @@
 		<!-- Right Column -->
 		<div style="width: 47%; ; margin-left: 1%; margin-right: 1%; float:right;padding-left: 3%;">
             <div class="form-group">
-                <h5> <strong> {{ trans('servers.servers_with_access') }}: </strong> </h5>
+                <h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
 
                 <div class="form-check">
                     @forelse ($servers as $server)
