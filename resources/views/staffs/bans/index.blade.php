@@ -92,10 +92,10 @@
                             <td id="ban_expiration_{{ $ban->id }}">  
                                 @if (empty($ban->expiration)) 
                                     {{ trans('bans.never') }} 
-                                @else 
+                                @else
                                     {{ date('d/m/Y H:i', strtotime($ban->expiration)) }} 
 
-                                    @if ($ban->expiration < date('Y-m-d\TH:i'))
+                                    @if (strtotime($ban->expiration) < strtotime(date('Y-m-d H:i:s')))
                                         <span class="badge badge-success"> {{ trans('bans.expired') }}</span>
                                     @endif
                                 @endif
