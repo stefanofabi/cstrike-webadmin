@@ -71,13 +71,12 @@ public plugin_init() {
 	
 	register_dictionary("cstrike_webadmin.txt");
 	
-	set_task(300.0, "setOnlineMode", _, _, _, "b");
-	
-	
 	if (MYSQL_Init()) {
 		loadAdmins();
 		
 		loadBans();
+		
+		set_task(300.0, "setOnlineMode", _, _, _, "b");
 	}
 }
 
