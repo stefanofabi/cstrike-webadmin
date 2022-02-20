@@ -51,7 +51,7 @@
         <div class="form-group">
             <label for="name"> <h5> <strong> {{ trans('ranks.purchase_link') }}: </h5> </strong> </label>
             
-            <input type="text" class="form-control col-6" name="purchase_link" value="{{ @old('purchase_link') }}" required>
+            <input type="text" class="form-control col-6" name="purchase_link" value="{{ @old('purchase_link') }}">
         </div>
 
         <div class="form-group">
