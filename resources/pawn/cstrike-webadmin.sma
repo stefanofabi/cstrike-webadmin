@@ -89,7 +89,7 @@ public plugin_cfg()
 public setOnlineMode()
 {
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "UPDATE FROM servers SET online_date = CURRENT_TIMESTAMP AND server_id = %d", SERVER_ID);
+	formatex(szQuery, charsmax(szQuery), "UPDATE servers SET online_date = CURRENT_TIMESTAMP AND id = %d", SERVER_ID);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);

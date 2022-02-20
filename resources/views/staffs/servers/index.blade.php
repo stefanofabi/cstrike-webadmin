@@ -43,7 +43,7 @@
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
                             <td> 
-                                @if (!empty($server->online_date) && strtotime($server->online_date) <= strotime(date('Y-m-d H:i:s').'- 15 minutes'))
+                                @if (!empty($server->online_date) && strtotime($server->online_date) <= strtotime(date('Y-m-d H:i:s').'- 15 minutes'))
                                 <span class="badge badge-success"> {{ trans('servers.online') }} </span> 
                                 @else
                                 <span class="badge badge-danger"> {{ trans('servers.offline') }} </span> 
