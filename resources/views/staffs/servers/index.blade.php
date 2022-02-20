@@ -28,7 +28,7 @@
                     <th> {{ trans('servers.id') }} </th>
                     <th> {{ trans('servers.name') }} </th>
                     <th> {{ trans('servers.ip') }} </th>
-                    <th> {{ trans('servers.online_date') }} </th>
+                    <th> {{ trans('servers.server_status') }} </th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
                             <td> 
-                                @if (!empty($server->online_date) && strtotime($server->online_date) <= strotime(date('Y-m-d H:i:s').'- 15 minutes')
+                                @if (!empty($server->online_date) && strtotime($server->online_date) <= strotime(date('Y-m-d H:i:s').'- 15 minutes'))
                                 <span class="badge badge-success"> {{ trans('servers.online') }} </span> 
                                 @else
                                 <span class="badge badge-danger"> {{ trans('servers.offline') }} </span> 

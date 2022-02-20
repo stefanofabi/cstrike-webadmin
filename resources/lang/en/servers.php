@@ -35,5 +35,6 @@ return [
     'ranking_url' => 'Ranking URL',
     'online' => 'Online',
     'offline' => 'Offline',
-    
+    'server_status' => 'Server status',
+
 ];
