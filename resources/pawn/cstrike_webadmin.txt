@@ -20,8 +20,8 @@ PRINT_PERMANENT = Permanent
 DATA_RECORDED_FOR_SECURITY_REASONS = Your data was recorded when entering the server for security reasons
 HAS_BEEN_BANNED = has ban player
 REASON = Reason
-YOU_ARE_BANNED "You are banned from this server. Check your console"
-HAS_BEEN_UNBANNED = "has unban player"
+YOU_ARE_BANNED = You are banned from this server. Check your console
+HAS_BEEN_UNBANNED = has unban player
 
 [es]
 ADMINISTRATOR_HAS_EXPIRED_THE_DAY = Su administrador ha expirado el dia
@@ -46,4 +46,4 @@ DATA_RECORDED_FOR_SECURITY_REASONS = Sus datos fueron registrados al ingresar al
 HAS_BEEN_BANNED = ha prohibido al jugador
 REASON = Razon
 YOU_ARE_BANNED = Estas prohibido en este servidor. Revisa tu consola
-HAS_BEEN_UNBANNED = "ha desbloqueado al jugador"
+HAS_BEEN_UNBANNED = ha desbloqueado al jugador

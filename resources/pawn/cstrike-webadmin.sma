@@ -303,7 +303,7 @@ public handlerMenu(id, menu, item) {
 		#endif
 		
 		#if defined USE_COMPETITIVE_MAKER
-		case 6: {
+		case 8: {
 			// Competitive Maker
 			client_cmd(id , "say /mix");
 		}
