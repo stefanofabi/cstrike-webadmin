@@ -24,6 +24,7 @@
 
 
 //#define USE_SXE
+//#define USE_COMPETITIVE_MAKER
 
 // =========== FROM THIS LINE, DO NOT TOUCH ===========
 #define MYSQL_LOG "MYSQL_ERROR.txt"
@@ -242,6 +243,10 @@ public cmdOpenAdminMenu(id) {
 	menu_additem(gMenu, "Open Local Ban menu", "8");
 	#endif
 	
+	#if defined USE_COMPETITIVE_MAKER
+	menu_additem(gMenu, "Open Mix Menu", "9");
+	#endif
+	
 	menu_setprop( gMenu, MPROP_EXIT, "Exit" );
 	menu_display(id, gMenu, 0);
 	
@@ -294,6 +299,13 @@ public handlerMenu(id, menu, item) {
 		case 7: {
 			// Sxe Ban Local Menu
 			client_cmd(id , "say /sxeban");
+		}
+		#endif
+		
+		#if defined USE_COMPETITIVE_MAKER
+		case 6: {
+			// Competitive Maker
+			client_cmd(id , "say /mix");
 		}
 		#endif
 	}
