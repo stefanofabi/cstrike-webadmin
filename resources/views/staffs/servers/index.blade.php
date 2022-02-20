@@ -28,6 +28,7 @@
                     <th> {{ trans('servers.id') }} </th>
                     <th> {{ trans('servers.name') }} </th>
                     <th> {{ trans('servers.ip') }} </th>
+                    <th> {{ trans('servers.online_date') }} </th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -41,9 +42,16 @@
 
                             <td id="server_ip_{{ $server->id }}"> {{ $server->ip }} </td>
 
+                            <td> 
+                                @if (!empty($server->online_date) && strtotime($server->online_date) <= strotime(date('Y-m-d H:i:s').'- 15 minutes')
+                                <span class="badge badge-success"> {{ trans('servers.online') }} </span> 
+                                @else
+                                <span class="badge badge-danger"> {{ trans('servers.offline') }} </span> 
+                                @endif
+                            </td>
                             <td class="float-right form-inline">
 
-				<a class="btn btn-success btn-sm mr-1 mb-1 ml-1" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> </a>
+				                <a class="btn btn-success btn-sm mr-1 mb-1 ml-1" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> </a>
 
                                 <button type="button" class="btn btn-info btn-sm mr-1 mb-1 ml-1" data-toggle="modal" data-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
                                     <span class="fas fa-edit"></span>

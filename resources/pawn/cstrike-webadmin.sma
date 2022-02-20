@@ -41,6 +41,7 @@ enum {
     SHOW_BAN,
     STORE_BAN,
     DESTROY_BAN,
+    SET_ONLINE_MODE,
 }
 
 new gBanAuth[MAX_BANS+1][44];
@@ -70,6 +71,8 @@ public plugin_init() {
 	
 	register_dictionary("cstrike_webadmin.txt");
 	
+	set_task(300.0, "setOnlineMode", _, _, _, "b");
+	
 	
 	if (MYSQL_Init()) {
 		loadAdmins();
@@ -83,6 +86,18 @@ public plugin_cfg()
     if(is_plugin_loaded("Pause Plugins") > -1)
         server_cmd("amx_pausecfg add ^"%s^"", PLUGIN);
 }  
+
+public setOnlineMode()
+{
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "UPDATE FROM servers SET online_date = CURRENT_TIMESTAMP AND server_id = %d", SERVER_ID);
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif
+	
+	executeLoadQuery(szQuery, SET_ONLINE_MODE);
+}
 
 public CmdUnban(id) {
 	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
@@ -921,6 +936,13 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 				
 				SQL_NextRow(query);
 			}
+		}
+		
+		case SET_ONLINE_MODE:
+		{
+			#if defined DEBUG
+					server_print("Server updated");
+			#endif
 		}
 	}
 }

@@ -33,5 +33,6 @@ return [
     'join' => 'Ingresar',
     'view_ranking' => 'Ver ranking',
     'ranking_url' => 'URL del ranking',
-    
+    'online' => 'En línea',
+    'offline' => 'Desconectado',
 ];

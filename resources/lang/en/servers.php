@@ -33,5 +33,7 @@ return [
     'join' => 'Join',
     'view_ranking' => 'View ranking',
     'ranking_url' => 'Ranking URL',
+    'online' => 'Online',
+    'offline' => 'Offline',
     
 ];

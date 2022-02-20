@@ -18,6 +18,7 @@ class CreateServersTable extends Migration
             $table->string('name');
             $table->string('ip');
             $table->string('ranking_url')->nullable();
+            $table->timestamp('online_date')->nullable();
 
             // Unique keys
             $table->unique('name');
