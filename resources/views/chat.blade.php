@@ -12,7 +12,7 @@
                             <div class="container">
 
                                 <a href="#" data-toggle="popover" title="{{ $chat_message->user->name }}" data-content="{{ $chat_message->user->short_description }}">  
-                                    <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}" alt="Avatar" style="width:30px; height: 30px"> 
+                                    <img src="{{ asset('storage/avatars/'.$chat_message->user->avatar ) }}?t={{ strtotime($chat_message->user->updated_at) }}" alt="Avatar" style="width:30px; height: 30px"> 
                                 </a>
                                 
                                 <p> 

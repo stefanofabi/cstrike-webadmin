@@ -85,6 +85,7 @@ class AvatarController extends Controller
         Storage::disk('public')->put("avatars/$avatar_name",  File::get($avatar));
 
         $user->avatar = $avatar_name;
+        $user->updated_at = date('Y-m-d H:i:s');
         $user->save();
 
         return view('change_avatar');

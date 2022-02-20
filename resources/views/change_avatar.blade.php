@@ -12,7 +12,7 @@
     <p> {{ trans('avatars.change_avatar_message') }} </p>
   
     <div class="card" style="width:400px; height: 600px">
-        <img class="card-img-top" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}" alt="Card image" style="width:100%">
+        <img class="card-img-top" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}?t={{ strtotime(Auth::user()->updated_at) }}" alt="Card image" style="width:100%">
     
         <div class="card-body float-right">
             <h4 class="card-title"> {{ auth()->user()->name }} </h4>
