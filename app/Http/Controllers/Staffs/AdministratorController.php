@@ -74,7 +74,7 @@ class AdministratorController extends Controller
             'account_flags' => 'required|array',
             'servers' => 'required|array',
             'rank_id' => 'required|string',
-            'expiration' => 'required|date', 
+            'expiration' => 'date|nullable', 
             'user_id' => 'numeric|nullable|min:1',
         ]);
 
@@ -169,7 +169,7 @@ class AdministratorController extends Controller
             'account_flags' => 'required',
             'servers' => 'required',
             'rank_id' => 'required|string',
-            'expiration' => 'required|date',          
+            'expiration' => 'date|nullable',        
             'user_id' => 'numeric|nullable|min:1', 
         ]);
 
