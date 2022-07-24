@@ -527,7 +527,7 @@ public loadAdmins() {
 public loadBans() {
 
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where expiration >= CURRENT_TIMESTAMP() AND server_id = %d ORDER BY expiration DESC LIMIT %d", SERVER_ID, MAX_BANS);
+	formatex(szQuery, charsmax(szQuery), "SELECT steam_id, ip FROM bans where (expiration >= CURRENT_TIMESTAMP() or expiration IS NULL) AND server_id = %d ORDER BY expiration DESC LIMIT %d", SERVER_ID, MAX_BANS);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
