@@ -587,7 +587,7 @@ public getAdminData(id) {
 	get_user_ip(id, ip, charsmax(ip), 1);
 	
 	new szQuery[200];
-	formatex(szQuery, charsmax(szQuery), "SELECT id, DATE_FORMAT(expiration, '%s/%s/%s') as expiration FROM administrators WHERE auth = '%s' OR auth = '%s' OR auth = '%s' LIMIT 1", "%d", "%m", "%Y", name, auth, ip)
+	formatex(szQuery, charsmax(szQuery), "SELECT id, DATE_FORMAT(expiration, '%s/%s/%s') as expiration FROM administrators WHERE auth = ^"%s^" OR auth = ^"%s^" OR auth = ^"%s^" LIMIT 1", "%d", "%m", "%Y", name, auth, ip)
 
 	executeQuery(szQuery, id, GET_ADMIN_DATA);
 	
