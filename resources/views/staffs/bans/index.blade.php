@@ -62,6 +62,7 @@
                     <th> {{ trans('bans.steam_id') }} </th>
                     <th> {{ trans('bans.ip') }} </th>
                     <th> {{ trans('bans.expiration') }} </th>
+                    <th> {{ trans('bans.banned_by_admin') }} </th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -101,6 +102,8 @@
                                 @endif
                             </td>
 
+                            <td> {{ $ban->administrator->name ?? 'N/A' }} </td>
+
                             <td class="float-right form-inline">
                                 <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editBan" onclick="return editBan('{{ $ban->id }}')" title="{{ trans('bans.edit_ban') }}">
                                     <span class="fas fa-edit"></span>
@@ -116,7 +119,7 @@
                         </tr>
                     @endforeach
                 @else 
-                    <td colspan="6"> {{ trans('forms.no_data' )}} </td>
+                    <td colspan="7"> {{ trans('forms.no_data' )}} </td>
                 @endif
             </tbody>
 

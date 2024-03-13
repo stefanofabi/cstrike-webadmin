@@ -52,5 +52,6 @@ return [
     'details_ban' => 'Details ban',
     'details_ban_message' => 'Hi! We are sorry that this happened, we try to maintain a certain harmony on our servers by expelling all players who violate our rules. If you think this was a mistake, please kindly contact one of our staff members.',
     'steam_id_not_valid' => 'Steam ID not valid',
+    'banned_by_admin' => 'Banned by Admin',
     
 ];

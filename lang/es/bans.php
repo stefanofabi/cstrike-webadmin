@@ -52,5 +52,5 @@ return [
     'details_ban' => 'Detalles de la prohibición',
     'details_ban_message' => '¡Hola! Lamentamos que esto haya sucedido, tratamos de mantener cierta armonía en nuestros servidores expulsando a todos los jugadores que violen nuestras reglas. Si cree que se trata de un error, póngase en contacto con uno de los miembros de nuestro personal.',
     'steam_id_not_valid' => 'Steam ID no valida',
-
+    'banned_by_admin' => 'Bloqueado por el Administrador',
 ];
