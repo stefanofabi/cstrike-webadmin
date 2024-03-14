@@ -18,6 +18,14 @@ class Server extends Model
         'ranking_url',
     ];
 
+    /**
+     * Get the chat for the server.
+     */
+    public function gameChats()
+    {
+        return $this->hasMany(GameChat::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

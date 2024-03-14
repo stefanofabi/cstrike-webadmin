@@ -34,14 +34,6 @@ class Administrator extends Model
     }
 
     /**
-     * Get the privileges for the administrator.
-     */
-    public function privileges()
-    {
-        return $this->hasMany(Privilege::class);
-    }
-
-    /**
      * Get the user associated with the administrator.
      */
     public function user()

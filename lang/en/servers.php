@@ -37,5 +37,7 @@ return [
     'offline' => 'Offline',
     'server_status' => 'Server status',
     'server' => 'Server',
+    'see_game_chat' => 'See game chat',
+    'game_chat' => 'Game chat',
     
 ];

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
+use Carbon\Carbon;
 
 use App\Models\Server;
+use App\Models\GameChat;
 
 use Lang; 
 
@@ -157,5 +159,16 @@ class ServerController extends Controller
         }
         
         return redirect()->action([ServerController::class, 'index']);
+    }
+
+    public function seeGameChat(Request $request) 
+    {
+        try {
+            $server = Server::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 500);
+        }
+
+        return $server->gameChats()->orderBy('date', 'DESC')->take(500)->get();
     }
 }

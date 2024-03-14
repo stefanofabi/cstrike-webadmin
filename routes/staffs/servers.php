@@ -17,4 +17,6 @@ Route::group([
     
     Route::delete('destroy/{id}', ['\App\Http\Controllers\Staffs\ServerController', 'destroy'])->name('destroy')->where('id', '[1-9][0-9]*');
     
+    Route::post('see-game-chat', ['\App\Http\Controllers\Staffs\ServerController', 'seeGameChat'])->name('see_game_chat');
+
 });

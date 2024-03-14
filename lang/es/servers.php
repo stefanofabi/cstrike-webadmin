@@ -37,5 +37,7 @@ return [
     'offline' => 'Desconectado',
     'server_status' => 'Estado del servidor',
     'server' => 'Server',
+    'see_game_chat' => 'Ver chat del juego',
+    'game_chat' => 'Chat del juego',
     
 ];

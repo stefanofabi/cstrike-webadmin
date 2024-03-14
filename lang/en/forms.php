@@ -27,5 +27,6 @@ return [
     'select_server' => 'Select a server',
     'choose_file' => 'Choose file',
     'start_typing' => 'Start typing and select an option',
+    'close' => 'Close',
     
 ];

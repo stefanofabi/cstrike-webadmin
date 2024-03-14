@@ -37,6 +37,7 @@
 @section('right-content')
 
     @include('staffs.servers.edit')
+    @include('staffs.servers.game_chat')
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-end">
@@ -76,13 +77,16 @@
                                 @endif
                             </td>
                             <td class="text-end form-inline">
-
 				                <a class="btn btn-success btn-sm" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> </a>
 
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
-                                    <span class="fas fa-edit"></span>
-                                </button>
+                                <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#seeGameChat" onclick="return seeGameChat('{{ $server->id }}')" title="{{ trans('servers.see_game_chat') }}">
+                                    <i class="fa-solid fa-comments"></i>
+                                </a>
 
+                                <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editServer" onclick="return editServer('{{ $server->id }}')" title="{{ trans('servers.edit_server') }}">
+                                    <span class="fas fa-edit"></span>
+                                </a>
+                                
                                 <a class="btn btn-primary btn-sm" title="{{ trans('servers.destroy_server') }}" onclick="destroyServer('{{ $server->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
 
                                 <form id="destroy_server_{{ $server->id }}" method="POST" action=" {{ route('staffs/servers/destroy', ['id' => $server->id]) }}">
