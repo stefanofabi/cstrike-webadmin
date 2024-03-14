@@ -5,10 +5,8 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="module">
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-
             $("#checkAll").click(function () {  
                 
                 if ($('#checkAll').val() == 'on') {
@@ -35,26 +33,24 @@
     <form action="{{ route('staffs/servers/store') }}" method="POST">
         @csrf
 
-        <div class="form-group">
+        <div class="col-9">
             <label for="name"> <h5> <strong> {{ trans('servers.name') }}: </h5> </strong> </label>
             
-            <input type="text" class="form-control col-6" placeholder="{{ trans('servers.enter_name') }}" name="name" value="{{ @old('name') }}" required>
+            <input type="text" class="form-control" placeholder="{{ trans('servers.enter_name') }}" name="name" value="{{ @old('name') }}" required>
         </div>
 
-        <div class="form-group">
+        <div class="col-9 mt-3">
             <label for="auth"> <h5> <strong> {{ trans('servers.ip') }}: </strong> </h5> </label>
             
-            <input type="text" class="form-control col-6" placeholder="{{ trans('servers.enter_ip') }}" name="ip" value="{{ @old('ip') }}" required>
+            <input type="text" class="form-control" placeholder="{{ trans('servers.enter_ip') }}" name="ip" value="{{ @old('ip') }}" required>
         </div>
 
-        <div class="form-group">
+        <div class="col-9 mt-3">
             <label for="auth"> <h5> <strong> {{ trans('servers.ranking_url') }}: </strong> </h5> </label>
             
-            <input type="text" class="form-control col-6" name="ranking_url" value="{{ @old('ranking_url') }}">
+            <input type="text" class="form-control" name="ranking_url" value="{{ @old('ranking_url') }}">
         </div>
         
-        <button style="clear: both" type="submit" class="btn btn-primary float-right mb-3 mt-4"> {{ trans('forms.submit') }}</button>
+        <button style="clear: both" type="submit" class="btn btn-primary mt-3 mb-3"> {{ trans('forms.submit') }}</button>
     </form>
-    
-    <hr style="clear: both">
 @endsection

@@ -24,9 +24,12 @@ class CreateAdministratorsTable extends Migration
 
             $table->unsignedBigInteger('rank_id');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('server_id');
+
+            $table->dateTime('suspended')->nullable();
 
             // Unique keys
-            $table->unique('auth');
+            $table->unique(['auth', 'server_id']);
 
             // For simplicity, only one administrator per user account will be allowed
             $table->unique('user_id');        
@@ -34,7 +37,8 @@ class CreateAdministratorsTable extends Migration
             // Foreign keys
             $table->foreign('rank_id')->references('id')->on('ranks')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-
+            $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
+            
             $table->timestamps();
             
             $table->engine = 'InnoDB';

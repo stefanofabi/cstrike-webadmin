@@ -5,8 +5,7 @@
 @endsection
 
 @section('content')
-
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -27,8 +26,6 @@
                                         <i style="font-size: 8vw" class="fas fa-users"></i>
                                     </h1>
 
-                                    <br />
-
                                     {{ trans('home.administrators') }}
                                 </a>
                             </div>
@@ -40,21 +37,18 @@
                                     <i style="font-size: 8vw" class="fas fa-key"></i>
                                 </h1>
 
-                                <br />
                                 {{ trans('home.ranks') }}
                             </a>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="col">
                             <div style="text-align: center;">
                                 <a class="nav-link" style="color: black" href="{{ route('staffs/servers/index') }}">
                                     <h1>
                                         <i style="font-size: 8vw" class="fas fa-server"></i>
                                     </h1>
-
-                                    <br />
 
                                     {{ trans('home.servers') }}
                                 </a>
@@ -67,8 +61,6 @@
                                     <h1>
                                         <i style="font-size: 8vw" class="fas fa-ban"></i>
                                     </h1>
-
-                                    <br />
 
                                     {{ trans('home.bans') }}
                                 </a>

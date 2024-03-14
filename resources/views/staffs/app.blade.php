@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
-   <div class="col-md-3 mt-3 mb-3 float-left">
-      <nav class="navbar bg-light">
+<div class="row mt-3">
+   <div class="col-md-3">
+      <nav class="navbar">
          <ul class="navbar-nav">
             <li class="nav-item">
                   <a class="nav-link" href="{{ route('staffs/administrators/index') }}"> {{ trans('home.administrators') }} </a>
@@ -30,14 +30,11 @@
             </li>
          </ul>
       </nav>
-
-      @section('left-content')
-      @show
    </div>
 
-   <div class="col-md-9 mt-3 mb-3 float-left mb-5">
+   <div class="col-md">
       @section('right-content')
       @show
    </div>
-
+</div>
 @endsection

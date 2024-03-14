@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 
     function clearData() {
 
@@ -48,9 +48,8 @@
                     $('#flag_'+account_flag).attr('checked', true);
                 });
 
-                privileges.forEach(function(privilege, index) {
-                    $('#server_'+privilege['server_id']).attr('checked', true);
-                });
+                $("#modal_server_id").val(administrator['server_id']);
+
 
                 $("#modal_administrator_expiration").val(administrator['expiration']);
                 $("#modal_administrator_rank_id option[value='"+administrator['rank_id']+"']").attr("selected",true);
@@ -58,7 +57,11 @@
                 if (user) {
                     $("#modal_administrator_account").val(user['email']);
                     $("#modal_user_id").val(administrator['user_id']);     
-                }     
+                }
+                
+                if (administrator['suspended'] !== null) {
+                    $('#modal_suspend_administrator').attr('checked', true);
+                }
             }
         }).fail( function() {
             $("#modal_administrators_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("administrators.danger_edited_administrator") }} </div>');
@@ -81,6 +84,8 @@
             "expiration" : $("#modal_administrator_expiration").val(),
             "rank_id" : $("#modal_administrator_rank_id").val(),
             "user_id" : $("#modal_user_id").val(),
+            "server_id" : $("#modal_server_id").val(),
+            "suspended" : $('#modal_suspend_administrator').prop('checked')
 		};
 
 		$.ajax({
@@ -114,37 +119,4 @@
             form.submit();
         }
     }
-
-    
-    $(function () {
-        $("#modal_administrator_account").autocomplete({
-            appendTo: "#editAdministrator",
-            minLength: 2,
-            source: function (event, ui) {
-                var parameters = {
-                    "_token": '{{ csrf_token() }}',
-                    "filter": $("#modal_administrator_account").val()
-                };
-
-                $.ajax({
-                    data: parameters,
-                    url: '{{ route("staffs/administrators/load_users") }}',
-                    type: 'post',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        // nothing...
-                    },
-                    success: ui
-                });
-
-                return ui;
-            },
-            select: function (event, ui) {
-                event.preventDefault();
-                $('#modal_administrator_account').val(ui.item.label);
-                $('#modal_user_id').val(ui.item.id);
-            }
-        });
-    });
-    
 </script>

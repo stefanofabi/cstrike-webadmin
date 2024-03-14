@@ -8,13 +8,38 @@
     
     @include('staffs.administrators.js')
 
-    <script>
+    <script type="module">
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-
             $('#rank').val("{{ @old('rank_id') }}");
         });
     </script>
+
+    <script type="module">
+        $('#myAdministratorsTable').DataTable({
+            "language": {
+                "info": '{{ trans('datatables.info') }}',
+                "infoEmpty": '{{ trans('datatables.info_empty') }}',
+                "infoFiltered": '{{ trans('datatables.info_filtered') }}',
+                "search": '{{ trans('datatables.search') }}',
+                "paginate": {
+                    "first": '{{ trans('datatables.first') }}',
+                    "last": '{{ trans('datatables.last') }}',
+                    "previous": '{{ trans('datatables.previous') }}',
+                    "next": '{{ trans('datatables.next') }}',
+                },
+                "lengthMenu": '{{ trans('datatables.show') }} '+
+                    '<select class="form-select form-select-sm">'+
+                    '<option value="10"> 10 </option>'+
+                    '<option value="20"> 20 </option>'+
+                    '<option value="30"> 30 </option>'+
+                    '<option value="-1"> {{ trans('datatables.all') }} </option>'+
+                    '</select> {{ trans('datatables.records') }}',
+                "emptyTable": '{{ trans('datatables.no_data') }}',
+                "zeroRecords": '{{ trans('datatables.no_match_records') }}',
+            }
+        });
+    </script>
+
 
     <script>
         window.addEventListener("load", function() {
@@ -43,10 +68,10 @@
 @section('style')
     <style>
         .password-icon {
-        float: right;
-        position: relative;
-        margin: -25px 10px 0 0;
-        cursor: pointer;
+            float: right;
+            position: relative;
+            margin: -25px 10px 0 0;
+            cursor: pointer;
         }
     </style>
 @endsection
@@ -56,21 +81,21 @@
     @include('staffs.administrators.edit')
 
     <div class="p-3 my-3 bg-primary text-white">
-        <div class="btn-group float-right">
-            <a  href="{{ route('staffs/administrators/create') }}" class="btn btn-info"> <span class="fas fa-user-plus"> </span> {{ trans('administrators.create_administrator') }} </a>
+        <div class="btn-group float-end">
+            <a  href="{{ route('staffs/administrators/create') }}" class="btn btn-light"> <span class="fas fa-user-plus"> </span> {{ trans('administrators.create_administrator') }} </a>
         </div>
 
         <h1> <span class="fas fa-users"> </span> {{ trans('home.administrators') }} </h1>
         <p class="col-9"> {{trans('administrators.welcome_message') }} </p>
     </div>
 
-    <div class="card">
-        <table class="table table-striped">
+    <div>
+        <table class="table table-striped w-100" id="myAdministratorsTable">
             <thead>
                 <tr>
                     <th> {{ trans('administrators.name') }} </th>
-                    <th> {{ trans('administrators.auth') }} </th>
                     <th> {{ trans('administrators.expiration') }} </th>
+                    <th> {{ trans('servers.server') }}</th>
                     <th> {{ trans('ranks.rank') }}</th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
                 </tr>
@@ -80,8 +105,14 @@
                 @if ($administrators->isNotEmpty())
                     @foreach ($administrators as $administrator)
                         <tr>
-                            <td id="administrator_name_{{ $administrator->id }}"> {{ $administrator->name }} </td>
-                            <td id="administrator_auth_{{ $administrator->id }}"> {{ $administrator->auth }} </td>
+                            <td id="administrator_name_{{ $administrator->id }}"> 
+                                {{ $administrator->name }} 
+
+                                @if (! empty($administrator->suspended))
+                                <span class="badge bg-danger"> {{ trans('administrators.suspended') }}</span> 
+                                @endif
+                            </td>
+
                             <td id="administrator_expiration_{{ $administrator->id }}">
                                 @if (empty($administrator->expiration))
                                     {{ trans('administrators.no_expiration') }}
@@ -89,28 +120,30 @@
                                     {{ date('d/m/Y', strtotime($administrator->expiration)) }}
 
                                     @if (date('Y-m-d') > $administrator->expiration)
-                                        <span class="badge badge-danger"> {{ trans('administrators.expired') }}</span> 
+                                        <span class="badge bg-danger"> {{ trans('administrators.expired') }}</span> 
                                     @endif
                                 @endif                         
                             </td>
+
+                            <td id="administrator_server_{{ $administrator->id }}"> {{ $administrator->server->name }} </td>
+                            
                             <td id="administrator_rank_{{ $administrator->id }}"> {{ $administrator->rank->name }} </td>
 
-                            <td class="float-right form-inline">
-                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
+                            <td class="text-end">
+                                <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
                                     <span class="fas fa-user-edit"></span>
-                                </button>
+                                </a>
 
+                                <a class="btn btn-primary btn-sm" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
+                                
                                 <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staffs/administrators/destroy', ['id' => $administrator->id]) }}">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
                                 </form>                                
                             </td>
                         </tr>
                     @endforeach
-                @else 
-                    <td colspan="5"> {{ trans('forms.no_data' )}} </td>
                 @endif
             </tbody>
 

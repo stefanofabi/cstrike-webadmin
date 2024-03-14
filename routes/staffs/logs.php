@@ -6,10 +6,6 @@ Route::group([
     'prefix' => 'logs',
     'as' => 'logs/',
 ], function () {
-    Route::get('logs/system_logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
-        ->name('system_logs')
-        ->middleware('permission:system_logs');
-
     Route::get('logs/activity_logs', function () {
         $activities = Activity::all();
 

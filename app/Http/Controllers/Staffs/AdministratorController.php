@@ -7,11 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
+use Carbon\Carbon;
 
 use App\Models\Administrator;
 use App\Models\Rank;
 use App\Models\Server;
-use App\Models\Privilege;
 use App\Models\User;
 
 use Lang;
@@ -75,36 +75,31 @@ class AdministratorController extends Controller
             'servers' => 'required|array',
             'rank_id' => 'required|string',
             'expiration' => 'date|nullable', 
-            'user_id' => 'numeric|nullable|min:1',
+            'administrator_account' => 'email|nullable',
         ]);
 
         DB::beginTransaction();
 
         try {
 
-            $administrator = new Administrator(
-                [
-                    'name' => $request->name,
-                    'auth' => $request->auth,
-                    'password' => $request->password,
-                    'account_flags' => implode($request->account_flags),
-                    'expiration' => $request->expiration,
-                    'rank_id' => $request->rank_id,
-                    'user_id' => $request->user_id,
-                ]
-            );
-
-            $administrator->save();
+            $user = User::where('email', $request->administrator_account)->first();
 
             foreach ($request->servers as $server) {
-                $server_privilege = new Privilege(
+
+                $administrator = new Administrator(
                     [
-                        'administrator_id' => $administrator->id,
+                        'name' => $request->name,
+                        'auth' => $request->auth,
+                        'password' => $request->password,
+                        'account_flags' => implode($request->account_flags),
+                        'expiration' => $request->expiration,
+                        'rank_id' => $request->rank_id,
+                        'user_id' => $user->id ?? null,
                         'server_id' => $server
                     ]
                 );
-
-                $server_privilege->save();
+    
+                $administrator->save();
             }
 
             DB::commit();
@@ -146,7 +141,6 @@ class AdministratorController extends Controller
 
         return response()->json([
             'administrator' => $administrator,
-            'privileges' => $administrator->privileges,
             'user' => $administrator->user,
         ], 200);
     }
@@ -170,7 +164,7 @@ class AdministratorController extends Controller
             'servers' => 'required',
             'rank_id' => 'required|string',
             'expiration' => 'date|nullable',        
-            'user_id' => 'numeric|nullable|min:1', 
+            'administrator_account' => 'email|nullable',
         ]);
 
         DB::beginTransaction();
@@ -185,6 +179,8 @@ class AdministratorController extends Controller
             foreach ($account_flags as $account_flag) {
                 $flags .= "$account_flag->value";
             }
+            
+            $user = User::where('email', $request->administrator_account)->first();
 
             $administrator->update([
                 'name' => $request->name,
@@ -193,23 +189,11 @@ class AdministratorController extends Controller
                 'account_flags' => $flags,
                 'expiration' => $request->expiration,
                 'rank_id' => $request->rank_id,
-                'user_id' => $request->user_id,
+                'user_id' => $user->id ?? null,
+                'server_id' => $request->server_id,
+                'suspended' => ($request->suspended) ? Carbon::now() : null,
+
             ]);
-
-            Privilege::where('administrator_id', $request->id)->delete();
-
-            $servers = json_decode($request->servers);
-
-            foreach ($servers as $server) {
-                $server_privilege = new Privilege(
-                    [
-                        'administrator_id' => $request->id,
-                        'server_id' => $server->value,
-                    ]
-                );
-
-                $server_privilege->save();
-            }
 
             DB::commit();
 

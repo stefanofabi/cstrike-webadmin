@@ -5,6 +5,33 @@
 @endsection
 
 @section('js')
+
+    <script type="module">
+        $('#myPlayersTable').DataTable({
+            "language": {
+                "info": '{{ trans('datatables.info') }}',
+                "infoEmpty": '{{ trans('datatables.info_empty') }}',
+                "infoFiltered": '{{ trans('datatables.info_filtered') }}',
+                "search": '{{ trans('datatables.search') }}',
+                "paginate": {
+                    "first": '{{ trans('datatables.first') }}',
+                    "last": '{{ trans('datatables.last') }}',
+                    "previous": '{{ trans('datatables.previous') }}',
+                    "next": '{{ trans('datatables.next') }}',
+                },
+                "lengthMenu": '{{ trans('datatables.show') }} '+
+                    '<select class="form-select form-select-sm">'+
+                    '<option value="10"> 10 </option>'+
+                    '<option value="20"> 20 </option>'+
+                    '<option value="30"> 30 </option>'+
+                    '<option value="-1"> {{ trans('datatables.all') }} </option>'+
+                    '</select> {{ trans('datatables.records') }}',
+                "emptyTable": '{{ trans('datatables.no_data') }}',
+                "zeroRecords": '{{ trans('datatables.no_match_records') }}',
+            }
+        });
+    </script>
+
     @include('staffs.players.js')
 @endsection
 
@@ -14,8 +41,8 @@
         <p class="col-9"> {{trans('players.welcome_message') }} </p>
     </div>
 
-    <div class="card">
-        <table class="table table-striped">
+    <div>
+        <table class="table table-striped w-100" id="myPlayersTable">
             <thead>
                 <tr>
                     <th> {{ trans('players.date') }} </th>
@@ -23,7 +50,7 @@
                     <th> {{ trans('players.steam_id') }} </th>
                     <th> {{ trans('players.ip') }} </th>
                     <th> {{ trans('players.server_name') }} </th>
-                    <th class="text-right"> {{ trans('forms.actions') }}</th>
+                    <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
             
@@ -37,23 +64,20 @@
                             <td> {{ $player->ip }} </td>
                             <td> {{ $player->server->name }} </td>
 
-                            <td class="float-right form-inline">
-                                <a href="{{ route('staffs/bans/create', $player->id) }}" class="btn btn-info btn-sm mr-1 mb-1" title="{{ trans('players.ban_player') }}" > <i class="fas fa-ban fa-sm"></i> </a>                             
+                            <td class="text-end">
+                                <a href="{{ route('staffs/bans/create', $player->id) }}" class="btn btn-primary btn-sm" title="{{ trans('players.ban_player') }}" > <i class="fas fa-ban fa-sm"></i> </a>                             
                             
+                                <a class="btn btn-primary btn-sm" title="{{ trans('players.destroy_player') }}" onclick="destroyPlayer('{{ $player->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+
                                 <form id="destroy_player_{{ $player->id }}" method="POST" action=" {{ route('staffs/players/destroy', ['id' => $player->id]) }}">
                                     @csrf
                                     @method('DELETE')
-
-                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('players.destroy_player') }}" onclick="destroyPlayer('{{ $player->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
                                 </form>     
                             </td>
                         </tr>
                     @endforeach
-                @else 
-                    <td colspan="6"> {{ trans('forms.no_data' )}} </td>
                 @endif
             </tbody>
-
         </table>
     </div>
 @endsection

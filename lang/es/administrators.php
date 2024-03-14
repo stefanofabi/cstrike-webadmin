@@ -44,5 +44,9 @@ return [
     'renew_now' => 'Renovar ahora',
     'price_monthly' => 'Precio mensual',
     'no_expiration' => 'Sin vencimiento',
-    
+    'suspend_administrator' => 'Suspender Administrador',
+    'select_a_server' => 'Selecciona un Servidor',
+    'suspended' => 'Suspendido',
+    'enter_administrator_email' => 'Ingresa el email del administrador'
+
 ];

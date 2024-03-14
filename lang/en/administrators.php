@@ -44,5 +44,8 @@ return [
     'renew_now' => 'Renew now',
     'price_monthly' => 'Price monthly',
     'no_expiration' => 'No expiration',
-    
+    'suspend_administrator' => 'Suspend administrator',
+    'select_a_server' => 'Select a server',
+    'suspended' => 'Suspended',
+    'enter_administrator_email' => 'Enter the administrator email'
 ];

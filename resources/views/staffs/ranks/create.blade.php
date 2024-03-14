@@ -5,10 +5,8 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="module">
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-
             $("#checkAll").click(function () {  
                 
                 if ($('#checkAll').val() == 'on') {
@@ -20,14 +18,10 @@
                 }
             });
         });
-
-        
     </script>
-
 @endsection
 
 @section('right-content')
-
     <div class="p-3 my-3 bg-primary text-white">
         <h1> {{ trans('ranks.create_rank') }} </h1>
         <p class="col-9"> {{trans('ranks.create_rank_message') }} </p>
@@ -36,31 +30,31 @@
     <form action="{{ route('staffs/ranks/store') }}" method="POST">
         @csrf
 
-        <div class="form-group">
+        <div class="col-9">
             <label for="name"> <h5> <strong> {{ trans('ranks.name') }}: </h5> </strong> </label>
             
-            <input type="text" class="form-control col-6" placeholder="{{ trans('ranks.enter_name') }}" name="name" value="{{ @old('name') }}" required>
+            <input type="text" class="form-control" placeholder="{{ trans('ranks.enter_name') }}" name="name" value="{{ @old('name') }}" required>
         </div>
 
-        <div class="form-group">
+        <div class="col-9 mt-3">
             <label for="auth"> <h5> <strong> {{ trans('ranks.price') }}: </strong> </h5> </label>
             
-            <input type="number" class="form-control col-6" placeholder="{{ trans('ranks.enter_price') }}" name="price" value="{{ @old('price') }}" step="0.1" required>
+            <input type="number" class="form-control" placeholder="{{ trans('ranks.enter_price') }}" name="price" value="{{ @old('price') }}" step="0.1" required>
         </div>
 
-        <div class="form-group">
+        <div class="col-9 mt-3">
             <label for="name"> <h5> <strong> {{ trans('ranks.purchase_link') }}: </h5> </strong> </label>
             
-            <input type="text" class="form-control col-6" name="purchase_link" value="{{ @old('purchase_link') }}">
+            <input type="text" class="form-control" name="purchase_link" value="{{ @old('purchase_link') }}">
         </div>
 
-        <div class="form-group">
+        <div class="col-9 mt-3">
             <label for="auth"> <h5> <strong> {{ trans('ranks.color') }}: </strong> </h5> </label>
             
-            <input type="color" class="form-control col-6" name="color" value="{{ @old('color') }}" required>
+            <input type="color" class="form-control" name="color" @if (old('color')) value="{{ @old('color') }}" @endif required>
         </div>
 
-        <div class="form-group">
+        <div class="mt-3">
             <h5> 
                 <strong> {{ trans('ranks.access_flags') }}: </strong>  
 
@@ -239,8 +233,6 @@
             </div>
         </div>
         
-        <button style="clear: both" type="submit" class="btn btn-primary float-right mb-3 mt-4"> {{ trans('forms.submit') }}</button>
+        <button style="clear: both" type="submit" class="btn btn-primary mb-3 mt-4"> {{ trans('forms.submit') }}</button>
     </form>
-    
-    <hr style="clear: both">
 @endsection

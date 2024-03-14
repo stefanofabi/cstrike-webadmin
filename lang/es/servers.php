@@ -36,5 +36,6 @@ return [
     'online' => 'En línea',
     'offline' => 'Desconectado',
     'server_status' => 'Estado del servidor',
-
+    'server' => 'Server',
+    
 ];

@@ -36,5 +36,6 @@ return [
     'online' => 'Online',
     'offline' => 'Offline',
     'server_status' => 'Server status',
-
+    'server' => 'Server',
+    
 ];

@@ -1,5 +1,13 @@
-require('./bootstrap');
+import './bootstrap';
 
-require('@fortawesome/fontawesome-free/js/all.js');
+import * as bootstrap from '~bootstrap';
+window.bootstrap = bootstrap;
 
-require('jquery-ui/ui/widgets/autocomplete.js');
+import $ from 'jquery';
+window.$ = $;
+
+import '@fortawesome/fontawesome-free/js/all.js';
+
+import "~datatables.net-bs5";
+
+import '../sass/app.scss'

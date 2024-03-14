@@ -20,6 +20,9 @@ class Administrator extends Model
         'rank_id',
         'expiration',
         'user_id',
+        'suspended',
+        'server_id',
+
     ];
 
     /**
@@ -44,6 +47,14 @@ class Administrator extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the server associated with the administrator.
+     */
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
     }
 
     public function getActivitylogOptions(): LogOptions
