@@ -22,8 +22,6 @@
 #define SQL_PASSWORD ""
 #define SQL_DATABASE ""
 
-
-//#define USE_SXE
 //#define USE_COMPETITIVE_MAKER
 
 // =========== FROM THIS LINE, DO NOT TOUCH ===========
@@ -238,11 +236,6 @@ public cmdOpenAdminMenu(id) {
 	menu_additem(gMenu, "Transfer players", "5");
 	menu_additem(gMenu, "Start voting of maps", "6");
 	
-	#if defined USE_SXE
-	menu_additem(gMenu, "Open Screens Menu", "7");
-	menu_additem(gMenu, "Open Local Ban menu", "8");
-	#endif
-	
 	#if defined USE_COMPETITIVE_MAKER
 	menu_additem(gMenu, "Open Mix Menu", "9");
 	#endif
@@ -289,18 +282,6 @@ public handlerMenu(id, menu, item) {
 			// Transferir jugador
 			client_cmd(id , "amx_votemapmenu");
 		}
-		
-		#if defined USE_SXE
-		case 6: {
-			// Sxe Screens Menu
-			client_cmd(id , "say /sxescreen");
-		}
-		
-		case 7: {
-			// Sxe Ban Local Menu
-			client_cmd(id , "say /sxeban");
-		}
-		#endif
 		
 		#if defined USE_COMPETITIVE_MAKER
 		case 8: {
@@ -514,7 +495,7 @@ public MYSQL_Init() {
 
 public loadAdmins() {
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "SELECT A.auth, A.password, R.access_flags, A.account_flags, IF(A.expiration < CURRENT_DATE, 'expired', 'not expired') as expiration  FROM administrators A JOIN privileges P ON A.id = P.administrator_id JOIN ranks R ON A.rank_id = R.id WHERE P.server_id = %d",SERVER_ID);
+	formatex(szQuery, charsmax(szQuery), "SELECT A.auth, A.password, R.access_flags, A.account_flags, IF(A.expiration < CURRENT_DATE or A.suspended IS NOT NULL, 'expired', 'not expired') as expiration  FROM administrators A JOIN privileges P ON A.id = P.administrator_id JOIN ranks R ON A.rank_id = R.id WHERE P.server_id = %d",SERVER_ID);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
