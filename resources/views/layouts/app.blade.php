@@ -28,14 +28,12 @@
                     <img src="{{ asset('img/logo.png') }}" alt="{{ trans('home.logo') }}" width="150">
                 </a>
 
-                <div id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -51,41 +49,34 @@
                             @endif
                         @else
                             
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img height="30px" width="30px" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}?t={{ strtotime(Auth::user()->updated_at) }}" class="rounded-circle" alt="{{ Auth::user()->avatar }}"> {{ Auth::user()->name }} <span class="caret"> </span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                                    <a class="dropdown-item" href="{{ route('auth/change_password') }}">  {{ trans('auth.change_password') }}</a>
-
-                                    <a class="dropdown-item" href="{{ route('auth/change_avatar') }}">  {{ trans('avatars.change_avatar') }}</a>
-
-                                    @can('system_logs')
-                                        <a class="dropdown-item disabled" href="" target="_blank">  {{ trans('home.system_logs') }}</a>
-                                    @endcan
-
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
                         @endguest
                     </ul>
+
+                    <div class="dropdown me-5">
+                        <a class="dropdown-toggle text-decoration-none text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <img height="30px" width="30px" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}?t={{ strtotime(Auth::user()->updated_at) }}" class="rounded-circle" alt="{{ Auth::user()->avatar }}"> {{ Auth::user()->name }} <span class="caret"> </span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+
+                            <li class="dropdown-item"> <a class="text-decoration-none text-dark" href="{{ route('auth/change_password') }}">  {{ trans('auth.change_password') }}</a> </li>
+
+                            <li class="dropdown-item"> <a class="text-decoration-none text-dark" href="{{ route('auth/change_avatar') }}">  {{ trans('avatars.change_avatar') }}</a> </li>
+
+                            <li class="dropdown-item"> <a class="text-decoration-none text-dark" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a> </li>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
 
         <div class="container-fluid">
             @if ($errors->any())
-                    <div class="alert alert-danger ml-5 mr-5">
+                    <div class="alert alert-danger ms-5 me-5">
                         <p> <strong> {{ trans('forms.failed_transaction') }} </strong> </p>
 
                         <ul>
