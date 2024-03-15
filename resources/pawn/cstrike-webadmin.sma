@@ -3,6 +3,7 @@
 #include <amxmodx>
 #include <amxmisc>
 #include <sqlx>
+#include <cstrike>
 
 #define PLUGIN "cstrike-webadmin"
 #define VERSION "1.0"
@@ -41,6 +42,7 @@ enum {
     STORE_BAN,
     DESTROY_BAN,
     SET_ONLINE_MODE,
+	LOG_CHAT,
 }
 
 new gBanAuth[MAX_BANS+1][44];
@@ -59,6 +61,8 @@ new gUnbanPlayer[MAX_PLAYERS+1][44];
 public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
 	
+	register_clcmd("say", "clcmd_say");
+	
 	register_concmd("amx_ban", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
 	register_concmd("amx_banip", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
 	register_concmd("amx_addban", "CmdBan", ADMIN_BAN, "<name> <authid or ip> <time in minutes> <reason>");
@@ -75,8 +79,38 @@ public plugin_init() {
 		
 		loadBans();
 		
+		setOnlineMode();
+		
 		set_task(300.0, "setOnlineMode", _, _, _, "b");
 	}
+}
+
+public clcmd_say(id)
+{
+	static said[191];
+	read_args(said, charsmax(said))
+	remove_quotes(said)
+	replace_all(said, charsmax(said), "%", " ")
+		
+	new alive = (is_user_alive(id)) ? 1 : 0;
+    
+	static name[32]
+	get_user_name(id,name,charsmax(name))
+  
+	new team[32];
+	
+	if (cs_get_user_team(id) == CS_TEAM_CT)
+		format(team, charsmax(team), "%s", "CT")
+	else if (cs_get_user_team(id) == CS_TEAM_T)
+		format(team, charsmax(team), "%s", "T")
+	else
+		format(team, charsmax(team), "%s", "SPEC")
+    
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "INSERT INTO game_chats(name, message, team, alive, server_id) VALUES (^"%s^", ^"%s^", ^"%s^", %d, %d)", name, said, team, alive, SERVER_ID);
+	executeQuery(szQuery, id, LOG_CHAT);
+    
+	return PLUGIN_CONTINUE;
 }
 
 public plugin_cfg()
@@ -821,6 +855,11 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				
 			client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s", PREFIX, admin_name, id, "HAS_BEEN_UNBANNED", gUnbanPlayer[id]);
 			client_cmd(id, "^4%s ^1ADMIN ^4%s ^1%L ^4%s", PREFIX, admin_name, id, "HAS_BEEN_UNBANNED", gUnbanPlayer[id]);	
+		
+		}
+		
+		case LOG_CHAT: {
+				
 		
 		}
 	}
