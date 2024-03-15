@@ -17,31 +17,31 @@
         
     </script>
 
-<script type="module">
-    $('#myBansTable').DataTable({
-        "language": {
-            "info": '{{ trans('datatables.info') }}',
-            "infoEmpty": '{{ trans('datatables.info_empty') }}',
-            "infoFiltered": '{{ trans('datatables.info_filtered') }}',
-            "search": '{{ trans('datatables.search') }}',
-            "paginate": {
-                "first": '{{ trans('datatables.first') }}',
-                "last": '{{ trans('datatables.last') }}',
-                "previous": '{{ trans('datatables.previous') }}',
-                "next": '{{ trans('datatables.next') }}',
-            },
-            "lengthMenu": '{{ trans('datatables.show') }} '+
-                '<select class="form-select form-select-sm">'+
-                '<option value="10"> 10 </option>'+
-                '<option value="20"> 20 </option>'+
-                '<option value="30"> 30 </option>'+
-                '<option value="-1"> {{ trans('datatables.all') }} </option>'+
-                '</select> {{ trans('datatables.records') }}',
-            "emptyTable": '{{ trans('datatables.no_data') }}',
-            "zeroRecords": '{{ trans('datatables.no_match_records') }}',
-        }
-    });
-</script>
+    <script type="module">
+        $('#myBansTable').DataTable({
+            "language": {
+                "info": '{{ trans('datatables.info') }}',
+                "infoEmpty": '{{ trans('datatables.info_empty') }}',
+                "infoFiltered": '{{ trans('datatables.info_filtered') }}',
+                "search": '{{ trans('datatables.search') }}',
+                "paginate": {
+                    "first": '{{ trans('datatables.first') }}',
+                    "last": '{{ trans('datatables.last') }}',
+                    "previous": '{{ trans('datatables.previous') }}',
+                    "next": '{{ trans('datatables.next') }}',
+                },
+                "lengthMenu": '{{ trans('datatables.show') }} '+
+                    '<select class="form-select form-select-sm">'+
+                    '<option value="10"> 10 </option>'+
+                    '<option value="20"> 20 </option>'+
+                    '<option value="30"> 30 </option>'+
+                    '<option value="-1"> {{ trans('datatables.all') }} </option>'+
+                    '</select> {{ trans('datatables.records') }}',
+                "emptyTable": '{{ trans('datatables.no_data') }}',
+                "zeroRecords": '{{ trans('datatables.no_match_records') }}',
+            }
+        });
+    </script>
 
     @include('staffs.bans.js')
 @endsection
@@ -60,7 +60,7 @@
     </div>
 
     <div class="row">
-        <div>
+        <div class="col-auto">
             <h3> <strong> {{ trans('forms.select_server') }}: </strong> </h3>  
         </div>
 
