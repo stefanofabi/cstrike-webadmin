@@ -33,7 +33,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav w-100 justify-content-end">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -52,6 +52,7 @@
                         @endguest
                     </ul>
 
+                    @auth
                     <div class="dropdown me-5">
                         <a class="dropdown-toggle text-decoration-none text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <img height="30px" width="30px" src="{{ asset('storage/avatars/'.Auth::user()->avatar ) }}?t={{ strtotime(Auth::user()->updated_at) }}" class="rounded-circle" alt="{{ Auth::user()->avatar }}"> {{ Auth::user()->name }} <span class="caret"> </span>
@@ -70,6 +71,7 @@
                             </form>
                         </ul>
                     </div>
+                    @endauth
                 </div>
             </div>
         </nav>
