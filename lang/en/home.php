@@ -24,5 +24,6 @@ return [
     'system_logs' => 'System logs',
     'activity_logs' => 'Activity logs',
     'home' => 'Home',
-
+    'packages' => 'Packages',
+    
 ];

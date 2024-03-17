@@ -79,6 +79,7 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
         require('staffs/ranks.php');
         require('staffs/servers.php');
         require('staffs/bans.php');
+        require('staffs/packages.php');
         require('staffs/players.php');
         require('staffs/logs.php');
     });

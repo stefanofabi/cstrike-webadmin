@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container mt-3">
     <h2> {{ trans('avatars.change_avatar') }}</h2>
     
     <p> {{ trans('avatars.change_avatar_message') }} </p>
