@@ -28,5 +28,7 @@ return [
     'choose_file' => 'Choose file',
     'start_typing' => 'Start typing and select an option',
     'close' => 'Close',
+    'previous' => 'Previous',
+    'next' => 'Next',
     
 ];

@@ -28,5 +28,6 @@ return [
     'choose_file' => 'Elija el archivo',
     'start_typing' => 'Empiece a escribir y seleccione una opción',
     'close' => 'Cerrar',
-    
+    'previous' => 'Anterior',
+    'next' => 'Siguiente',
 ];

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Chat; 
 use App\Models\Server;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -22,9 +24,12 @@ class HomeController extends Controller
 
         $servers = Server::orderBy('ip', 'ASC')->limit(self::LIMIT_CHAT_MESSAGE)->get();
 
+        $staffs = User::permission('is_staff')->get();
+
         return view('welcome')
             ->with('chat_messages', $chat_messages)
-            ->with('servers', $servers);
+            ->with('servers', $servers)
+            ->with('staffs', $staffs);
     }
 
     public function user_staff() 

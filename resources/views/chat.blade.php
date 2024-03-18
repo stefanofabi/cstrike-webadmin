@@ -1,5 +1,5 @@
-<div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg mb-3">
-    <div class="ml-3 mt-3">
+<div class="mt-3 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg mb-3 rounded">
+    <div class="ms-3 mt-3">
         <h2> <i class="fas fa-comments"> </i> <strong> {{ trans('welcome.chat_messages') }} </strong> </h2>
     </div>
 
@@ -28,11 +28,11 @@
                         </td>
 
                         <td> 
-                            <div class="float-right">
+                            <div class="text-end">
                                 {{ date('d/m/Y H:m', strtotime($chat_message->date)) }}  
 
                                 @role('staff')
-                                    <a class="btn btn-info btn-sm mb-1 ml-1" title="{{ trans('chats.destroy_message') }}" onclick="destroy_chat('{{ $chat_message->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                    <a class="btn btn-primary btn-sm mb-1 ms-1" title="{{ trans('chats.destroy_message') }}" onclick="destroy_chat('{{ $chat_message->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
 
                                                                 
                                         <form id="destroy_chat_{{ $chat_message->id }}" method="POST" action="{{ route('chats/destroy', ['id' => $chat_message->id]) }}">
@@ -52,9 +52,9 @@
     <form method="POST" action="{{ route('chats/store') }}">
         @csrf
 
-        <input class="form-control col-9 mt-3 mb-3 ml-3 float-left" type="text" placeholder="@auth {{ trans('welcome.write_your_message') }} @else {{ trans('welcome.publish_on_chat_online') }} @endauth" name="message" required @guest disabled @endguest> 
+        <input class="form-control col-9 mt-3 mb-3 ms-3 float-start" type="text" placeholder="@auth {{ trans('welcome.write_your_message') }} @else {{ trans('welcome.publish_on_chat_online') }} @endauth" name="message" required @guest disabled @endguest> 
             
-        <button class="btn btn-info mt-3 mr-3 mb-3 float-right" type="submit" @guest disabled @endguest>  <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </button>
+        <button class="btn btn-primary mt-3 me-3 mb-3 float-end" type="submit" @guest disabled @endguest>  <i class="fas fa-paper-plane fa-sm"> </i> {{ trans('welcome.publish_message') }} </button>
     </form>     
 
                             

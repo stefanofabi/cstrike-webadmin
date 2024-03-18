@@ -25,5 +25,5 @@ return [
     'activity_logs' => 'Activity logs',
     'home' => 'Home',
     'packages' => 'Packages',
-    
+
 ];

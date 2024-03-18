@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title> @yield('title') | {{ trans('welcome.my_community') }}</title>
+        <title> @yield('title') | {{ config('app.name') }}</title>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,17 +36,31 @@
                     <ul class="navbar-nav w-100 justify-content-end">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}"> {{ trans('auth.login') }} </a>
-                                </li>
-                            @endif
+                            <li class="nav-item"> 
+                                <div class="dropdown mt-1 me-3">
+                                    <button type="button" class="btn btn-light dropdown-toggle btn-sm shadow-sm" data-bs-toggle="dropdown">
+                                        @if (empty(session('lang')))
+                                            {{ Lang::getLocale() }}
+                                        @else 
+                                            {{ session('lang') }}
+                                        @endif
+                                    </button>
+            
+                                    <div class="dropdown-menu">
+                                        <h5 class="dropdown-header"> {{ trans('lang.languages_availables') }} </h5>
+                                        <a class="dropdown-item" href="{{ route('lang', ['lang' => 'en'] )}}"> {{ trans('lang.english') }} </a>
+                                        <a class="dropdown-item" href="{{ route('lang', ['lang' => 'es'] )}}"> {{ trans('lang.spanish') }} </a>
+                                    </div>
+                                </div>
+                            </li>
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ trans('auth.register') }} </a>
-                                </li>
-                            @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}"> {{ trans('auth.login') }} </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ trans('auth.register') }} </a>
+                            </li>
                         @else
                             
                         @endguest
