@@ -32,10 +32,10 @@ Route::get('/', function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
-Route::get('buy_administrator', [App\Http\Controllers\Users\ProfileController::class, 'buyAdministrator'])->name('buy_administrator');
+Route::get('buy-administrator', [App\Http\Controllers\HomeController::class, 'buyAdministrator'])->name('buy_administrator');
 
-Route::get('show_ban/{id}', [App\Http\Controllers\ApiController::class, 'showBan'])
-    ->name('show_ban')
+Route::get('bans/show/{id}', [App\Http\Controllers\ApiController::class, 'showBan'])
+    ->name('show-ban')
     ->where('id', '[1-9][0-9]*');
 
 Auth::routes();
