@@ -176,7 +176,7 @@
         </div>
 
         <div class="col-md-6 p-3">
-            <h3 class="ml-4 text-lg leading-7 font-semibold"> <i class="fa-solid fa-ruler"></i> {{ trans('welcome.diversity') }} </h3>
+            <h3 class="ml-4 text-lg leading-7 font-semibold"> <i class="fa-solid fa-globe"></i> {{ trans('welcome.diversity') }} </h3>
 
             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                 {{ trans('welcome.diversity_message') }}
