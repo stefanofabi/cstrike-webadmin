@@ -65,9 +65,9 @@
 
                             @foreach ($ranks as $rank)
                                 @if (strpos($rank->access_flags, $flag['letter']) === false)
-                                    <td style="text-align: center;"> <i class="fas fa-times"></i> </td> 
+                                    <td style="text-align: center;"> <i class="fas fa-times text-danger"></i> </td> 
                                 @else
-                                    <td style="text-align: center;"> <i class="fas fa-check"></i> </td> 
+                                    <td style="text-align: center;"> <i class="fas fa-check text-success"></i> </td> 
                                 @endif
                             @endforeach
                         </tr>
