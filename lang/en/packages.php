@@ -24,8 +24,12 @@ return [
     'add_privilege' => 'Add privilege',
     'danger_already_server_assigned' => 'This package already has this server assigned',
     'success_store_privilege' => 'Privilege added to package successfully',
-    'package_includes_privileges' => 'The package includes the following privileges',
+    'package_includes_privileges' => 'The package includes',
     'destroy_privilege' => 'Destroy privilege',
     'add_new_privilege' => 'Add new privilege',
+    'description' => 'Description',
+    'buy_now_for' => 'Buy now for $:price',
+    'administrators_packages_for_sale' => 'Administrator packages for sale',
+    'types_of_administrators' => 'Types of administrators',
     
 ];

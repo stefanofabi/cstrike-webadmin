@@ -19,13 +19,19 @@
 					<input type="hidden" id="modal_package_id">
 
 					<div class="row mb-5">
-						<div class="col-9">
+						<div class="col-md-9">
 							<label for="name"> <h5> <strong> {{ trans('packages.name') }}: </h5> </strong> </label>
 							
 							<input type="text" class="form-control" id="modal_package_name" required>
 						</div>
+
+						<div class="col-md-9 mt-3">
+							<label for="name"> <h5> <strong> {{ trans('packages.description') }}: </h5> </strong> </label>
+							
+							<textarea class="form-control" id="modal_package_description"></textarea>
+						</div>
 				
-						<div class="col-9 mt-3">
+						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('packages.price') }}: </h5> </strong> </label>
 							
 							<input type="number" step="0.1" class="form-control" id="modal_package_price" required>

@@ -24,7 +24,12 @@ return [
     'add_privilege' => 'Agregar privilegio',
     'danger_already_server_assigned' => 'El paquete ya tiene asignado este servidor',
     'success_store_privilege' => 'Privilegio agregado al paquete exitosamente',
-    'package_includes_privileges' => 'El paquete incluye los siguientes privilegios',
+    'package_includes_privileges' => 'El paquete incluye',
     'destroy_privilege' => 'Eliminar privilegio',
     'add_new_privilege' => 'Agregar nuevo privilegio',
+    'description' => 'Descripción',
+    'buy_now_for' => 'Comprar ahora por $:price',
+    'administrators_packages_for_sale' => 'Paquetes de Administradores a la venta',
+    'types_of_administrators' => 'Tipos de Administradores',
+
 ];

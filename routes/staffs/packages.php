@@ -16,7 +16,7 @@ Route::controller(PackageController::class)
 
     Route::post('edit', 'edit')->name('edit')->where('id', '[1-9][0-9]*');
 
-    Route::put('update', 'update')->name('update')->where('id', '[1-9][0-9]*');
+    Route::post('update', 'update')->name('update')->where('id', '[1-9][0-9]*');
 
     Route::delete('destroy/{id}', 'destroy')->name('destroy')->where('id', '[1-9][0-9]*');
 

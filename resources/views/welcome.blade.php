@@ -190,21 +190,21 @@
             <div class="mt-3"> {{trans('welcome.invite_users') }} </div>
 
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mb-5">
             @if ($servers->isNotEmpty())
                 <table>
                     <tr>
                     @php $count = 1; @endphp
                         @foreach ($servers as $server)
-                        <td class="pl-3 pt-4">
+                        <td class="ps-3 pt-4">
                             <iframe style="margin-right: 1%" src="https://cache.gametracker.com/components/html0/?host={{ $server->ip }}&bgColor=333333&fontColor=cccccc&titleBgColor=222222&titleColor=ff9900&borderColor=555555&linkColor=ffcc00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="412"></iframe>
                             <br />  
                             <center>
                                 @if ($server->ranking_url)
-                                    <a class="btn btn-secondary" href="{{ $server->ranking_url }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.view_ranking') }} </a>
+                                    <a class="btn btn-secondary mt-2" href="{{ $server->ranking_url }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.view_ranking') }} </a>
                                 @endif
                                 
-                                <a class="btn btn-success" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.join') }} </a>
+                                <a class="btn btn-success mt-2" href="steam://connect/{{ $server->ip }}"> <i class="fas fa-sign-in-alt"></i> {{ trans('servers.join') }} </a>
                             </center>
                         </td>
 
@@ -224,13 +224,5 @@
                 <div style="color: red"> {{ trans('servers.no_servers') }} </div>
             @endif
             </div>
-        </div> 
-
-
-        <div class="text-center m-4 fw-italic">
-            <hr>
-            <a href="https://4evergaming.com.ar" target="_blank" class="text-decoration-none text-dark">
-                {{ trans('welcome.designed_by') }} <i class="fa-solid fa-heart"></i>
-            </a> 
         </div>
 @endsection

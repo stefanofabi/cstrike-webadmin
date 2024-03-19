@@ -10,8 +10,43 @@
         <p class="col-9"> {{trans('administrators.buy_administrator_message') }} </p>
     </div>
 
+    <div class="mt-3"> <h1> <i class="fa-solid fa-cube"></i> {{ trans('packages.administrators_packages_for_sale') }} </h1> </div>
+
+    @if ($packages->isNotEmpty())
+        <div class="row mt-4">
+            @foreach ($packages as $package)
+            @if ($package->privileges->isEmpty()) @continue @endif
+
+            <div class="col-md-3">
+                <div class="card mb-3 h-100 text-center" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <div class="card-title"> <h5 class="fw-bold"> {{ $package->name }} </h5> <hr> </div>
+                        <p class="card-text mt-3"> {{ $package->description }} </p>
+
+                        <div>
+
+                        <div> {{ trans('packages.package_includes_privileges') }}: </div>
+                        @foreach ($package->privileges as $privilege)
+                        <div> <i class="fa-solid fa-crown"></i> {{ $privilege->server->name }} {{ $privilege->rank->name}} </div>
+                        @endforeach
+
+                        
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white p-3"> <a href="{{ $package->purchase_link }}" target="_blank" class="btn btn-primary" title="{{ trans('packages.buy_now_for', ['price' => $package->price]) }}"> {{ trans('packages.buy_now_for', ['price' => $package->price]) }} </a> </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    @else 
+        <div style="color: red"> {{ trans('administrators.no_places_availables') }} </div>
+    @endif
+
     @if ($ranks->isNotEmpty())
-        <div class="card">
+        <div class="mt-5"> <h1> <i class="fa-solid fa-crown"></i> {{ trans('packages.types_of_administrators') }}</h1> </div>
+
+        <div class="card mt-3 mb-5">
             <table class="table table-striped">
                 <thead>
                     <tr style="text-align: center;">
@@ -37,26 +72,6 @@
                             @endforeach
                         </tr>
                     @endforeach
-
-                    <tr>    
-                        <td> {{ trans('administrators.price_monthly') }} </td>
-
-                        @foreach ($ranks as $rank)
-                            <td style="text-align: center;">
-                                ${{ $rank->price }}
-                            </td>
-                        @endforeach
-                    </tr>
-
-                    <tr style="text-align: center;">    
-                        <td> </td>
-
-                        @foreach ($ranks as $rank)
-                            <td>
-                                <a href="{{ $rank->purchase_link }}" target="_blank" class="btn btn-primary" title="{{ trans('administrators.buy_now') }}"> {{ trans('administrators.buy_now') }} </a>
-                            </td>
-                        @endforeach
-                    </tr>
                 </tbody>
             </table>
         </div>

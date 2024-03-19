@@ -104,6 +104,13 @@
             @endif
 
             @yield('content')
+
+            <div class="text-center m-4 fw-italic">
+                <hr>
+                <a href="https://4evergaming.com.ar" target="_blank" class="text-decoration-none text-dark">
+                    {{ trans('welcome.designed_by') }} <i class="fa-solid fa-heart"></i>
+                </a> 
+            </div>
         </div>
     </body>
 </html>

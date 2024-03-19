@@ -115,6 +115,7 @@
     function clearData() {
         $("#modal_package_id").val('');
         $("#modal_package_name").val('');
+        $("#modal_package_description").val('');
         $("#modal_package_price").val('');
     }
     
@@ -142,6 +143,7 @@
                 // Load results
                 $("#modal_package_id").val(data['id']);
                 $("#modal_package_name").val(data['name']);
+                $("#modal_package_description").val(data['description']);
                 $("#modal_package_price").val(data['price']);
 
             }
@@ -159,6 +161,7 @@
             "_token" : '{{ csrf_token() }}',
 			"id" : $("#modal_package_id").val(),
 			"name" : $("#modal_package_name").val(),
+            "description" : $("#modal_package_description").val(),
 			"price" : $("#modal_package_price").val(),
 		};
 

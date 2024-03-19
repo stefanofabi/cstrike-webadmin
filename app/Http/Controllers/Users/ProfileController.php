@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Package;
+use App\Models\Rank;
 use App\Models\Server;
 
 use Lang;
@@ -24,6 +25,8 @@ class ProfileController extends Controller
         //  
 
         $packages = Package::OrderBy('name', 'ASC')->get();
+
+        $ranks = Rank::OrderBy('name', 'ASC')->get();
 
         $flags = [
             [
@@ -63,7 +66,8 @@ class ProfileController extends Controller
         ];
 
         return view('users.profile.buy_administrator')
-            ->with('ranks', $packages)
+            ->with('packages', $packages)
+            ->with('ranks', $ranks)
             ->with('flags', $flags);
     }
 
