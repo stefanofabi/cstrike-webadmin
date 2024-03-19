@@ -108,12 +108,24 @@
                 </a>
 
                 <a type="button" class="btn btn-warning m-1" href="#rules" >
-                    <i class="fa-solid fa-server"></i> {{ trans('welcome.see_rules') }}
+                    <i class="fa-solid fa-ruler"></i> {{ trans('welcome.see_rules') }}
                 </a>
 
                 <a type="button" class="btn btn-danger m-1" href="#servers" >
                     <i class="fa-solid fa-server"></i> {{ trans('welcome.go_to_servers') }}
                 </a>
+
+                @can('is_staff')
+                <a type="button" class="btn btn-primary m-1" href="{{ route('staffs/home') }}" target="_blank">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ trans('welcome.go_to_administration_panel') }}
+                </a>
+                @endcan
+
+                @can('is_user')
+                <a type="button" class="btn btn-primary m-1" href="{{ route('users/home') }}" target="_blank">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ trans('welcome.go_to_administration_panel') }}
+                </a>
+                @endcan
             </div>
 
             <div class="text-center mt-5 fst-italic"> {{ trans('welcome.community_managed_by') }} 

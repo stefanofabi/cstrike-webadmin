@@ -1,10 +1,10 @@
-@extends('users.app')
+@extends('layouts.app')
 
 @section('title')
 {{ trans('home.buy_administrator') }}
 @endsection
 
-@section('right-content')
+@section('content')
     <div class="p-3 my-3 bg-primary text-white">
         <h1> <span class="fas fa-credit-card"> </span> {{ trans('home.buy_administrator') }} </h1>
         <p class="col-9"> {{trans('administrators.buy_administrator_message') }} </p>
@@ -53,7 +53,7 @@
 
                         @foreach ($ranks as $rank)
                             <td>
-                                <a href="{{ $rank->purchase_link }}" target="_blank" class="btn btn-info" title="{{ trans('administrators.buy_now') }}"> {{ trans('administrators.buy_now') }} </a>
+                                <a href="{{ $rank->purchase_link }}" target="_blank" class="btn btn-primary" title="{{ trans('administrators.buy_now') }}"> {{ trans('administrators.buy_now') }} </a>
                             </td>
                         @endforeach
                     </tr>
