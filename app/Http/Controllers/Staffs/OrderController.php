@@ -17,7 +17,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
@@ -25,9 +25,12 @@ class OrderController extends Controller
 
         $packages = Package::has('privileges')->orderBy('name', 'ASC')->get();
 
+        $order = Order::find($request->order);
+
         return view('staffs.orders.index')
             ->with('orders', $orders)
-            ->with('packages', $packages);
+            ->with('packages', $packages)
+            ->with('order', $order);
     }
 
     /**

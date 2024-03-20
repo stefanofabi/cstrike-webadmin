@@ -9,6 +9,9 @@
     @include('staffs.orders.js')
 
     <script type="module">
+        var orderId = "{{ $order->id ?? '' }}";
+        var defaultValue = orderId ? '#' + orderId : '';
+
         $('#myOrdersTable').DataTable({
             "language": {
                 "info": '{{ trans('datatables.info') }}',
@@ -30,7 +33,8 @@
                     '</select> {{ trans('datatables.records') }}',
                 "emptyTable": '{{ trans('datatables.no_data') }}',
                 "zeroRecords": '{{ trans('datatables.no_match_records') }}',
-            }
+            },
+            "search": {"search": defaultValue }
         });
     </script>
 
@@ -99,7 +103,7 @@
             <tbody>
                     @foreach ($orders as $order)
                         <tr>
-                            <td> {{ $order->id }} </td>
+                            <td> #{{ $order->id }} </td>
                             <td id="order_name_{{ $order->id }}"> {{ $order->date }} </td>
                             <td id="order_user_{{ $order->id }}"> {{ $order->user->name }} </td>
                             <td id="order_package_{{ $order->id }}"> {{ $order->package->name }} </td>
