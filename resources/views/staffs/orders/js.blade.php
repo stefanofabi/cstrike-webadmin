@@ -33,6 +33,7 @@
                 
                 // Load results
                 $("#modal_order_id").val(order['id']);
+                $("#modal_order_number").html(order['id']);
                 $("#modal_order_user_name").html(user['name']);
                 $("#modal_order_user_email").html(user['email']);
                 $("#modal_order_date").html(order['date']);
@@ -72,6 +73,9 @@
 			success:  function (response) {
 				$("#modal_orders_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("orders.success_updated_order") }} </div>');
 
+                $("#order_price_"+order_id).html(parameters['price']);
+                var selected_package = $("#modal_order_package option:selected").text();
+                $("#order_package_"+order_id).html(selected_package);
 			}
 		}).fail( function() {
     		$("#modal_orders_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("orders.danger_updated_order") }} </div>');

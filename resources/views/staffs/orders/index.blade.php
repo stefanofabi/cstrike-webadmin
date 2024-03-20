@@ -33,6 +33,40 @@
             }
         });
     </script>
+
+    <script>
+        window.addEventListener("load", function() {
+        
+            // icon to be able to interact with the element
+            showPassword = document.querySelector('.show-password');
+
+            showPassword.addEventListener('click', () => {
+                // input elements of type password
+                password1 = document.querySelector('.password1');
+            
+                if ( password1.type === "text" ) {
+                    password1.type = "password"
+                    password2.type = "password"
+                    showPassword.classList.remove('fa-eye-slash');
+                } else {
+                    password1.type = "text"
+                    password2.type = "text"
+                    showPassword.classList.toggle("fa-eye-slash");
+                }
+            })
+        });
+    </script>
+@endsection
+
+@section('style')
+    <style>
+        .password-icon {
+        float: right;
+        position: relative;
+        margin: -25px 10px 0 0;
+        cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('right-content')
@@ -52,9 +86,11 @@
         <table class="table table-striped" id="myOrdersTable">
             <thead>
                 <tr>
+                    <th> # </th>
                     <th> {{ trans('orders.date') }} </th>
                     <th> {{ trans('orders.user') }} </th>
                     <th> {{ trans('orders.package') }} </th>
+                    <th> {{ trans('orders.price') }} </th>
                     <th> {{ trans('orders.status') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
@@ -63,9 +99,11 @@
             <tbody>
                     @foreach ($orders as $order)
                         <tr>
+                            <td> {{ $order->id }} </td>
                             <td id="order_name_{{ $order->id }}"> {{ $order->date }} </td>
                             <td id="order_user_{{ $order->id }}"> {{ $order->user->name }} </td>
                             <td id="order_package_{{ $order->id }}"> {{ $order->package->name }} </td>
+                            <td id="order_price_{{ $order->id }}"> ${{ $order->price }} </td>
                             <td id="order_status_{{ $order->id }}">
                                 @switch($order->status)
                                     @case('Pending')

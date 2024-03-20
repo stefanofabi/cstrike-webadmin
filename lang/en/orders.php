@@ -12,6 +12,7 @@ return [
     |
     */
 
+    'order' => 'Order',
     'create_order' => 'Create order',
     'welcome_message' => 'All administrator purchase orders made on the site will be listed here. You will be able to cancel them, register them or modify the purchase order data in case you have entered the information incorrectly',
     'date' => 'Date',

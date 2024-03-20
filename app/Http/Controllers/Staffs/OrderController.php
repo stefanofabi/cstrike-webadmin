@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Order;
 use App\Models\Package;
+use App\Models\User;
 
 use Lang;
 
@@ -22,7 +23,7 @@ class OrderController extends Controller
 
         $orders = Order::orderBy('date', 'DESC')->get();
 
-        $packages = Package::orderBy('name', 'ASC')->get();
+        $packages = Package::has('privileges')->orderBy('name', 'ASC')->get();
 
         return view('staffs.orders.index')
             ->with('orders', $orders)
@@ -35,6 +36,13 @@ class OrderController extends Controller
     public function create()
     {
         //
+        $packages = Package::has('privileges')->orderBy('name', 'ASC')->get();
+
+        $users = User::permission('is_user')->orderBy('name', 'ASC')->get();
+
+        return view('staffs.orders.create')
+            ->with('packages', $packages)
+            ->with('users', $users);
     }
 
     /**
@@ -43,6 +51,24 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'auth' => 'required|string',
+            'password' => 'string|nullable',
+        ]);
+
+        $package = Package::findOrFail($request->package_id);
+
+        $order = new Order($request->all());
+        $order->user_id = $request->user_id;
+        $order->status = "Pending";
+        $order->price = (empty($request->price)) ? $package->price : $request->price;
+        
+
+        if (! $order->save())
+            return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
+
+        return redirect()->action([OrderController::class, 'index']);
     }
 
     /**

@@ -5,7 +5,7 @@
 
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel"> <i class="fa-solid fa-cube"></i> {{ trans('orders.edit_order') }} </h4>
+				<h4 class="modal-title" id="myModalLabel"> <i class="fa-solid fa-cube"></i> {{ trans('orders.edit_order') }} #<span id="modal_order_number"> </span> </h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
@@ -13,7 +13,7 @@
 			<div class="modal-body ms-1 me-1">
 				<!-- Carga los datos ajax -->
 				<div class="mb-3" id="modal_orders_messages"></div>
-				
+
 				<form class="form-horizontal" method="post" onsubmit="return updateOrder();">
 
 					<input type="hidden" id="modal_order_id">
@@ -46,7 +46,8 @@
 						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('orders.password') }}: </h5> </strong> </label>
 							
-							<input type="password" step="0.1" class="form-control" id="modal_order_password">
+							<input type="password" step="0.1" class="form-control password1" id="modal_order_password" placeholder="{{ trans('administrators.enter_password') }}">
+							<div class="col-12"> <span class="fa fa-fw fa-eye password-icon show-password"></span> </div>
 						</div>
 				
 						<div class="col-md-9 mt-3">
