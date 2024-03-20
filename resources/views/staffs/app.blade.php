@@ -26,6 +26,10 @@
             </li>
 
             <li class="nav-item">
+                  <a class="nav-link" href="{{ route('staffs/orders/index') }}"> {{ trans('home.orders') }} </a>
+            </li>
+
+            <li class="nav-item">
                   <a class="nav-link" href="{{ route('staffs/players/index') }}"> {{ trans('home.players_log') }} </a>
             </li>
 

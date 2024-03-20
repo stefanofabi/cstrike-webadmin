@@ -1,22 +1,24 @@
 <?php 
 
-Route::group([
-    'permission:crud_administrators',
-    'prefix' => 'administrators',
-    'as' => 'administrators/',
-], function () {
-    Route::get('index', ['\App\Http\Controllers\Staffs\AdministratorController', 'index'])->name('index');
+use App\Http\Controllers\Staffs\AdministratorController;
 
-    Route::get('create', ['\App\Http\Controllers\Staffs\AdministratorController', 'create'])->name('create');
+Route::controller(AdministratorController::class)
+->prefix('administrators')
+->as('administrators/')
+->middleware('permission:crud_administrators')
+->group(function () {
+    Route::get('index', 'index')->name('index');
 
-    Route::post('store', ['\App\Http\Controllers\Staffs\AdministratorController', 'store'])->name('store');
+    Route::get('create', 'create')->name('create');
 
-    Route::post('edit', ['\App\Http\Controllers\Staffs\AdministratorController', 'edit'])->name('edit');
+    Route::post('store', 'store')->name('store');
+
+    Route::post('edit', 'edit')->name('edit');
             
-    Route::post('update', ['\App\Http\Controllers\Staffs\AdministratorController', 'update'])->name('update');
+    Route::post('update', 'update')->name('update');
 
-    Route::delete('destroy/{id}', ['\App\Http\Controllers\Staffs\AdministratorController', 'destroy'])->name('destroy')->where('id', '[1-9][0-9]*');
+    Route::delete('destroy/{id}', 'destroy')->name('destroy');
 
-    Route::post('load_users', ['\App\Http\Controllers\Staffs\AdministratorController', 'load_users'])->name('load_users');
+    Route::post('load_users', 'load_users')->name('load_users');
     
 });

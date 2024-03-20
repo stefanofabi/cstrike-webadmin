@@ -24,6 +24,7 @@ return [
     'system_logs' => 'Registros del sistema',
     'activity_logs' => 'Registros de actividad',
     'home' => 'Inicio',
-    'packages' => 'Packages',
+    'packages' => 'Paquetes',
+    'orders' => 'Ordenes',
     
 ];

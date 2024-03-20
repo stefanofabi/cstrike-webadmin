@@ -27,6 +27,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'crud_bans']);
         Permission::create(['name' => 'crud_players']);
         Permission::create(['name' => 'crud_packages']);
+        Permission::create(['name' => 'crud_orders']);
         Permission::create(['name' => 'activity_logs']);
 
         Permission::create(['name' => 'is_user']);

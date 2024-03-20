@@ -60,7 +60,6 @@
             </thead>
             
             <tbody>
-                @if ($packages->isNotEmpty())
                     @foreach ($packages as $package)
                         <tr>
                             <td id="package_name_{{ $package->id }}"> {{ $package->name }} </td>
@@ -84,7 +83,6 @@
                             </td>
                         </tr>
                     @endforeach
-                @endif
             </tbody>
 
         </table>
