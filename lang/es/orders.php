@@ -15,6 +15,7 @@ return [
     'order' => 'Orden',
     'create_order' => 'Crear nueva orden de compra',
     'welcome_message' => 'Aqui se listaran todos los pedidos de compra de administrador que se realizan en el sitio. Vas a poder cancelarlos, darlos de alta o modificar los datos de la orden de compra en caso de haber ingresado erroneamente la información',
+    'create_order_message' => 'Tenés la posibilidad de crear pedidos manualmente y asignarselos a un usuario para que pueda hacer el pago y activar su Administrador',
     'date' => 'Fecha',
     'user' => 'Usuario',
     'package' => 'Paquete',
@@ -31,5 +32,6 @@ return [
     'danger_edited_order' => 'Hubo un error al cargar los datos de la orden de compra',
     'success_updated_order' => 'La orden de compra se actualizó exitosamente',
     'danger_updated_order' => 'Hubo un error al actualizar la orden de compra',
+    'replace_order_price' => 'Colocar un precio en este campo va reemplazar el precio del paquete por defecto',
 
 ];

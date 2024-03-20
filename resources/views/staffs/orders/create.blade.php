@@ -99,6 +99,7 @@
                 <label for="name"> <h5> <strong> {{ trans('orders.price') }}: </h5> </strong> </label>
                 
                 <input type="number" step="0.1" class="form-control" name="price" value="{{ old('price') }}">
+                <div class="fst-italic fs-6"> {{ trans('orders.replace_order_price') }} </div>
             </div>
         </div>
         
