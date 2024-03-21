@@ -20,25 +20,20 @@ class CreateAdministratorsTable extends Migration
             $table->string('password')->nullable();
             $table->string('account_flags');
 
-            $table->date('expiration')->nullable();
-
             $table->unsignedBigInteger('rank_id');
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('server_id');
+            $table->unsignedBigInteger('order_id')->nullable();
 
             $table->dateTime('suspended')->nullable();
 
             // Unique keys
             $table->unique(['auth', 'server_id']);
 
-            // For simplicity, only one administrator per user account will be allowed
-            $table->unique('user_id');        
-
             // Foreign keys
             $table->foreign('rank_id')->references('id')->on('ranks')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
-            
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamps();
             
             $table->engine = 'InnoDB';

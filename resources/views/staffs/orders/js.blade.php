@@ -1,10 +1,17 @@
 <script type="text/javascript">
 
     function clearData() {
-        $("#modal_package_id").val('');
-        $("#modal_package_name").val('');
-        $("#modal_package_description").val('');
-        $("#modal_package_price").val('');
+        $("#modal_order_id").val('');
+        $("#modal_order_package").val('');
+        $("#modal_order_auth").val('');
+        $("#modal_order_expiration").val('');
+        $("#modal_order_price").val('');
+        
+        $("#modal_order_number").html('');
+        $("#modal_order_user_name").html('');
+        $("#modal_order_user_email").html('');
+        $("#modal_order_date").html('');
+        $("#modal_order_status").html('');
     }
     
     function editOrder(order) {
@@ -41,6 +48,7 @@
                 $("#modal_order_package").val(order['package_id']);
                 $("#modal_order_auth").val(order['auth']);
                 $("#modal_order_password").val(order['password']);
+                $("#modal_order_expiration").val(order['expiration']);
                 $("#modal_order_price").val(order['price']);
 
             }
@@ -60,6 +68,7 @@
 			"package_id" : $("#modal_order_package").val(),
             "auth" : $("#modal_order_auth").val(),
             "password" : $("#modal_order_password").val(),
+            "expiration" : $("#modal_order_expiration").val(),
 			"price" : $("#modal_order_price").val(),
 		};
 
@@ -86,9 +95,16 @@
 		return false;   	
 	}
 
-    function destroyOrder(order_id){
+    function destroyOrder(order_id) {
         if (confirm('{{ trans("forms.confirm") }}')) {
             var form = document.getElementById('destroy_order_'+order_id);
+            form.submit();
+        }
+    }
+
+    function activateOrder(order_id) {
+        if (confirm('{{ trans("forms.confirm") }}')) {
+            var form = document.getElementById('activate_order_'+order_id);
             form.submit();
         }
     }

@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Staffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
+use Carbon\Carbon;
 
 use App\Models\Order;
 use App\Models\Package;
 use App\Models\User;
+use App\Models\Administrator;
 
 use Lang;
 
@@ -57,7 +61,7 @@ class OrderController extends Controller
 
         $request->validate([
             'auth' => 'required|string',
-            'password' => 'string|nullable',
+            'password' => 'required|string',
         ]);
 
         $package = Package::findOrFail($request->package_id);
@@ -137,5 +141,48 @@ class OrderController extends Controller
         }
         
         return redirect()->action([OrderController::class,'index']);
+    }
+
+    /**
+     * Activate order and register administrators.
+     */
+    public function activate(string $id)
+    {
+        //
+
+        DB::beginTransaction();
+
+        try {
+            $order = Order::findOrFail($id);
+
+            $package = $order->package;
+
+            foreach ($package->privileges as $privilege) {
+                $administrator = new Administrator([
+                    'name' => $order->user->name,
+                    'auth' => $order->auth,
+                    'password' => $order->password,
+                    'account_flags' => 'ab',
+                    'rank_id' => $privilege->rank_id,
+                    'server_id' => $privilege->server_id,
+                    'order_id' => $order->id
+                ]);
+
+                $administrator->save();
+            }
+
+            $now = Carbon::now();
+            $order->expiration = $now->addMonth();
+            $order->status = 'Activated';
+            $order->save();
+            
+            DB::commit();
+        } catch(QueryException $exception) {
+            DB::rollBack();
+            
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        return redirect()->action([OrderController::class, 'index']);
     }
 }

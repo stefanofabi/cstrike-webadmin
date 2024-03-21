@@ -6,8 +6,6 @@
         $("#modal_administrator_name").val('');
         $("#modal_administrator_auth").val('');
         $("#modal_administrator_password").val('');
-        $("#modal_administrator_expiration").val('');
-        $("#modal_administrator_account").val('');
 
         // Uncheck all checkboxes
         $('input:checkbox').attr('checked', false);
@@ -51,11 +49,9 @@
                 $("#modal_server_id").val(administrator['server_id']);
 
 
-                $("#modal_administrator_expiration").val(administrator['expiration']);
                 $("#modal_administrator_rank_id option[value='"+administrator['rank_id']+"']").attr("selected",true);
 
                 if (user) {
-                    $("#modal_administrator_account").val(user['email']);
                     $("#modal_user_id").val(administrator['user_id']);     
                 }
                 
@@ -81,7 +77,6 @@
             "password" : $("#modal_administrator_password").val(),
             "account_flags" : JSON.stringify($('[name="account_flags[]"]').serializeArray()),
             "servers" : JSON.stringify($('[name="servers[]"]').serializeArray()),
-            "expiration" : $("#modal_administrator_expiration").val(),
             "rank_id" : $("#modal_administrator_rank_id").val(),
             "user_id" : $("#modal_user_id").val(),
             "server_id" : $("#modal_server_id").val(),
@@ -101,7 +96,6 @@
                 // Update the list of administrators
                 $("#administrator_name_"+administrator_id).html(parameters['name']);
                 $("#administrator_auth_"+administrator_id).html(parameters['auth']);
-                $("#administrator_expiration_"+administrator_id).html(parameters['expiration']);
                 $("#administrator_rank_"+administrator_id).html($( "#modal_administrator_rank_id option:selected" ).text());
 			}
 		}).fail( function() {

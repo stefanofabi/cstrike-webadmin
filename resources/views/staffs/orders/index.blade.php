@@ -94,7 +94,7 @@
                     <th> {{ trans('orders.date') }} </th>
                     <th> {{ trans('orders.user') }} </th>
                     <th> {{ trans('orders.package') }} </th>
-                    <th> {{ trans('orders.price') }} </th>
+                    <th> {{ trans('orders.expiration') }} </th>
                     <th> {{ trans('orders.status') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
@@ -115,34 +115,59 @@
                                     @break
                                     @endcase
 
-                                    @case('Completed')
-                                    <span class="badge bg-success"> {{ trans('orders.completed') }} </span>
+                                    @case('Activated')
+                                    <span class="badge bg-success"> {{ trans('orders.activated') }} </span>
                                     @break
                                     @endcase
 
-                                    @case('Cancelled')
-                                    <span class="badge bg-danger"> {{ trans('orders.cancelled') }} </span>
-                                    @break
-                                    @endcase
-
-                                    @case('Refunded')
-                                    <span class="badge bg-warning"> {{ trans('orders.refunded') }} </span>
+                                    @case('Expired')
+                                    <span class="badge bg-danger"> {{ trans('orders.expired') }} </span>
                                     @break
                                     @endcase
                                 @endswitch
                             </td>
 
-                            <td class="text-end form-inline">   
-                                <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editOrder" onclick="return editOrder('{{ $order->id }}')" title="{{ trans('orders.edit_order') }}">
+                            <td class="text-end">   
+                                @switch($order->status)
+                                    @case('Pending')
+                                    <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.activate_order') }}" onclick="activateOrder('{{ $order->id }}')"> 
+                                        <i class="fa-solid fa-circle-check"></i> 
+                                    </a>
+                                    @break
+                                    @endcase
+
+                                    @case('Activated')
+                                    <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.cancel_order') }}" onclick="cancelOrder('{{ $order->id }}')"> 
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
+                                    @break
+                                    @endcase
+
+                                    @case('Expired')
+                                    <span class="badge bg-danger"> {{ trans('orders.expired') }} </span>
+                                    @break
+                                    @endcase
+                                @endswitch
+
+                                <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.edit_order') }}" data-bs-toggle="modal" data-bs-target="#editOrder" onclick="return editOrder('{{ $order->id }}')">
                                     <span class="fas fa-edit"></span>
                                 </a>
 
-                                <a class="btn btn-primary btn-sm" title="{{ trans('orders.destroy_order') }}" onclick="destroyOrder('{{ $order->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                <a class="btn btn-primary btn-sm" title="{{ trans('orders.destroy_order') }}" onclick="destroyOrder('{{ $order->id }}')"> 
+                                    <i class="fas fa-trash fa-sm"> </i> 
+                                </a>
 
                                 <form id="destroy_order_{{ $order->id }}" method="POST" action=" {{ route('staffs/orders/destroy', ['id' => $order->id]) }}">
                                     @csrf
                                     @method('DELETE')
-                                </form>                               
+                                </form>  
+                                
+                                @if ($order->status == 'Pending')
+                                <form id="activate_order_{{ $order->id }}" method="POST" action=" {{ route('staffs/orders/activate', ['id' => $order->id]) }}">
+                                    @csrf
+                                    
+                                </form>  
+                                @endif
                             </td>
                         </tr>
                     @endforeach

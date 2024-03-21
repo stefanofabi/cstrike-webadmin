@@ -27,8 +27,11 @@ class AdministratorController extends Controller
     {
         //
 
-        $administrators = Administrator::orderBy('expiration', 'ASC')->get();
-        
+        $administrators = Administrator::select('administrators.id', 'administrators.name', 'administrators.server_id', 'administrators.rank_id', 'administrators.order_id')
+            ->leftJoin('orders', 'administrators.order_id', '=', 'orders.id')
+            ->orderBy('orders.expiration', 'ASC')
+            ->get();
+
         $ranks = Rank::orderBy('name', 'ASC')->get();
 
         $servers = Server::orderBy('name', 'ASC')->get();
@@ -74,15 +77,11 @@ class AdministratorController extends Controller
             'account_flags' => 'required|array',
             'servers' => 'required|array',
             'rank_id' => 'required|string',
-            'expiration' => 'date|nullable', 
-            'administrator_account' => 'email|nullable',
         ]);
 
         DB::beginTransaction();
 
         try {
-
-            $user = User::where('email', $request->administrator_account)->first();
 
             foreach ($request->servers as $server) {
 
@@ -92,9 +91,7 @@ class AdministratorController extends Controller
                         'auth' => $request->auth,
                         'password' => $request->password,
                         'account_flags' => implode($request->account_flags),
-                        'expiration' => $request->expiration,
                         'rank_id' => $request->rank_id,
-                        'user_id' => $user->id ?? null,
                         'server_id' => $server
                     ]
                 );
@@ -163,47 +160,27 @@ class AdministratorController extends Controller
             'account_flags' => 'required',
             'servers' => 'required',
             'rank_id' => 'required|string',
-            'expiration' => 'date|nullable',        
-            'administrator_account' => 'email|nullable',
         ]);
 
-        DB::beginTransaction();
+        $administrator = Administrator::findOrFail($request->id);
 
-        try {
-
-            $administrator = Administrator::findOrFail($request->id);
-
-            $account_flags = json_decode($request->account_flags);
-            $flags = "";
+        $account_flags = json_decode($request->account_flags);
+        $flags = "";
  
-            foreach ($account_flags as $account_flag) {
-                $flags .= "$account_flag->value";
-            }
+        foreach ($account_flags as $account_flag) {
+            $flags .= "$account_flag->value";
+        }
             
-            $user = User::where('email', $request->administrator_account)->first();
+        $administrator->name = $request->name;
+        $administrator->auth = $request->auth;
+        $administrator->password = $request->password;
+        $administrator->account_flags = $flags;
+        $administrator->rank_id = $request->rank_id;
+        $administrator->server_id = $request->server_id;
+        $administrator->suspended = ($request->suspended) ? Carbon::now() : null;
 
-            $administrator->update([
-                'name' => $request->name,
-                'auth' => $request->auth,
-                'password' => $request->password,
-                'account_flags' => $flags,
-                'expiration' => $request->expiration,
-                'rank_id' => $request->rank_id,
-                'user_id' => $user->id ?? null,
-                'server_id' => $request->server_id,
-                'suspended' => ($request->suspended) ? Carbon::now() : null,
-
-            ]);
-
-            DB::commit();
-
-        } catch (QueryException $exception) {
-            DB::rollBack();
-
+        if (! $administrator->save()) {
             return response(['message' => $exception->getMessage()], 500);
-        } catch (ModelNotFoundException $exception) {
-            
-            return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
         
         return response(['message' => Lang::get('forms.success_updated_administrator')], 200);

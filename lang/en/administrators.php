@@ -15,7 +15,6 @@ return [
     
     'name' => 'Name',
     'auth' => 'Authentication',
-    'expiration' => 'Expiration',
     'edit_administrator' => 'Edit administrator',
     'password' => 'Password',
     'account_flags' => 'Account flags',
@@ -30,7 +29,7 @@ return [
     'name_tag_case_sensitive' => 'Name or tag is case sensitive',
     'enter_name' => 'Enter a name to identify the administrator in the system',
     'enter_auth' => 'Enter the name, steam id or ip of the player in the game',
-    'enter_password' => 'Enter the administrator password (only if you chose admin with tag)',
+    'enter_password' => 'Enter the administrator password',
     'create_administrator_message' => 'In this section you can create the administrators you need. Once done you can relax, the changes will take effect on the next map change.',
     'success_updated_administrator' => 'Successfully updated administrator',
     'danger_updated_administrator' => 'There was a problem updated the administrator. Please try again later',

@@ -40,14 +40,20 @@
 						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('orders.auth') }}: </h5> </strong> </label>
 							
-							<input type="text" step="0.1" class="form-control" id="modal_order_auth" required>
+							<input type="text" class="form-control" id="modal_order_auth" required>
 						</div>
 
 						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('orders.password') }}: </h5> </strong> </label>
 							
-							<input type="password" step="0.1" class="form-control password1" id="modal_order_password" placeholder="{{ trans('administrators.enter_password') }}">
+							<input type="password" class="form-control password1" id="modal_order_password" placeholder="{{ trans('administrators.enter_password') }}">
 							<div class="col-12"> <span class="fa fa-fw fa-eye password-icon show-password"></span> </div>
+						</div>
+
+						<div class="col-md-9 mt-3">
+							<label for="name"> <h5> <strong> {{ trans('orders.expiration') }}: </h5> </strong> </label>
+							
+							<input type="date" class="form-control" id="modal_order_expiration" required>
 						</div>
 				
 						<div class="col-md-9 mt-3">

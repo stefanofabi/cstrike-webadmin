@@ -21,9 +21,8 @@ return [
     'package' => 'Paquete',
     'status' => 'Estado',
     'pending' => 'Pendiente',
-    'completed' => 'Completado',
-    'cancelled' => 'Cancelado',
-    'refunded' => 'Reembolsado',
+    'activated' => 'Activated',
+    'expired' => 'Vencido',
     'edit_order' => 'Editar orden de compra',
     'destroy_order' => 'Eliminar orden de compra',
     'auth' => 'Autenticación',
@@ -33,5 +32,7 @@ return [
     'success_updated_order' => 'La orden de compra se actualizó exitosamente',
     'danger_updated_order' => 'Hubo un error al actualizar la orden de compra',
     'replace_order_price' => 'Colocar un precio en este campo va reemplazar el precio del paquete por defecto',
-
+    'expiration' => 'Vencimiento',
+    'cancel_order' => 'Cancelar orden',
+    
 ];

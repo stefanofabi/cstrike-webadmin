@@ -15,7 +15,6 @@ return [
     
     'name' => 'Nombre',
     'auth' => 'Autenticación',
-    'expiration' => 'Expiración',
     'edit_administrator' => 'Editar administrador',
     'password' => 'Contraseña',
     'account_flags' => 'Flags de la cuenta',

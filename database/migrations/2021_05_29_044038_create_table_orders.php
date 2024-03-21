@@ -22,11 +22,13 @@ return new class extends Migration
             
             $table->double('price');
             $table->double('total_paid')->default(0.0);
-            $table->enum('status', ['Completed', 'Pending', 'Refunded', 'Canceled']);
+            $table->enum('status', ['Activated', 'Pending', 'Expired']);
+            $table->date('expiration')->nullable();
+            
 
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-
+            
             $table->timestamps();
 
             $table->engine = 'InnoDB';

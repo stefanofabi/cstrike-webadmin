@@ -79,12 +79,6 @@
                 </div>
 
                 <div class="mt-3">
-                    <h5> <strong>{{ trans('administrators.expiration') }}: </strong> </h5>
-
-                    <input class="form-control col-12" type="date" name="expiration" value="{{ @old('expiration') ?? date('Y-m-d', strtotime(date('Y-m-d').' + 1 month')) }}">
-                </div>
-
-                <div class="mt-3">
                     <h5> <strong>{{ trans('ranks.rank') }}: </strong> </h5>
 
                     <select class="form-select col-12" name="rank_id" id="rank" required>
@@ -161,12 +155,6 @@
                             <div style="color: red"> {{ trans('servers.no_servers') }} </div>
                         @endforelse
                     </div>
-                </div>
-
-                <div class="mt-3">
-                    <label for="auth"> <h5> <strong> {{ trans('administrators.administrator_account') }}: </strong> </h5> </label>
-                    
-                    <input type="email" class="form-control col-12" placeholder="{{ trans('administrators.enter_administrator_email') }}" id="administrator_account" name="administrator_account" value="{{ @old('administrator_account') }}">
                 </div>
             </div>
         </div>

@@ -94,7 +94,7 @@
             <thead>
                 <tr>
                     <th> {{ trans('administrators.name') }} </th>
-                    <th> {{ trans('administrators.expiration') }} </th>
+                    <th> {{ trans('orders.expiration') }} </th>
                     <th> {{ trans('servers.server') }}</th>
                     <th> {{ trans('ranks.rank') }}</th>
                     <th class="text-right"> {{ trans('forms.actions') }}</th>
@@ -114,12 +114,12 @@
                             </td>
 
                             <td id="administrator_expiration_{{ $administrator->id }}">
-                                @if (empty($administrator->expiration))
+                                @if (empty($administrator->order->expiration))
                                     {{ trans('administrators.no_expiration') }}
                                 @else 
-                                    {{ date('d/m/Y', strtotime($administrator->expiration)) }}
+                                    {{ date('d/m/Y', strtotime($administrator->order->expiration)) }}
 
-                                    @if (date('Y-m-d') > $administrator->expiration)
+                                    @if (date('Y-m-d') > $administrator->order->expiration)
                                         <span class="badge bg-danger"> {{ trans('administrators.expired') }}</span> 
                                     @endif
                                 @endif                         

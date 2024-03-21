@@ -65,7 +65,7 @@
                             <td id="package_name_{{ $package->id }}"> {{ $package->name }} </td>
                             <td id="package_price_{{ $package->id }}"> ${{ number_format($package->price, 2, ',', '.') }} </td>
 
-                            <td class="text-end form-inline">   
+                            <td class="text-end">   
                                 <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#managePrivileges" onclick="return managePrivileges('{{ $package->id }}')" title="{{ trans('packages.manage_privileges') }}">
                                     <i class="fa-solid fa-key"></i>
                                 </a>
@@ -74,7 +74,7 @@
                                     <span class="fas fa-edit"></span>
                                 </a>
 
-                                <a class="btn btn-primary btn-sm" title="{{ trans('packages.destroy_package') }}" onclick="destroyPackage('{{ $package->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
+                                <a type="button" class="btn btn-primary btn-sm" title="{{ trans('packages.destroy_package') }}" onclick="destroyPackage('{{ $package->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
 
                                 <form id="destroy_package_{{ $package->id }}" method="POST" action=" {{ route('staffs/packages/destroy', ['id' => $package->id]) }}">
                                     @csrf

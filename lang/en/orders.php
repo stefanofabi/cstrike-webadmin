@@ -21,9 +21,8 @@ return [
     'package' => 'Package',
     'status' => 'Status',
     'pending' => 'Pending',
-    'completed' => 'Completed',
-    'cancelled' => 'Cancelled',
-    'refunded' => 'Refunded',
+    'activated' => 'Activated',
+    'expired' => 'Expired',
     'edit_order' => 'Edit order',
     'destroy_order' => 'Destroy order',
     'auth' => 'Authentication',
@@ -32,5 +31,9 @@ return [
     'danger_edited_order' => 'There was an error loading the purchase order data',
     'success_updated_order' => 'The purchase order was updated successfully',
     'danger_updated_order' => 'There was an error updating the purchase order',
-    'replace_order_price' => 'Placing a price in this field will override the default package price'
+    'replace_order_price' => 'Placing a price in this field will override the default package price',
+    'expiration' => 'Expiration',
+    'activate_order' => 'Activate order',
+    'cancel_order' => 'Cancel order',
+    
 ];

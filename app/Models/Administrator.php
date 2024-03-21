@@ -18,10 +18,9 @@ class Administrator extends Model
         'password',
         'account_flags',
         'rank_id',
-        'expiration',
-        'user_id',
         'suspended',
         'server_id',
+        'order_id',
 
     ];
 
@@ -47,6 +46,14 @@ class Administrator extends Model
     public function server()
     {
         return $this->belongsTo(Server::class);
+    }
+
+    /**
+     * Get the order associated with the administrator.
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function getActivitylogOptions(): LogOptions
