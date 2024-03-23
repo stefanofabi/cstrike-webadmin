@@ -35,5 +35,6 @@ return [
     'expiration' => 'Expiration',
     'activate_order' => 'Activate order',
     'cancel_order' => 'Cancel order',
+    'login_before_purchasing' => 'Login before purchasing',
     
 ];
