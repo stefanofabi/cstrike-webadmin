@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('package_id');
             $table->unsignedBigInteger('user_id');
             
-            $table->double('price');
+            $table->double('price')->nullable();
             $table->double('total_paid')->default(0.0);
             $table->enum('status', ['Activated', 'Pending', 'Expired']);
             $table->date('expiration')->nullable();

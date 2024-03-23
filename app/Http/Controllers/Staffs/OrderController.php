@@ -69,7 +69,7 @@ class OrderController extends Controller
         $order = new Order($request->all());
         $order->user_id = $request->user_id;
         $order->status = "Pending";
-        $order->price = (empty($request->price)) ? $package->price : $request->price;
+        $order->price = $request->price;
         
 
         if (! $order->save())
