@@ -82,7 +82,7 @@
 			success:  function (response) {
 				$("#modal_orders_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("orders.success_updated_order") }} </div>');
 
-                $("#order_price_"+order_id).html(parameters['price']);
+                $("#order_expiration_"+order_id).html(parameters['expiration']);
                 var selected_package = $("#modal_order_package option:selected").text();
                 $("#order_package_"+order_id).html(selected_package);
 			}

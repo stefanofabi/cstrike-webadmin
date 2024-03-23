@@ -115,7 +115,6 @@ class OrderController extends Controller
         $request->validate([
             'auth' => 'required|string',
             'password' => 'string|nullable',
-            'price' => 'required|numeric', 
         ]);
 
         $order = Order::findOrFail($request->id);

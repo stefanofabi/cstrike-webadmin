@@ -107,7 +107,7 @@
                             <td id="order_name_{{ $order->id }}"> {{ $order->date }} </td>
                             <td id="order_user_{{ $order->id }}"> {{ $order->user->name }} </td>
                             <td id="order_package_{{ $order->id }}"> {{ $order->package->name }} </td>
-                            <td id="order_price_{{ $order->id }}"> ${{ $order->price }} </td>
+                            <td id="order_expiration_{{ $order->id }}"> {{ $order->expiration }} </td>
                             <td id="order_status_{{ $order->id }}">
                                 @switch($order->status)
                                     @case('Pending')

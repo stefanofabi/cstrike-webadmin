@@ -59,7 +59,7 @@
 						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('orders.price') }}: </h5> </strong> </label>
 							
-							<input type="number" step="0.1" class="form-control" id="modal_order_price" required>
+							<input type="number" step="0.1" class="form-control" id="modal_order_price">
 							<div class="fst-italic fs-6"> {{ trans('orders.replace_order_price') }} </div>
 						</div>
 					</div>
