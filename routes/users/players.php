@@ -1,10 +1,12 @@
 <?php 
 
-Route::group([
-    'middleware' => ['administrator_associate'],
-    'permission:crud_players',
-    'prefix' => 'players',
-    'as' => 'players/',
-], function () {
-    Route::get('index', ['\App\Http\Controllers\Users\PlayerController', 'index'])->name('index'); 
+use App\Http\Controllers\Users\PlayerController;
+
+Route::controller(PlayerController::class)
+->middleware(['administrator_associate'])
+->prefix('players')
+->as('players/')
+->group(function () {
+    Route::get('index', 'index')->name('index'); 
+    
 });

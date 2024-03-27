@@ -39,8 +39,6 @@ class RoleSeeder extends Seeder
         $role_user->givePermissionTo(
         	[
         		'is_user',
-                'crud_bans',
-                'crud_players',
         	]
         );
         

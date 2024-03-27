@@ -24,11 +24,6 @@ Route::group(['middleware' => ['web']], function () {
         'lang' => 'en|es',
     ])->name('lang');
 });
-/*
-Route::get('/', function () {
-    $servers = Server::orderBy('ip', 'ASC')->get();
-    return view('welcome')->with('servers', $servers);
-});*/
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
