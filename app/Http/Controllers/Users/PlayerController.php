@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
-use Illuminate\Database\Eloquent\ModelNotFoundException; 
+use Carbon\Carbon;
 
 use App\Models\Server;
-use App\Models\Ban;
 use App\Models\Player;
 
 class PlayerController extends Controller
 {
 
-    private const LIMIT_PLAYERS = 100;
+    private const LIMIT_PLAYERS = 500;
+    private const LIMIT_DAYS = 90;
 
     /**
      * Display a listing of the resource.
@@ -29,6 +27,11 @@ class PlayerController extends Controller
         $servers = Server::orderBy('name', 'DESC')->get();
 
         $players = Player::orderBy('date', 'DESC')->limit(self::LIMIT_PLAYERS)->get();
+
+        // clear logs
+        $limit = Carbon::now()->subDays(self::LIMIT_DAYS);
+        Player::where('date', '<', $limit)->delete();
+        //
 
         return view('users.players.index')
             ->with('servers', $servers)
