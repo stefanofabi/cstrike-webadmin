@@ -12,15 +12,15 @@ class Administrator extends Model
     use HasFactory;
     use LogsActivity;
     
-    protected $fillable = [
+    protected $guarded = [
         'name',
-        'auth',
-        'password',
         'account_flags',
+        'status',
         'rank_id',
-        'suspended',
         'server_id',
+        'user_id',
         'order_id',
+        'suspended',
 
     ];
 

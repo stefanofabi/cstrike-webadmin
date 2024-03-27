@@ -8,6 +8,7 @@
     <script type="module">
         $(document).ready(function(){
             $('#rank').val("{{ @old('rank_id') }}");
+            $('#user').val("{{ @old('user_id') }}");
         });
     </script>
 
@@ -81,7 +82,7 @@
                 <div class="mt-3">
                     <h5> <strong>{{ trans('ranks.rank') }}: </strong> </h5>
 
-                    <select class="form-select col-12" name="rank_id" id="rank" required>
+                    <select class="form-select" name="rank_id" id="rank" required>
                         <option value="">  {{ trans('forms.select_option') }} </option>
                         
                         @foreach ($ranks as $rank)
@@ -155,6 +156,18 @@
                             <div style="color: red"> {{ trans('servers.no_servers') }} </div>
                         @endforelse
                     </div>
+                </div>
+
+                <div class="mt-3">
+                    <h5> <strong>{{ trans('administrators.administrator_account') }}: </strong> </h5>
+
+                    <select class="form-select col-12" name="user_id" id="user">
+                        <option value="">  {{ trans('forms.select_option') }} </option>
+                        
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">  {{ $user->name }} {{ $user->email }} </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>

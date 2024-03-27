@@ -35,7 +35,9 @@
                     </div>
 
                     <div class="card-footer bg-white p-3"> 
-                        <a class="btn btn-primary @guest disabled @endguest" title="{{ trans('packages.buy_now_for', ['price' => $package->price]) }}" href="{{ route('users/orders/create') }}" target="_blank"> {{ trans('packages.buy_now_for', ['price' => $package->price]) }} </a> 
+                        <a class="btn btn-primary @guest disabled @endguest" title="{{ trans('packages.buy_now_for', ['price' => $package->price]) }}" href="{{ route('users/orders/create', ['package' => $package->id]) }}">
+                            {{ trans('packages.buy_now_for', ['price' => $package->price]) }} 
+                        </a> 
                         @guest <div class="mt-2"> <a href="{{ route('login') }}"> {{ trans('orders.login_before_purchasing') }} </a> </div> @endguest
                     </div>
                     

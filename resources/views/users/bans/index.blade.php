@@ -5,16 +5,41 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="module">
 
         $(document).ready(function(){
             $('#server').on('change', function() {
                 $('#selectServer').submit();
             });
 
-            $('#server').val('{{ $server_id ?? '' }}')
+            $('#server').val('{{ $server->id ?? '' }}')
+        });        
+    </script>
+
+    <script type="module">
+        $('#myBansTable').DataTable({
+            "language": {
+                "info": '{{ trans('datatables.info') }}',
+                "infoEmpty": '{{ trans('datatables.info_empty') }}',
+                "infoFiltered": '{{ trans('datatables.info_filtered') }}',
+                "search": '{{ trans('datatables.search') }}',
+                "paginate": {
+                    "first": '{{ trans('datatables.first') }}',
+                    "last": '{{ trans('datatables.last') }}',
+                    "previous": '{{ trans('datatables.previous') }}',
+                    "next": '{{ trans('datatables.next') }}',
+                },
+                "lengthMenu": '{{ trans('datatables.show') }} '+
+                    '<select class="form-select form-select-sm">'+
+                    '<option value="10"> 10 </option>'+
+                    '<option value="20"> 20 </option>'+
+                    '<option value="30"> 30 </option>'+
+                    '<option value="-1"> {{ trans('datatables.all') }} </option>'+
+                    '</select> {{ trans('datatables.records') }}',
+                "emptyTable": '{{ trans('datatables.no_data') }}',
+                "zeroRecords": '{{ trans('datatables.no_match_records') }}',
+            }
         });
-        
     </script>
 
     @include('users.bans.js')
@@ -25,27 +50,27 @@
     @include('users.bans.edit')
 
     <div class="p-3 my-3 bg-primary text-white">
-        <div class="btn-group float-right">
-            <a  href="{{ route('users/bans/create') }}" class="btn btn-info"> <span class="fas fa-plus"> </span> {{ trans('bans.create_ban') }} </a>
+        <div class="btn-group float-end">
+            <a  href="{{ route('users/bans/create') }}" class="btn btn-light"> <span class="fas fa-plus"> </span> {{ trans('bans.create_ban') }} </a>
         </div>
 
         <h1> <span class="fas fa-ban"> </span> {{ trans('home.bans') }} </h1>
         <p class="col-9"> {{trans('bans.user_welcome_message') }} </p>
     </div>
 
-    <div class="form-row">
-        <div class="form-group">
+    <div class="row mt-3">
+        <div class="col-auto">
             <h3> <strong> {{ trans('forms.select_server') }}: </strong> </h3>  
         </div>
 
-        <div class="form-group col-md-6 ml-3">
-            <form action="{{ route('users/bans/load') }}" method="POST" id="selectServer">
+        <div class="col-md-6">
+            <form action="{{ route('users/bans/index') }}" id="selectServer">
                 @csrf
                 
-                <select class="form-control col-12" name="server_id" id="server">
+                <select class="form-select" name="server_id" id="server">
                     <option value=""> {{ trans('forms.select_option') }}</option>
-                    @foreach ($privileges as $privilege) 
-                        <option value="{{ $privilege->server->id }}"> {{ $privilege->server->name }} [{{ $privilege->server->ip }}] </option>
+                    @foreach ($servers as $server) 
+                        <option value="{{ $server->id }}"> {{ $server->name }} </option>
                     @endforeach
                 </select>
 
@@ -53,8 +78,8 @@
         </div>
     </div>
 
-    <div class="card">
-        <table class="table table-striped">
+    <div class="mt-3">
+        <table class="table table-striped" id="myBansTable">
             <thead>
                 <tr>    
                     <th> {{ trans('bans.date') }} </th>
@@ -62,7 +87,7 @@
                     <th> {{ trans('bans.steam_id') }} </th>
                     <th> {{ trans('bans.ip') }} </th>
                     <th> {{ trans('bans.expiration') }} </th>
-                    <th class="text-right"> {{ trans('forms.actions') }}</th>
+                    <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
             
@@ -101,22 +126,20 @@
                                 @endif
                             </td>
 
-                            <td class="float-right form-inline">
-                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1" data-toggle="modal" data-target="#editBan" onclick="return editBan('{{ $ban->id }}')" title="{{ trans('bans.edit_ban') }}">
+                            <td class="text-end">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editBan" onclick="return editBan('{{ $ban->id }}')" title="{{ trans('bans.edit_ban') }}">
                                     <span class="fas fa-edit"></span>
                                 </button>
+
+                                <a class="btn btn-primary btn-sm" title="{{ trans('bans.destroy_ban') }}" onclick="destroyBan('{{ $ban->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
 
                                 <form id="destroy_ban_{{ $ban->id }}" method="POST" action=" {{ route('users/bans/destroy', ['id' => $ban->id]) }}">
                                     @csrf
                                     @method('DELETE')
-
-                                    <a class="btn btn-info btn-sm mb-1" title="{{ trans('bans.destroy_ban') }}" onclick="destroyBan('{{ $ban->id }}')"> <i class="fas fa-trash fa-sm"> </i> </a>
                                 </form>
                             </td>
                         </tr>
                     @endforeach
-                @else 
-                    <td colspan="6"> {{ trans('forms.no_data' )}} </td>
                 @endif
             </tbody>
 

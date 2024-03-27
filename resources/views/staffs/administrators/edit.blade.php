@@ -118,9 +118,17 @@
 								@endif
 							</div>
 
-							<div class="form-check form-switch mt-3">
-								<input class="form-check-input" type="checkbox" id="modal_suspend_administrator">
-								<label class="form-check-label" for="modal_suspend_administrator"> {{ trans('administrators.suspend_administrator') }} </label>
+							<div class="mt-3">
+								<h5> <strong> {{ trans('administrators.status') }}: </strong> </h5>
+
+								<select class="form-select" id="modal_administrator_status" required>
+									<option value="">  {{ trans('forms.select_option') }} </option>
+									<option value="Active">  {{ trans('administrators.active') }} </option>
+									<option value="Suspended">  {{ trans('administrators.suspended') }} </option>
+									<option value="Expired">  {{ trans('administrators.expired') }} </option>
+								</select>
+
+								<div class="mt-1"> {{ trans('administrators.suspend_administrator') }}: <span id="modal_administrator_suspended"> </span> </div>
 							</div>
 						</div>
 					</div>

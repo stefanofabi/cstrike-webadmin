@@ -6,7 +6,11 @@
         $("#modal_administrator_name").val('');
         $("#modal_administrator_auth").val('');
         $("#modal_administrator_password").val('');
+        $("#modal_server_id").val('');
+        $("#modal_administrator_status").val('');
 
+        $("#modal_administrator_suspended").html('');
+        
         // Uncheck all checkboxes
         $('input:checkbox').attr('checked', false);
     }
@@ -31,7 +35,6 @@
                 $("#modal_administrators_messages").html("");
 
                 var administrator = data['administrator'];
-                var privileges = administrator['privileges'];
                 var user = administrator['user'];
 
                 // Load results
@@ -39,6 +42,7 @@
                 $("#modal_administrator_name").val(administrator['name']);
                 $("#modal_administrator_auth").val(administrator['auth']);
                 $("#modal_administrator_password").val(administrator['password']);
+                $("#modal_administrator_rank_id option[value='"+administrator['rank_id']+"']").attr("selected",true);
                 
                 var account_flags = administrator['account_flags'].split('');
 
@@ -48,15 +52,10 @@
 
                 $("#modal_server_id").val(administrator['server_id']);
 
-
-                $("#modal_administrator_rank_id option[value='"+administrator['rank_id']+"']").attr("selected",true);
-
-                if (user) {
-                    $("#modal_user_id").val(administrator['user_id']);     
-                }
+                $("#modal_administrator_status").val(administrator['status']);
                 
-                if (administrator['suspended'] !== null) {
-                    $('#modal_suspend_administrator').attr('checked', true);
+                if (administrator['suspended'] == 'Suspended') {
+                    $('#modal_administrator_suspended').html(administrator['suspended']);
                 }
             }
         }).fail( function() {

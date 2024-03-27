@@ -5,11 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdministratorWithBan
-{
-    
-    const FLAG_BAN = "d";
+use App\Models\Ban;
+use Lang;
 
+class AdministratorWithBanAccess
+{
     /**
      * Handle an incoming request.
      *
@@ -19,19 +19,14 @@ class AdministratorWithBan
      */
     public function handle(Request $request, Closure $next)
     {
-
         $user = auth()->user();
 
-        $administrator = $user->administrator;
+        $ban = Ban::findOrFail($request->id);
 
-        if (! $administrator) {
-            return back();
-        }
-
-        $rank = $administrator->rank;
-
-        if (strpos($rank->access_flags, self::FLAG_BAN) == false) {
-            return back();
+        $administrator =$ban->administrator;
+        
+        if ($user->id != $administrator->user_id) {
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 
         return $next($request);

@@ -21,7 +21,7 @@ return [
     'package' => 'Package',
     'status' => 'Status',
     'pending' => 'Pending',
-    'activated' => 'Activated',
+    'active' => 'Active',
     'expired' => 'Expired',
     'edit_order' => 'Edit order',
     'destroy_order' => 'Destroy order',
@@ -36,5 +36,12 @@ return [
     'activate_order' => 'Activate order',
     'cancel_order' => 'Cancel order',
     'login_before_purchasing' => 'Login before purchasing',
-    
+    'order_now' => 'Order now',
+    'enter_your_tag' => 'Enter the tag you use in the game',
+    'tag_requirements' => 'Only letters and minimum 4 characters',
+    'password_requirements' => 'Only letters/numbers and minimum 4 characters',
+    'pay_order' => 'Pay order',
+    'order_number' => 'Order #:id',
+    'pay_order_message' => 'Complete the payment of your Administrator and start enjoying the benefits on our servers',
+
 ];

@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
-   <div class="col-md-3 mt-3 mb-3 float-left">
+<div class="row mt-3">
+   @section('menu-content')
+   <div class="col-md-3">
       <nav class="navbar bg-light">
          <ul class="navbar-nav">
             <li class="nav-item">
@@ -18,14 +19,16 @@
             </li>
          </ul>
       </nav>
+      
 
       @section('left-content')
       @show
    </div>
+   @show
 
-   <div class="col-md-9 mt-3 mb-3 float-left mb-5">
+   <div class="col-md">
       @section('right-content')
       @show
    </div>
-
+</div>
 @endsection

@@ -69,7 +69,7 @@ class OrderController extends Controller
         $order = new Order($request->all());
         $order->user_id = $request->user_id;
         $order->status = "Pending";
-        $order->price = $request->price;
+        $order->price = (empty($request->price)) ? $package->price : $request->price;
         
 
         if (! $order->save())
@@ -158,27 +158,33 @@ class OrderController extends Controller
 
             foreach ($package->privileges as $privilege) {
                 $administrator = new Administrator([
-                    'name' => $order->user->name,
-                    'auth' => $order->auth,
-                    'password' => $order->password,
-                    'account_flags' => 'ab',
-                    'rank_id' => $privilege->rank_id,
-                    'server_id' => $privilege->server_id,
                     'order_id' => $order->id
                 ]);
 
+                $administrator = new Administrator();
+
+                $administrator->name = $order->user->name;
+                $administrator->auth = $order->auth;
+                $administrator->password = $order->password;
+                $administrator->account_flags = 'ab';
+                $administrator->status = 'Active';
+                $administrator->rank_id = $privilege->rank_id;
+                $administrator->server_id = $privilege->server_id;
+                $administrator->user_id = $order->user->id;
+                $administrator->order_id = $order->id;
+                
                 $administrator->save();
             }
 
             $now = Carbon::now();
             $order->expiration = $now->addMonth();
-            $order->status = 'Activated';
+            $order->status = 'Active';
             $order->save();
             
             DB::commit();
         } catch(QueryException $exception) {
             DB::rollBack();
-            
+            dd($exception);
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 

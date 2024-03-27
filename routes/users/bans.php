@@ -1,28 +1,26 @@
 <?php 
 
-Route::group([
-    'middleware' => ['administrator_associate', 'administrator_with_ban'],
-    'permission:crud_bans',
-    'prefix' => 'bans',
-    'as' => 'bans/',
-], function () {
-    Route::get('index', ['\App\Http\Controllers\Users\BanController', 'index'])->name('index');
+use App\Http\Controllers\Users\BanController;
 
-    Route::post('load', ['\App\Http\Controllers\Users\BanController', 'load'])->name('load');
+Route::controller(BanController::class)
+->middleware(['administrator_associate'])
+->prefix('bans')
+->as('bans/')
+->group(function () {
+    Route::get('index', 'index')->name('index');
 
-    Route::get('create/{player_id?}', ['\App\Http\Controllers\Users\BanController', 'create'])->name('create')->where('player_id', '[1-9][0-9]*');
+    Route::get('create/{player_id?}', 'create')->name('create');
 
-    Route::post('store', ['\App\Http\Controllers\Users\BanController', 'store'])->name('store')->middleware('administrator_with_server_access');
+    Route::post('store', 'store')->name('store')->middleware('administrator_with_server_access');
 
-    Route::post('edit', ['\App\Http\Controllers\Users\BanController', 'edit'])->name('edit')
-        ->middleware('administrator_with_ban_edit');
+    Route::post('edit', 'edit')->name('edit')
+        ->middleware('administrator_with_ban_access');
             
-    Route::post('update', ['\App\Http\Controllers\Users\BanController', 'update'])->name('update')
+    Route::post('update', 'update')->name('update')
         ->middleware('administrator_with_server_access')
-        ->middleware('administrator_with_ban_edit');
+        ->middleware('administrator_with_ban_access');
     
-    Route::delete('destroy/{id}', ['\App\Http\Controllers\Users\BanController', 'destroy'])->name('destroy')
-        ->middleware('administrator_with_ban_edit')
-        ->where('id', '[1-9][0-9]*');
+    Route::delete('destroy/{id}', 'destroy')->name('destroy')
+        ->middleware('administrator_with_ban_access');
     
 });

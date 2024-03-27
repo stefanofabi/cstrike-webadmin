@@ -16,6 +16,7 @@ return [
     'name' => 'Name',
     'auth' => 'Authentication',
     'edit_administrator' => 'Edit administrator',
+    'destroy_administrator' => 'Destroy administrator',
     'password' => 'Password',
     'account_flags' => 'Account flags',
     'danger_edited_administrator' => 'There was a problem loading the administrator. Please try again later',
@@ -46,5 +47,8 @@ return [
     'suspend_administrator' => 'Suspend administrator',
     'select_a_server' => 'Select a server',
     'suspended' => 'Suspended',
-    'enter_administrator_email' => 'Enter the administrator email'
+    'enter_administrator_email' => 'Enter the administrator email',
+    'status' => 'Status',
+    'active' => 'Active',
+    
 ];

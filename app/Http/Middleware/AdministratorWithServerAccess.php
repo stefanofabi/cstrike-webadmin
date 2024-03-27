@@ -16,21 +16,19 @@ class AdministratorWithServerAccess
      */
     public function handle(Request $request, Closure $next)
     {
+        $user = auth()->user();
 
-        $administrator = auth()->user()->administrator;
-
-        if (! $administrator) {
-            return back();
-        }
-
-        $privileges = $administrator->privileges;
+        $servers = $user->administrators->where('status', 'Active')->pluck('server_id');
 
         foreach ($request->servers as $server) {
-            if ($privileges->contains('server_id', $server)) {
-                return $next($request);
+            if (! $servers->contains($server)) {
+                if ($request->ajax())
+                    return response(['message' => 'Not access to this server'], 500);
+                else 
+                    return redirect()->back()->withErrors('Not access to this server');
             }
         }
 
-        return back();
+        return $next($request);
     }
 }

@@ -16,6 +16,7 @@ return [
     'name' => 'Nombre',
     'auth' => 'Autenticación',
     'edit_administrator' => 'Editar administrador',
+    'destroy_administrator' => 'Eliminar administrador',
     'password' => 'Contraseña',
     'account_flags' => 'Flags de la cuenta',
     'danger_edited_administrator' => 'Hubo un problema al cargar el administrador. Por favor, inténtelo de nuevo más tarde',
@@ -29,7 +30,7 @@ return [
     'name_tag_case_sensitive' => 'El nombre o la etiqueta distinguen entre mayúsculas y minúsculas',
     'enter_name' => 'Ingrese un nombre para identificar al administrador en el sistema',
     'enter_auth' => 'Ingrese el nombre, id de Steam o IP del jugador en el juego',
-    'enter_password' => 'Ingrese la contraseña de administrador (solo si eligió admin con tag)',
+    'enter_password' => 'Ingrese la contraseña de administrador',
     'create_administrator_message' => 'En esta sección puede crear los administradores que necesite. Una vez hecho esto, puede relajarse, los cambios entrarán en vigor en el próximo cambio de mapa.',
     'success_updated_administrator' => 'Administrador actualizado con éxito',
     'danger_updated_administrator' => 'Hubo un problema actualizando al administrador. Por favor, inténtelo de nuevo más tarde',
@@ -46,6 +47,8 @@ return [
     'suspend_administrator' => 'Suspender Administrador',
     'select_a_server' => 'Selecciona un Servidor',
     'suspended' => 'Suspendido',
-    'enter_administrator_email' => 'Ingresa el email del administrador'
-
+    'enter_administrator_email' => 'Ingresa el email del administrador',
+    'status' => 'Estado',
+    'active' => 'Activo',
+    
 ];

@@ -31,5 +31,6 @@ return [
     'buy_now_for' => 'Buy now for $:price',
     'administrators_packages_for_sale' => 'Administrator packages for sale',
     'types_of_administrators' => 'Types of administrators',
+    'package' => 'Package',
     
 ];

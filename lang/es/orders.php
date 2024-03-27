@@ -21,7 +21,7 @@ return [
     'package' => 'Paquete',
     'status' => 'Estado',
     'pending' => 'Pendiente',
-    'activated' => 'Activated',
+    'active' => 'Activo',
     'expired' => 'Vencido',
     'edit_order' => 'Editar orden de compra',
     'destroy_order' => 'Eliminar orden de compra',
@@ -34,5 +34,11 @@ return [
     'replace_order_price' => 'Colocar un precio en este campo va reemplazar el precio del paquete por defecto',
     'expiration' => 'Vencimiento',
     'cancel_order' => 'Cancelar orden',
-    
+    'order_now' => 'Pedir ahora',
+    'tag_requirements' => 'Solo letras y mínimo 4 caracteres',
+    'password_requirements' => 'Solo letras/números y mínimo 4 caracteres',
+    'pay_order' => 'Pagar orden',
+    'order_number' => 'Órden #:id',
+    'pay_order_message' => 'Completá el pago de tu Administrador y comenzá a disfrutar los beneficios en nuestros servidores',
+
 ];

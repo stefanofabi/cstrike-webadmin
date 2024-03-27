@@ -97,7 +97,7 @@
                     <th> {{ trans('orders.expiration') }} </th>
                     <th> {{ trans('servers.server') }}</th>
                     <th> {{ trans('ranks.rank') }}</th>
-                    <th class="text-right"> {{ trans('forms.actions') }}</th>
+                    <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
             
@@ -134,7 +134,7 @@
                                     <span class="fas fa-user-edit"></span>
                                 </a>
 
-                                <a class="btn btn-primary btn-sm" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
+                                <a class="btn btn-primary btn-sm @if (! empty($administrator->order_id)) disabled @endif" title="{{ trans('administrators.destroy_administrator') }}" onclick="destroy_administrator('{{ $administrator->id }}')"> <i class="fas fa-user-slash fa-sm"> </i> </a>
                                 
                                 <form id="destroy_administrator_{{ $administrator->id }}" method="POST" action="{{ route('staffs/administrators/destroy', ['id' => $administrator->id]) }}">
                                     @csrf

@@ -45,10 +45,18 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the administrator associated with the user.
+     * Get the orders associated with the user.
      */
-    public function administrator()
+    public function orders()
     {
-        return $this->hasOne(Administrator::class);
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the administrators associated with the user.
+     */
+    public function administrators()
+    {
+        return $this->hasMany(Administrator::class);
     }
 }

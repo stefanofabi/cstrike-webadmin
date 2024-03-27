@@ -98,10 +98,9 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
         Route::get('profiles/my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('profiles/my_administrator')
             ->middleware('administrator_associate');
 
-        Route::get('orders/create', [App\Http\Controllers\Users\OrderController::class, 'create'])->name('orders/create')
-            ->middleware('administrator_associate');
-        
         require('users/bans.php');
         require('users/players.php');
+        require('users/orders.php');
+        
     });
 });

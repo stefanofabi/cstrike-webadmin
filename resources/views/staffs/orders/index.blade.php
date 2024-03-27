@@ -82,7 +82,7 @@
             <a  href="{{ route('staffs/orders/create') }}" class="btn btn-light"> <span class="fas fa-user-plus"> </span> {{ trans('orders.create_order') }} </a>
         </div>
 
-        <h1> <i class="fa-solid fa-cube"></i> </span> {{ trans('home.orders') }} </h1>
+        <h1> <i class="fa-solid fa-cube"></i> {{ trans('home.orders') }} </h1>
         <p class="col-9"> {{trans('orders.welcome_message') }} </p>
     </div>
 
@@ -104,7 +104,7 @@
                     @foreach ($orders as $order)
                         <tr>
                             <td> #{{ $order->id }} </td>
-                            <td id="order_name_{{ $order->id }}"> {{ $order->date }} </td>
+                            <td id="order_date_{{ $order->id }}"> {{ $order->date }} </td>
                             <td id="order_user_{{ $order->id }}"> {{ $order->user->name }} </td>
                             <td id="order_package_{{ $order->id }}"> {{ $order->package->name }} </td>
                             <td id="order_expiration_{{ $order->id }}"> {{ $order->expiration }} </td>
@@ -115,8 +115,8 @@
                                     @break
                                     @endcase
 
-                                    @case('Activated')
-                                    <span class="badge bg-success"> {{ trans('orders.activated') }} </span>
+                                    @case('Active')
+                                    <span class="badge bg-success"> {{ trans('orders.active') }} </span>
                                     @break
                                     @endcase
 
@@ -136,7 +136,7 @@
                                     @break
                                     @endcase
 
-                                    @case('Activated')
+                                    @case('Active')
                                     <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.cancel_order') }}" onclick="cancelOrder('{{ $order->id }}')"> 
                                         <i class="fa-solid fa-xmark"></i>
                                     </a>

@@ -16,9 +16,12 @@ class AdministratorAssociate
      */
     public function handle(Request $request, Closure $next)
     {
+        $user = auth()->user();
 
-        if (! auth()->user()->administrator) {
-            return back();
+        $administrators = $user->administrators->where('status', 'Active');
+        
+        if ($administrators->isEmpty()) {
+            return redirect()->back()->withErrors('Have not active administrators');
         }
 
         return $next($request);

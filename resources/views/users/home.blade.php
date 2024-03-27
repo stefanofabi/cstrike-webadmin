@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -52,7 +52,7 @@
                         <div class="col">
                             <div style="text-align: center;">
 
-                                @if (auth()->user()->administrator)
+                                
                                     <a class="nav-link" style="color: black" href="{{ route('users/profiles/my_administrator') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-id-badge"></i>
@@ -62,18 +62,37 @@
 
                                         {{ trans('home.my_administrator') }}
                                     </a>    
-                                @else 
+                            </div>
+                        </div>
+
+                        @if (! auth()->user()->orders->where('status', 'Active'))
+                        <div class="col">
+                            <div style="text-align: center;">
                                     <a class="nav-link" style="color: black" href="{{ route('buy_administrator') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-shopping-cart"></i>
                                         </h1>
 
+                                        <div> {{ trans('home.buy_administrator') }} </div>
+                                    </a>   
+                            </div>
+                        </div>
+                        @endif
+
+
+                        <div class="col">
+                            <div style="text-align: center;">
+
+                                
+                                    <a class="nav-link" style="color: black" href="{{ route('users/orders/index') }}">
+                                        <h1>
+                                            <i style="font-size: 8vw" class="fas fa-id-badge"></i>
+                                        </h1>
+
                                         <br />
 
-                                        {{ trans('home.buy_administrator') }}
-                                    </a>   
-
-                                @endif
+                                        {{ trans('home.orders') }}
+                                    </a>    
                             </div>
                         </div>
                     </div>

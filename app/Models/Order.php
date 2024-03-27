@@ -18,6 +18,8 @@ class Order extends Model
         'user_id', 
         'total_paid',
         'status',
+        'package_id',
+        
     ];
 
     /**

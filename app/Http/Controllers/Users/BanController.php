@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Ban;
 use App\Models\Player;
 use App\Models\Administrator;
+use App\Models\Server;
 
 use Lang;
 
@@ -22,41 +23,32 @@ class BanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $user = auth()->user();
 
-        $administrator = auth()->user()->administrator;
-
-        $privileges = $administrator->privileges;
-       
-        return view('users.bans.index') 
-            ->with('privileges', $privileges);
-    }
-
-    /**
-     * Load bans
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function load(Request $request)
-    {
-        //
-        
-        $administrator = auth()->user()->administrator;
-
-        $privileges = $administrator->privileges;
-
-        $bans = Ban::where('server_id', $request->server_id)
-            ->where('administrator_id', $administrator->id)
-            ->orderBy('expiration', 'DESC')
+        $servers = Administrator::select('servers.id', 'servers.name', 'servers.ip')
+            ->join('servers', 'administrators.server_id', '=', 'servers.id')
+            ->where('administrators.user_id', $user->id)
+            ->where('administrators.status', 'Active')
+            ->groupBy('servers.id', 'servers.name', 'servers.ip')
             ->get();
 
+        $bans = Ban::select('bans.id', 'bans.date', 'bans.name', 'bans.steam_id', 'bans.ip', 'bans.expiration')
+            ->where('bans.server_id', $request->server_id)
+            ->join('administrators', 'bans.administrator_id', '=', 'administrators.id')
+            ->where('administrators.user_id', $user->id)
+            ->where('administrators.status', 'Active')
+            ->orderBy('bans.expiration', 'DESC')
+            ->get();
+
+        $server = Server::find($request->server_id);
+
         return view('users.bans.index') 
-            ->with('privileges', $privileges)
+            ->with('servers', $servers)
             ->with('bans', $bans)
-            ->with('server_id', $request->server_id);
+            ->with('server', $server);
     }
 
     /**
@@ -70,12 +62,19 @@ class BanController extends Controller
 
         $player = Player::find($player_id);
 
-        $administrator = auth()->user()->administrator;
+        $user = auth()->user();
 
-        $privileges = $administrator->privileges;
+        $servers = Administrator::select('servers.id', 'servers.name', 'servers.ip')
+            ->join('servers', 'servers.id', '=', 'administrators.server_id')
+            ->where('administrators.user_id', $user->id)
+            ->where('administrators.status', 'Active')
+            ->groupBy('servers.id', 'servers.name', 'servers.ip')
+            ->orderBy('servers.name', 'ASC')
+            ->get();
+            
 
         return view('users.bans.create')
-            ->with('privileges', $privileges)
+            ->with('servers', $servers)
             ->with('player', $player);
     }
 
@@ -88,7 +87,6 @@ class BanController extends Controller
     public function store(Request $request)
     {
         //
-
         $request->validate([
             'name' => 'required|string',
             'steam_id' => 'string|nullable',
@@ -114,6 +112,9 @@ class BanController extends Controller
         DB::beginTransaction();
 
         try {
+            $user = auth()->user();
+            $administrators = $user->administrators->where('status', 'Active');
+
             // not neccesary json decode
             foreach ($request->servers as $server) {
                 $ban = new Ban(
@@ -124,7 +125,7 @@ class BanController extends Controller
                         'expiration' => $request->expiration,
                         'reason' => $request->reason,
                         'private_notes' => $request->private_notes,
-                        'administrator_id' => auth()->user()->administrator->id,
+                        'administrator_id' => $administrators->where('server_id', $server)->first()->id,
                         'server_id' => $server
                     ]
                 );
@@ -136,7 +137,7 @@ class BanController extends Controller
 
         } catch (QueryException $exception) {
             DB::rollBack();
-            
+
             return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->all());
         }
 
@@ -234,20 +235,12 @@ class BanController extends Controller
         //
 
         $ban = Ban::findOrFail($id);
-        $server_id = $ban->server_id;
 
         if (! $ban->delete()) {
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 
-        $servers = Server::orderBy('name', 'ASC')->get();
-
-        $bans = Ban::where('server_id', $server_id)->orderBy('expiration', 'DESC')->get();
-
-        return view('users.bans.index') 
-            ->with('servers', $servers)
-            ->with('bans', $bans)
-            ->with('server_id', $server_id);
+        return redirect()->action([BanController::class,'index']);
     }
 
     private function playerAdminWithImmunity($name, $steam_id, $ip) {

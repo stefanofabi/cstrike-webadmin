@@ -55,9 +55,12 @@ class AdministratorController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
+        $users = User::orderBy('name', 'ASC')->get();
+
         return view('staffs.administrators.create')
             ->with('ranks', $ranks)
-            ->with('servers', $servers);
+            ->with('servers', $servers)
+            ->with('users', $users);
     }
 
     /**
@@ -77,6 +80,7 @@ class AdministratorController extends Controller
             'account_flags' => 'required|array',
             'servers' => 'required|array',
             'rank_id' => 'required|string',
+            
         ]);
 
         DB::beginTransaction();
@@ -85,25 +89,25 @@ class AdministratorController extends Controller
 
             foreach ($request->servers as $server) {
 
-                $administrator = new Administrator(
-                    [
-                        'name' => $request->name,
-                        'auth' => $request->auth,
-                        'password' => $request->password,
-                        'account_flags' => implode($request->account_flags),
-                        'rank_id' => $request->rank_id,
-                        'server_id' => $server
-                    ]
-                );
-    
+                $administrator = new Administrator();
+
+                $administrator->name = $request->name;
+                $administrator->auth = $request->auth;
+                $administrator->password = $request->password;
+                $administrator->account_flags = implode($request->account_flags);
+                $administrator->rank_id = $request->rank_id;
+                $administrator->server_id = $server;
+                $administrator->status = 'Active';
+                $administrator->user_id = $request->user_id;
+                    
                 $administrator->save();
             }
 
             DB::commit();
         } catch(QueryException $exception) {
             DB::rollBack();
-            
-            return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
+
+            return redirect()->back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
         }
         
         return redirect()->action([AdministratorController::class, 'index']);
