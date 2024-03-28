@@ -18,7 +18,9 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $orders = Order::orderBy('date', 'DESC')->where('user_id', auth()->user()->id)->get(); 
+        $user = auth()->user();
+
+        $orders = Order::where('user_id', $user->id)->orderBy('date', 'DESC')->get(); 
 
         return view('users.orders.index')
             ->with('orders', $orders);
@@ -52,12 +54,13 @@ class OrderController extends Controller
         ]);
 
         $package = Package::findOrFail($request->package_id);
-
+        $user = auth()->user();
+        
         $order = new Order();
         $order->auth = $request->auth;
         $order->password = $request->password;
         $order->package_id = $request->package_id;
-        $order->user_id = auth()->user()->id;
+        $order->user_id = $user->id;
         $order->price = $package->price;
         $order->status = "Pending";
 

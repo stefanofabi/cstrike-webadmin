@@ -12,6 +12,6 @@ Route::controller(OrderController::class)
 
     Route::post('store', 'store')->name('store');
 
-    Route::get('pay/{id}', 'pay')->name('pay');
+    Route::get('pay/{id}', 'pay')->name('pay')->middleware('is_my_order');
 
 });

@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-Route::group(['middleware' => ['permission:is_staff','auth']], function () {
+Route::group(['middleware' => ['auth', 'permission:is_staff']], function () {
 
     Route::group([
         'prefix' => 'staffs',
@@ -81,7 +81,7 @@ Route::group(['middleware' => ['permission:is_staff','auth']], function () {
     });
 });
 
-Route::group(['middleware' => ['permission:is_user','auth']], function () {
+Route::group(['middleware' => ['auth', 'permission:is_user']], function () {
 
     Route::group([
         'prefix' => 'users',
@@ -90,12 +90,9 @@ Route::group(['middleware' => ['permission:is_user','auth']], function () {
         
         Route::get('home', [App\Http\Controllers\HomeController::class, 'user_home'])->name('home');
 
-        Route::get('profiles/my_administrator', [App\Http\Controllers\Users\ProfileController::class, 'myAdministrator'])->name('profiles/my_administrator')
-            ->middleware('administrator_associate');
-
         require('users/bans.php');
         require('users/players.php');
         require('users/orders.php');
-        
+        require('users/administrators.php');
     });
 });

@@ -53,14 +53,14 @@
                             <div style="text-align: center;">
 
                                 
-                                    <a class="nav-link" style="color: black" href="{{ route('users/profiles/my_administrator') }}">
+                                    <a class="nav-link" style="color: black" href="{{ route('users/administrators/index') }}">
                                         <h1>
                                             <i style="font-size: 8vw" class="fas fa-id-badge"></i>
                                         </h1>
 
                                         <br />
 
-                                        {{ trans('home.my_administrator') }}
+                                        {{ trans('home.my_administrators') }}
                                     </a>    
                             </div>
                         </div>
@@ -91,7 +91,7 @@
 
                                         <br />
 
-                                        {{ trans('home.orders') }}
+                                        {{ trans('home.my_orders') }}
                                     </a>    
                             </div>
                         </div>

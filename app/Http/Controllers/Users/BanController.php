@@ -59,9 +59,6 @@ class BanController extends Controller
     public function create($player_id = null)
     {
         //
-
-        $player = Player::find($player_id);
-
         $user = auth()->user();
 
         $servers = Administrator::select('servers.id', 'servers.name', 'servers.ip')
@@ -71,7 +68,12 @@ class BanController extends Controller
             ->groupBy('servers.id', 'servers.name', 'servers.ip')
             ->orderBy('servers.name', 'ASC')
             ->get();
-            
+
+        $player = Player::find($player_id);
+
+        if ($player && ! $servers->contains($player->server_id)) {
+            $player = null;
+        }
 
         return view('users.bans.create')
             ->with('servers', $servers)

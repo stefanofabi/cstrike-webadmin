@@ -30,5 +30,6 @@ return [
     'close' => 'Close',
     'previous' => 'Previous',
     'next' => 'Next',
+    'exit' => 'Exit',
     
 ];

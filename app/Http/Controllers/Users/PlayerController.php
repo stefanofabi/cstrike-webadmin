@@ -23,10 +23,18 @@ class PlayerController extends Controller
     public function index()
     {
         //
+        $user = auth()->user();
 
-        $servers = Server::orderBy('name', 'DESC')->get();
+        $servers = $user->administrators
+            ->where('status', 'Active')
+            ->pluck('server_id')
+            ->toArray();
 
-        $players = Player::orderBy('date', 'DESC')->limit(self::LIMIT_PLAYERS)->get();
+        $players = Player::select()
+            ->whereIn('server_id', $servers)
+            ->orderBy('date', 'DESC')
+            ->limit(self::LIMIT_PLAYERS)
+            ->get();
 
         // clear logs
         $limit = Carbon::now()->subDays(self::LIMIT_DAYS);
@@ -34,7 +42,6 @@ class PlayerController extends Controller
         //
 
         return view('users.players.index')
-            ->with('servers', $servers)
             ->with('players', $players);
     }
 

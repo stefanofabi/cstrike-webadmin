@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Users;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class AdministratorAssociate
+use App\Models\Ban;
+use Lang;
+
+class IsMyBan
 {
     /**
      * Handle an incoming request.
@@ -18,10 +21,12 @@ class AdministratorAssociate
     {
         $user = auth()->user();
 
-        $administrators = $user->administrators->where('status', 'Active');
+        $ban = Ban::findOrFail($request->id);
+
+        $administrator =$ban->administrator;
         
-        if ($administrators->isEmpty()) {
-            return redirect()->back()->withErrors('Have not active administrators');
+        if ($user->id != $administrator->user_id) {
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 
         return $next($request);

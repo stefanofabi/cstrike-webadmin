@@ -50,5 +50,6 @@ return [
     'enter_administrator_email' => 'Enter the administrator email',
     'status' => 'Status',
     'active' => 'Active',
+    'see_administrator' => 'See Administrator',
     
 ];

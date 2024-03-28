@@ -40,5 +40,5 @@ return [
     'pay_order' => 'Pagar orden',
     'order_number' => 'Órden #:id',
     'pay_order_message' => 'Completá el pago de tu Administrador y comenzá a disfrutar los beneficios en nuestros servidores',
-
+    
 ];

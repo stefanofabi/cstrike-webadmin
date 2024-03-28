@@ -20,11 +20,12 @@ return [
     'players_log' => 'Players log',
     'my_bans' => 'My bans',
     'buy_administrator' => 'Buy administrator',
-    'my_administrator' => 'My administrator',
+    'my_administrators' => 'My administrators',
     'system_logs' => 'System logs',
     'activity_logs' => 'Activity logs',
     'home' => 'Home',
     'packages' => 'Packages',
     'orders' => 'Orders',
+    'my_orders' => 'My orders',
     
 ];

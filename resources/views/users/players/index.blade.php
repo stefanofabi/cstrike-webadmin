@@ -62,7 +62,7 @@
                             <td> {{ $player->server->name }} </td>
 
                             <td class="text-end">
-                                <a href="{{ route('users/bans/create', $player->id) }}" class="btn btn-info btn-sm" title="{{ trans('players.ban_player') }}" > <i class="fas fa-ban fa-sm"></i> </a>
+                                <a href="{{ route('users/bans/create', $player->id) }}" class="btn btn-primary btn-sm" title="{{ trans('players.ban_player') }}" > <i class="fas fa-ban fa-sm"></i> </a>
                             </td>
                         </tr>
                     @endforeach
