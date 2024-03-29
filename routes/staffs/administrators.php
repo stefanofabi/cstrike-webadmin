@@ -3,9 +3,9 @@
 use App\Http\Controllers\Staffs\AdministratorController;
 
 Route::controller(AdministratorController::class)
+->middleware('permission:crud_administrators')
 ->prefix('administrators')
 ->as('administrators/')
-->middleware('permission:crud_administrators')
 ->group(function () {
     Route::get('index', 'index')->name('index');
 

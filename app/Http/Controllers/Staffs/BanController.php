@@ -21,23 +21,7 @@ class BanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-
-        $servers = Server::orderBy('name', 'ASC')->get();
-
-        return view('staffs/bans/index') 
-            ->with('servers', $servers);
-    }
-
-    /**
-     * Load bans
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function load(Request $request)
+    public function index(Request $request)
     {
         //
 
@@ -86,20 +70,19 @@ class BanController extends Controller
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
-            'administrator_id' => 'numeric|nullable',
-            'servers' => 'required',          
+            'servers' => 'required|array',          
         ]);
 
         if (empty($request->steam_id) && empty($request->ip)) {
             return back()->withErrors(Lang::get('bans.incomplete_prohibition_data'))->withInput($request->all());
         }
 
-        if ($this->playerAdminWithImmunity($request->name, $request->steam_id, $request->ip)) {
-            return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
+        if (!empty($request->steam_id) && strpos($request->steam_id, "LAN") !== false) {
+            return back()->withErrors(Lang::get('bans.steam_id_not_valid'))->withInput($request->except('steam_id'));
         }
 
-        if (!empty($request->steam_id) && strpos($request->steam_id, "STEAM_ID_LAN") !== false) {
-            return back()->withErrors(Lang::get('bans.steam_id_not_valid'))->withInput($request->except('steam_id'));
+        if ($this->playerAdminWithImmunity($request->name, $request->steam_id, $request->ip)) {
+            return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
 
         DB::beginTransaction();
@@ -181,38 +164,37 @@ class BanController extends Controller
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
-            'administrator_id' => 'numeric|nullable',
-            'server_id' => 'required|numeric|min:1',
         ]);
 
         if (empty($request->steam_id) && empty($request->ip)) {
-            return response(['message' => Lang::get('bans.incomplete_prohibition_data')], 500);
+            return response(['message' => Lang::get('bans.incomplete_prohibition_data')], 422);
+        }
+
+        if (!empty($request->steam_id) && strpos($request->steam_id, "LAN") !== false) {
+            return response(['message' => Lang::get('bans.steam_id_not_valid')], 422);
         }
 
         if ($this->playerAdminWithImmunity($request->name, $request->steam_id, $request->ip)) {
-            return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
+            return response(['message' => Lang::get('bans.admin_immunity')], 422);
         }
 
         try {
             $ban = Ban::findOrFail($request->id);
+
+            $ban->name = $request->name;
+            $ban->steam_id = $request->steam_id;
+            $ban->ip = $request->ip;
+            $ban->expiration = $request->expiration;
+            $ban->reason = $request->reason;
+            $ban->private_notes = $request->private_notes;
+            $ban->server_id = $request->server_id;
+            
+            if (! $ban->save()) {
+                return response(['message' => Lang::get('forms.failed_transaction')], 500);
+            }
+            
         } catch (ModelNotFoundException $exception) {
             return response(['message' => Lang::get('errors.model_not_found')], 500);
-        }
-        
-        $updated = $ban->update(
-            [
-                'name' => $request->name,
-                'steam_id' => $request->steam_id,
-                'ip' => $request->ip,
-                'expiration' => $request->expiration,
-                'reason' => $request->reason,
-                'private_notes' => $request->private_notes,
-                'server_id' => $request->server_id,
-            ]
-        );
-            
-        if (! $updated) {
-            return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 
         return response(['message' => Lang::get('bans.success_updated_ban')], 200);
@@ -235,14 +217,7 @@ class BanController extends Controller
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 
-        $servers = Server::orderBy('name', 'ASC')->get();
-
-        $bans = Ban::where('server_id', $server_id)->orderBy('expiration', 'DESC')->get();
-
-        return view('staffs.bans.index') 
-            ->with('servers', $servers)
-            ->with('bans', $bans)
-            ->with('server_id', $server_id);
+        return redirect()->action([BanController::class, 'index'], ['server_id' => $server_id]);
     }
 
     private function playerAdminWithImmunity($name, $steam_id, $ip) {

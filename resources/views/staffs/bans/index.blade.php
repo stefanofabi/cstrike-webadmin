@@ -65,9 +65,8 @@
         </div>
 
         <div class="col-md-6">
-            <form action="{{ route('staffs/bans/load') }}" method="POST" id="selectServer">
-                @csrf
-                
+            <form action="{{ route('staffs/bans/index') }}" id="selectServer">
+
                 <select class="form-select" name="server_id" id="server">
                     <option value=""> {{ trans('forms.select_option') }}</option>
                     @foreach ($servers as $server) 
@@ -99,7 +98,7 @@
                             <td id="ban_date_{{ $ban->id }}"> 
                                 {{ date('d/m/Y H:i', strtotime($ban->date)) }}  
 
-                                @if (strtotime($ban->expiration) < strtotime(date('Y-m-d H:i:s')))
+                                @if (! empty($ban->expiration) && strtotime($ban->expiration) < strtotime(date('Y-m-d H:i:s')))
                                 <span class="badge bg-success"> {{ trans('bans.expired') }}</span>
                                 @endif
                             </td>

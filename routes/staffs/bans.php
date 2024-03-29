@@ -1,22 +1,22 @@
 <?php 
 
-Route::group([
-    'permission:crud_bans',
-    'prefix' => 'bans',
-    'as' => 'bans/',
-], function () {
-    Route::get('index', ['\App\Http\Controllers\Staffs\BanController', 'index'])->name('index');
+use App\Http\Controllers\Staffs\BanController;
 
-    Route::post('load', ['\App\Http\Controllers\Staffs\BanController', 'load'])->name('load');
+Route::controller(BanController::class)
+->middleware('permission:crud_bans')
+->prefix('bans')
+->as('bans/')
+->group(function () {
+    Route::get('index', 'index')->name('index');
 
-    Route::get('create/{player_id?}', ['\App\Http\Controllers\Staffs\BanController', 'create'])->name('create')->where('player_id', '[1-9][0-9]*');
+    Route::get('create/{player_id?}', 'create')->name('create');
 
-    Route::post('store', ['\App\Http\Controllers\Staffs\BanController', 'store'])->name('store');
+    Route::post('store','store')->name('store');
 
-    Route::post('edit', ['\App\Http\Controllers\Staffs\BanController', 'edit'])->name('edit');
+    Route::post('edit', 'edit')->name('edit');
             
-    Route::post('update', ['\App\Http\Controllers\Staffs\BanController', 'update'])->name('update');
+    Route::post('update', 'update')->name('update');
     
-    Route::delete('destroy/{id}', ['\App\Http\Controllers\Staffs\BanController', 'destroy'])->name('destroy')->where('id', '[1-9][0-9]*');
+    Route::delete('destroy/{id}', 'destroy')->name('destroy');
     
 });

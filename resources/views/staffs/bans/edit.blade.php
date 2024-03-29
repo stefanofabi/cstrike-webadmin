@@ -60,7 +60,7 @@
 									<option value="">  {{ trans('forms.select_option') }} </option>
 
 									@foreach ($servers as $server)
-										<option value="{{ $server->id }}">  {{ $server->name }} [{{ $server->ip}}] </option>
+										<option value="{{ $server->id }}">  {{ $server->name }} </option>
 									@endforeach
 								</select>
 							</div>
