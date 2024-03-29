@@ -1,6 +1,8 @@
 <script type="text/javascript">
 
     function managePrivileges(package) {
+        $("#modal_manage_privileges_server").val('');
+        $("#modal_manage_privileges_rank").val('');
 
         var parameters = {
             "_token" : '{{ csrf_token() }}',

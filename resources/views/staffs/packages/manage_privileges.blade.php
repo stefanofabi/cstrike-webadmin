@@ -45,7 +45,7 @@
 
 							@if ($servers->isNotEmpty())
 							<select class="form-select" id="modal_manage_privileges_server">
-								<option selected> {{ trans('administrators.select_a_server') }} </option>
+								<option value=""> {{ trans('administrators.select_a_server') }} </option>
 
 								@foreach ($servers as $server)
 								<option value="{{ $server->id}}"> {{ $server->name }} </option>
