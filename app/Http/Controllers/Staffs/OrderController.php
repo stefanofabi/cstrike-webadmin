@@ -178,6 +178,8 @@ class OrderController extends Controller
 
             $package = $order->package;
 
+            $now = Carbon::now();
+
             foreach ($package->privileges as $privilege) {
                 $administrator = new Administrator([
                     'order_id' => $order->id
@@ -189,6 +191,7 @@ class OrderController extends Controller
                 $administrator->auth = $order->auth;
                 $administrator->password = $order->password;
                 $administrator->account_flags = 'ab';
+                $administrator->expiration = $now->addMonth();
                 $administrator->status = 'Active';
                 $administrator->rank_id = $privilege->rank_id;
                 $administrator->server_id = $privilege->server_id;
@@ -197,8 +200,7 @@ class OrderController extends Controller
                 
                 $administrator->save();
             }
-
-            $now = Carbon::now();
+            
             $order->expiration = $now->addMonth();
             $order->status = 'Active';
             $order->save();
