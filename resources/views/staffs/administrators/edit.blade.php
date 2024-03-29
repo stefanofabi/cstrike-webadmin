@@ -16,7 +16,7 @@
 				
 				<form class="form-horizontal" method="post" onsubmit="return updateAdministrator();">
 
-					<input type="hidden" id="modal_administrator_id" name="id">
+					<input type="hidden" id="modal_administrator_id">
 
 					<div class="row mb-5">
 						<!-- Left Column -->
@@ -24,19 +24,19 @@
 							<div>
 								<label for="name"> <h5> <strong> {{ trans('administrators.name') }}: </h5> </strong> </label>
 								
-								<input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_name') }}" name="name" id="modal_administrator_name" value="{{ @old('name') }}" required>
+								<input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_name') }}" id="modal_administrator_name" value="{{ @old('name') }}" required>
 							</div>
 
 							<div class="mt-3">
 								<label for="auth"> <h5> <strong> {{ trans('administrators.auth') }}: </strong> </h5> </label>
 								
-								<input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_auth') }}" name="auth" id="modal_administrator_auth" value="{{ @old('auth') }}" required>
+								<input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_auth') }}" id="modal_administrator_auth" value="{{ @old('auth') }}" required>
 							</div>
 
 							<div class="mt-3">
 								<label for="password"> <h5> <strong> {{ trans('administrators.password') }}: </strong> </h5> </label>
 								
-								<input type="password" class="form-control password1 col-12" placeholder="{{ trans('administrators.enter_password') }}" name="password" id="modal_administrator_password">
+								<input type="password" class="form-control password1 col-12" placeholder="{{ trans('administrators.enter_password') }}" id="modal_administrator_password">
 								<div class="col-12"> <span class="fa fa-fw fa-eye password-icon show-password"></span> </div>
 							</div>
 
@@ -50,6 +50,12 @@
 										<option value="{{ $rank->id }}">  {{ $rank->name }} </option>
 									@endforeach
 								</select>
+							</div>
+
+							<div class="mt-3">
+								<label for="expiration"> <h5> <strong> {{ trans('administrators.expiration') }}: </strong> </h5> </label>
+								
+								<input type="date" class="form-control" id="modal_administrator_expiration">
 							</div>
 						</div>
 
@@ -106,11 +112,11 @@
 								<h5> <strong> {{ trans('servers.servers_with_access') }}: </strong> </h5>
 
 								@if ($servers->isNotEmpty())
-								<select class="form-select" id="modal_server_id">
+								<select class="form-select" id="modal_administrator_server_id">
 									<option selected> {{ trans('administrators.select_a_server') }} </option>
 
 									@foreach ($servers as $server)
-									<option value="{{ $server->id}}"> {{ $server->ip }} {{ $server->name }} </option>
+									<option value="{{ $server->id}}"> {{ $server->name }} </option>
 									@endforeach
 								</select>
 								@else 
@@ -129,6 +135,18 @@
 								</select>
 
 								<div class="mt-1"> {{ trans('administrators.suspend_administrator') }}: <span id="modal_administrator_suspended"> </span> </div>
+							</div>
+
+							<div class="mt-3">
+								<h5> <strong>{{ trans('administrators.administrator_account') }}: </strong> </h5>
+			
+								<select class="form-select" id="modal_administrator_user_id">
+									<option value="">  {{ trans('forms.select_option') }} </option>
+									
+									@foreach ($users as $user)
+										<option value="{{ $user->id }}">  {{ $user->name }} {{ $user->email }} </option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 					</div>

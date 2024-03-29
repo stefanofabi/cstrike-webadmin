@@ -51,5 +51,6 @@ return [
     'status' => 'Status',
     'active' => 'Active',
     'see_administrator' => 'See Administrator',
+    'expiration' => 'Expiration',
     
 ];

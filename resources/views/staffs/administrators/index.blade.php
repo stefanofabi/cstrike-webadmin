@@ -94,9 +94,9 @@
             <thead>
                 <tr>
                     <th> {{ trans('administrators.name') }} </th>
-                    <th> {{ trans('orders.expiration') }} </th>
                     <th> {{ trans('servers.server') }}</th>
                     <th> {{ trans('ranks.rank') }}</th>
+                    <th> {{ trans('administrators.status') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -108,26 +108,33 @@
                             <td id="administrator_name_{{ $administrator->id }}"> 
                                 {{ $administrator->name }} 
 
-                                @if (! empty($administrator->suspended))
+                                @if ($administrator->status == 'Suspended')
                                 <span class="badge bg-danger"> {{ trans('administrators.suspended') }}</span> 
                                 @endif
-                            </td>
-
-                            <td id="administrator_expiration_{{ $administrator->id }}">
-                                @if (empty($administrator->order->expiration))
-                                    {{ trans('administrators.no_expiration') }}
-                                @else 
-                                    {{ date('d/m/Y', strtotime($administrator->order->expiration)) }}
-
-                                    @if (date('Y-m-d') > $administrator->order->expiration)
-                                        <span class="badge bg-danger"> {{ trans('administrators.expired') }}</span> 
-                                    @endif
-                                @endif                         
                             </td>
 
                             <td id="administrator_server_{{ $administrator->id }}"> {{ $administrator->server->name }} </td>
                             
                             <td id="administrator_rank_{{ $administrator->id }}"> {{ $administrator->rank->name }} </td>
+
+                            <td id="administrator_status_{{ $administrator->id }}">
+                                @switch ($administrator->status)
+                                    @case('Active')
+                                        <span class="badge bg-success"> {{ trans('administrators.active') }} </span>
+                                        @break
+                                    @endcase
+
+                                    @case('Suspended')
+                                        <span class="badge bg-danger"> {{ trans('administrators.suspended') }} </span>
+                                        @break
+                                    @endcase
+
+                                    @case('Expired')
+                                        <span class="badge bg-warning"> {{ trans('administrators.expired') }} </span>
+                                        @break
+                                    @endcase
+                                @endswitch 
+                            </td>
 
                             <td class="text-end">
                                 <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">

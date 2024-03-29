@@ -51,5 +51,6 @@ return [
     'status' => 'Estado',
     'active' => 'Activo',
     'see_administrator' => 'Ver Administrador',
+    'expiration' => 'Vencimiento',
     
 ];

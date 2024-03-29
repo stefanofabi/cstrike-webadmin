@@ -63,19 +63,19 @@
                 <div class="mt-3">
                     <label for="name"> <h5> <strong> {{ trans('administrators.name') }}: </h5> </strong> </label>
                     
-                    <input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_name') }}" name="name" value="{{ @old('name') }}" required>
+                    <input type="text" class="form-control" placeholder="{{ trans('administrators.enter_name') }}" name="name" value="{{ @old('name') }}" required>
                 </div>
 
                 <div class="mt-3">
                     <label for="auth"> <h5> <strong> {{ trans('administrators.auth') }}: </strong> </h5> </label>
                     
-                    <input type="text" class="form-control col-12" placeholder="{{ trans('administrators.enter_auth') }}" name="auth" value="{{ @old('auth') }}" required>
+                    <input type="text" class="form-control" placeholder="{{ trans('administrators.enter_auth') }}" name="auth" value="{{ @old('auth') }}" required>
                 </div>
 
                 <div class="mt-3">
                     <label for="password"> <h5> <strong> {{ trans('administrators.password') }}: </strong> </h5> </label>
                     
-                    <input type="password" class="form-control password1 col-12" placeholder="{{ trans('administrators.enter_password') }}" name="password">
+                    <input type="password" class="form-control password1" placeholder="{{ trans('administrators.enter_password') }}" name="password">
                     <div class="col-12"> <span class="fa fa-fw fa-eye password-icon show-password"></span> </div>
                 </div>
 
@@ -89,6 +89,12 @@
                             <option value="{{ $rank->id }}">  {{ $rank->name }} </option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="mt-3">
+                    <label for="expiration"> <h5> <strong> {{ trans('administrators.expiration') }}: </strong> </h5> </label>
+                    
+                    <input type="date" class="form-control" name="expiration">
                 </div>
             </div>
 
@@ -161,7 +167,7 @@
                 <div class="mt-3">
                     <h5> <strong>{{ trans('administrators.administrator_account') }}: </strong> </h5>
 
-                    <select class="form-select col-12" name="user_id" id="user">
+                    <select class="form-select" name="user_id" id="user">
                         <option value="">  {{ trans('forms.select_option') }} </option>
                         
                         @foreach ($users as $user)

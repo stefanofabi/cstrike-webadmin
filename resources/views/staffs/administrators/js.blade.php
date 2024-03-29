@@ -6,7 +6,8 @@
         $("#modal_administrator_name").val('');
         $("#modal_administrator_auth").val('');
         $("#modal_administrator_password").val('');
-        $("#modal_server_id").val('');
+        $("#modal_administrator_server_id").val('');
+        $("#modal_administrator_expiration").val('');
         $("#modal_administrator_status").val('');
 
         $("#modal_administrator_suspended").html('');
@@ -50,11 +51,13 @@
                     $('#flag_'+account_flag).attr('checked', true);
                 });
 
-                $("#modal_server_id").val(administrator['server_id']);
+                $("#modal_administrator_server_id").val(administrator['server_id']);
+
+                $("#modal_administrator_expiration").val(administrator['expiration']);
 
                 $("#modal_administrator_status").val(administrator['status']);
                 
-                if (administrator['suspended'] == 'Suspended') {
+                if (administrator['status'] == 'Suspended') {
                     $('#modal_administrator_suspended').html(administrator['suspended']);
                 }
             }
@@ -77,9 +80,10 @@
             "account_flags" : JSON.stringify($('[name="account_flags[]"]').serializeArray()),
             "servers" : JSON.stringify($('[name="servers[]"]').serializeArray()),
             "rank_id" : $("#modal_administrator_rank_id").val(),
-            "user_id" : $("#modal_user_id").val(),
-            "server_id" : $("#modal_server_id").val(),
-            "suspended" : $('#modal_suspend_administrator').prop('checked')
+            "user_id" : $("#modal_administrator_user_id").val(),
+            "server_id" : $("#modal_administrator_server_id").val(),
+            "expiration" : $('#modal_administrator_expiration').val(),
+            "status" : $('#modal_administrator_status').val()
 		};
 
 		$.ajax({
@@ -94,8 +98,9 @@
 
                 // Update the list of administrators
                 $("#administrator_name_"+administrator_id).html(parameters['name']);
-                $("#administrator_auth_"+administrator_id).html(parameters['auth']);
+                $("#administrator_server_"+administrator_id).html($( "#modal_administrator_server_id option:selected" ).text());
                 $("#administrator_rank_"+administrator_id).html($( "#modal_administrator_rank_id option:selected" ).text());
+                $("#administrator_status_"+administrator_id).html($( "#modal_administrator_status option:selected" ).text());
 			}
 		}).fail( function() {
     		$("#modal_administrators_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("administrators.danger_updated_administrator") }} </div>');

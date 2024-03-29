@@ -27,19 +27,19 @@ class AdministratorController extends Controller
     {
         //
 
-        $administrators = Administrator::select('administrators.id', 'administrators.name', 'administrators.server_id', 'administrators.rank_id', 'administrators.order_id')
-            ->leftJoin('orders', 'administrators.order_id', '=', 'orders.id')
-            ->orderBy('orders.expiration', 'ASC')
-            ->get();
+        $administrators = Administrator::orderBy('expiration', 'ASC')->get();
 
         $ranks = Rank::orderBy('name', 'ASC')->get();
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
+        $users = User::permission('is_user')->orderBy('name', 'ASC')->get();
+
         return view('staffs.administrators.index')
             ->with('administrators', $administrators)
             ->with('ranks', $ranks)
-            ->with('servers', $servers);
+            ->with('servers', $servers)
+            ->with('users', $users);
     }
 
     /**
@@ -55,7 +55,7 @@ class AdministratorController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        $users = User::orderBy('name', 'ASC')->get();
+        $users = User::permission('is_user')->orderBy('name', 'ASC')->get();
 
         return view('staffs.administrators.create')
             ->with('ranks', $ranks)
@@ -79,8 +79,7 @@ class AdministratorController extends Controller
             'password' => 'string|nullable',
             'account_flags' => 'required|array',
             'servers' => 'required|array',
-            'rank_id' => 'required|string',
-            
+            'expiration' => 'date|nullable',
         ]);
 
         DB::beginTransaction();
@@ -97,6 +96,7 @@ class AdministratorController extends Controller
                 $administrator->account_flags = implode($request->account_flags);
                 $administrator->rank_id = $request->rank_id;
                 $administrator->server_id = $server;
+                $administrator->expiration = $request->expiration;
                 $administrator->status = 'Active';
                 $administrator->user_id = $request->user_id;
                     
@@ -163,7 +163,7 @@ class AdministratorController extends Controller
             'password' => 'string|nullable',
             'account_flags' => 'required',
             'servers' => 'required',
-            'rank_id' => 'required|string',
+            'expiration' => 'date|nullable',
         ]);
 
         $administrator = Administrator::findOrFail($request->id);
@@ -181,7 +181,9 @@ class AdministratorController extends Controller
         $administrator->account_flags = $flags;
         $administrator->rank_id = $request->rank_id;
         $administrator->server_id = $request->server_id;
-        $administrator->suspended = ($request->suspended) ? Carbon::now() : null;
+        $administrator->expiration = $request->expiration;
+        $administrator->status = $request->status;
+        $administrator->suspended = ($request->status == 'Suspended') ? Carbon::now() : null;
 
         if (! $administrator->save()) {
             return response(['message' => $exception->getMessage()], 500);
