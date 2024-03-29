@@ -67,6 +67,7 @@ class OrderController extends Controller
         $package = Package::findOrFail($request->package_id);
 
         $order = new Order($request->all());
+        $order->package_id = $request->package_id;
         $order->user_id = $request->user_id;
         $order->status = "Pending";
         $order->price = (empty($request->price)) ? $package->price : $request->price;
@@ -117,11 +118,32 @@ class OrderController extends Controller
             'password' => 'string|nullable',
         ]);
 
-        $order = Order::findOrFail($request->id);
-        
-        if (! $order->update($request->all()))
-            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        DB::beginTransaction();
 
+        try {
+            $order = Order::findOrFail($request->id);
+
+            $order->auth = $request->auth;
+            $order->password = $request->password;
+            $order->package_id = $request->package_id;
+            $order->expiration = $request->expiration;
+            $order->price = $request->price;
+            $order->save();
+
+            Administrator::where('order_id', $order->id)->update([
+                'name' => $order->user->name,
+                'auth' => $order->auth,
+                'password' => $order->password,
+                'expiration' => $order->expiration,
+                'account_flags' => 'ab'
+            ]);
+            
+            DB::commit();
+        } catch(QueryException $exception) {
+            DB::rollBack();
+            
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        }
 
         return $order;
     }
@@ -184,7 +206,7 @@ class OrderController extends Controller
             DB::commit();
         } catch(QueryException $exception) {
             DB::rollBack();
-            dd($exception);
+            
             return back()->withErrors(Lang::get('forms.failed_transaction'));
         }
 

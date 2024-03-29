@@ -94,7 +94,6 @@
                     <th> {{ trans('orders.date') }} </th>
                     <th> {{ trans('orders.user') }} </th>
                     <th> {{ trans('orders.package') }} </th>
-                    <th> {{ trans('orders.expiration') }} </th>
                     <th> {{ trans('orders.status') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
@@ -107,7 +106,6 @@
                             <td id="order_date_{{ $order->id }}"> {{ $order->date }} </td>
                             <td id="order_user_{{ $order->id }}"> {{ $order->user->name }} </td>
                             <td id="order_package_{{ $order->id }}"> {{ $order->package->name }} </td>
-                            <td id="order_expiration_{{ $order->id }}"> {{ $order->expiration }} </td>
                             <td id="order_status_{{ $order->id }}">
                                 @switch($order->status)
                                     @case('Pending')
