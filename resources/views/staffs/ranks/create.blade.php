@@ -23,7 +23,7 @@
 
 @section('right-content')
     <div class="p-3 my-3 bg-primary text-white">
-        <h1> {{ trans('ranks.create_rank') }} </h1>
+        <h1> <i class="fa-solid fa-user-plus"></i> {{ trans('ranks.create_rank') }} </h1>
         <p class="col-9"> {{trans('ranks.create_rank_message') }} </p>
     </div>
 

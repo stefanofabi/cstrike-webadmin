@@ -50,7 +50,7 @@
 @section('right-content')
 
     <div class="p-3 my-3 bg-primary text-white">
-        <h1> {{ trans('administrators.create_administrator') }} </h1>
+        <h1> <i class="fa-solid fa-user-plus"></i> {{ trans('administrators.create_administrator') }} </h1>
         <p class="col-9"> {{trans('administrators.create_administrator_message') }} </p>
     </div>
 

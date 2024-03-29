@@ -10,7 +10,7 @@
 
 @section('right-content')
     <div class="p-3 my-3 bg-primary text-white">
-        <h1> {{ trans('packages.create_package') }} </h1>
+        <h1> <i class="fa-solid fa-plus"></i> {{ trans('packages.create_package') }} </h1>
         <p class="col-md-9"> {{trans('packages.create_package_message') }} </p>
     </div>
 

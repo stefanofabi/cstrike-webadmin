@@ -79,7 +79,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-end">
-            <a  href="{{ route('staffs/orders/create') }}" class="btn btn-light"> <span class="fas fa-user-plus"> </span> {{ trans('orders.create_order') }} </a>
+            <a  href="{{ route('staffs/orders/create') }}" class="btn btn-light"> <i class="fa-solid fa-cart-plus"></i> {{ trans('orders.create_order') }} </a>
         </div>
 
         <h1> <i class="fa-solid fa-cube"></i> {{ trans('home.orders') }} </h1>

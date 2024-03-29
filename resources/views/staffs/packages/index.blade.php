@@ -42,7 +42,7 @@
     
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-end">
-            <a  href="{{ route('staffs/packages/create') }}" class="btn btn-light"> <span class="fas fa-user-plus"> </span> {{ trans('packages.create_package') }} </a>
+            <a  href="{{ route('staffs/packages/create') }}" class="btn btn-light"> <i class="fa-solid fa-plus"></i> {{ trans('packages.create_package') }} </a>
         </div>
 
         <h1> <i class="fa-solid fa-cube"></i> </span> {{ trans('home.packages') }} </h1>

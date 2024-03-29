@@ -40,7 +40,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-end">
-            <a  href="{{ route('staffs/ranks/create') }}" class="btn btn-light"> <span class="fas fa-user-plus"> </span> {{ trans('ranks.create_rank') }} </a>
+            <a  href="{{ route('staffs/ranks/create') }}" class="btn btn-light"> <i class="fa-solid fa-user-plus"></i> {{ trans('ranks.create_rank') }} </a>
         </div>
 
         <h1> <span class="fas fa-user-tag"> </span> {{ trans('home.ranks') }} </h1>

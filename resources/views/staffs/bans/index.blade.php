@@ -52,7 +52,7 @@
 
     <div class="p-3 my-3 bg-primary text-white">
         <div class="btn-group float-end">
-            <a  href="{{ route('staffs/bans/create') }}" class="btn btn-light"> <span class="fas fa-plus"> </span> {{ trans('bans.create_ban') }} </a>
+            <a  href="{{ route('staffs/bans/create') }}" class="btn btn-light"> <i class="fa-solid fa-plus"></i> {{ trans('bans.create_ban') }} </a>
         </div>
 
         <h1> <span class="fas fa-ban"> </span> {{ trans('home.bans') }} </h1>

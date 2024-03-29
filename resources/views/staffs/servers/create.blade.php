@@ -26,7 +26,7 @@
 @section('right-content')
 
     <div class="p-3 my-3 bg-primary text-white">
-        <h1> {{ trans('servers.create_server') }} </h1>
+        <h1> <i class="fa-solid fa-plus"></i> {{ trans('servers.create_server') }} </h1>
         <p class="col-9"> {{trans('servers.create_server_message') }} </p>
     </div>
 
