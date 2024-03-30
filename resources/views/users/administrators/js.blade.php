@@ -67,6 +67,8 @@
                         break;
                     }
                 }
+
+                $('#modal_administrator_expiration').text(administrator['expiration']);
                 
                 if (administrator['status'] == 'Suspended') {
                     $('#suspendAdministratorDiv').removeClass('d-none');

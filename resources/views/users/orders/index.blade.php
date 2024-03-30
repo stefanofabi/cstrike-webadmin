@@ -5,6 +5,8 @@
 @endsection
 
 @section('js')
+    @include('users.orders.js')
+    
     <script type="module">
         $('#myOrdersTable').DataTable({
             "language": {
@@ -30,9 +32,45 @@
             }
         });
     </script>
+
+    <script>
+        window.addEventListener("load", function() {
+        
+            // icon to be able to interact with the element
+            showPassword = document.querySelector('.show-password');
+
+            showPassword.addEventListener('click', () => {
+                // input elements of type password
+                password1 = document.querySelector('.password1');
+            
+                if ( password1.type === "text" ) {
+                    password1.type = "password"
+                    password2.type = "password"
+                    showPassword.classList.remove('fa-eye-slash');
+                } else {
+                    password1.type = "text"
+                    password2.type = "text"
+                    showPassword.classList.toggle("fa-eye-slash");
+                }
+            })
+        });
+    </script>
+@endsection
+
+@section('style')
+    <style>
+        .password-icon {
+        float: right;
+        position: relative;
+        margin: -25px 10px 0 0;
+        cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('right-content')
+    @include('users.orders.edit')
+
     <div class="p-3 my-3 bg-primary text-white">
         <h1> <i class="fa-solid fa-cube"></i> </span> {{ trans('home.orders') }} </h1>
         <p class="col-9"> {{trans('orders.welcome_message') }} </p>
@@ -81,21 +119,13 @@
                             <td> {{ $order->expiration ?? 'N/A' }} </td>
 
                             <td class="text-end">   
-                                @switch($order->status)
-                                    @case('Pending')
-                                    <a class="btn btn-primary btn-sm" href="{{ route('users/orders/pay', ['id' => $order->id]) }}" title="{{ trans('orders.pay_order') }}"> 
-                                        <i class="fa-solid fa-dollar-sign"></i>
-                                    </a>
-                                    @break
-                                    @endcase
+                                <a class="btn btn-primary btn-sm" href="{{ route('users/orders/pay', ['id' => $order->id]) }}" title="{{ trans('orders.pay_order') }}"> 
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </a>
 
-                                    @case('Expired')
-                                    <a class="btn btn-primary btn-sm" href="{{ route('users/orders/pay', ['id' => $order->id]) }}" title="{{ trans('orders.pay_order') }}"> 
-                                        <i class="fa-solid fa-dollar-sign"></i>
-                                    </a>
-                                    @break
-                                    @endcase
-                                @endswitch
+                                <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editOrder" onclick="return editOrder('{{ $order->id }}')" title="{{ trans('orders.edit_order') }}">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

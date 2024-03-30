@@ -37,6 +37,11 @@
 								<span class="fs-5 fw-bold"> {{ trans('ranks.rank') }}: </span>
 								<span id="modal_administrator_rank"> </span> 
 							</div>
+
+							<div class="mt-3">
+								<span class="fs-5 fw-bold"> {{ trans('administrators.expiration') }}: </span>
+								<span id="modal_administrator_expiration"> </span> 
+							</div>
 						</div>
 
 						<!-- Right Column -->

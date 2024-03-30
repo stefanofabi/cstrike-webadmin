@@ -12,6 +12,10 @@ Route::controller(OrderController::class)
 
     Route::post('store', 'store')->name('store');
 
+    Route::post('edit', 'edit')->name('edit')->middleware('is_my_order');
+
+    Route::post('update', 'update')->name('update')->middleware('is_my_order');
+
     Route::get('pay/{id}', 'pay')->name('pay')->middleware('is_my_order');
 
 });

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Models\Player;
+use App\Models\Administrator;
 
 use Lang;
 
@@ -27,12 +28,17 @@ class BanController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        $bans = Ban::where('server_id', $request->server_id)->orderBy('expiration', 'DESC')->get();
+        $bans = Ban::where('server_id', $request->input('server'))->orderBy('expiration', 'DESC')->get();
+
+        $server = Server::find($request->input('server'));
+
+        $administrator = Administrator::find($request->administrator);
 
         return view('staffs.bans.index') 
             ->with('servers', $servers)
             ->with('bans', $bans)
-            ->with('server_id', $request->server_id);
+            ->with('server', $server)
+            ->with('administrator', $administrator);
     }
 
     /**

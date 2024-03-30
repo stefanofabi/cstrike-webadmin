@@ -137,6 +137,10 @@
                             </td>
 
                             <td class="text-end">
+                                <a class="btn btn-primary btn-sm @if (empty($administrator->order_id)) disabled @endif" href="{{ route('staffs/orders/index', ['order' => $administrator->order_id]) }}" title="{{ trans('administrators.find_order') }}"> <i class="fa-solid fa-cube"></i> </a>
+
+                                <a class="btn btn-primary btn-sm" href="{{ route('staffs/bans/index', ['server' => $administrator->server_id, 'administrator' => $administrator->id]) }}" title="{{ trans('administrators.find_bans') }}"> <i class="fa-solid fa-ban"></i> </a>
+
                                 <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAdministrator" onclick="return editAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.edit_administrator') }}">
                                     <span class="fas fa-user-edit"></span>
                                 </a>

@@ -36,14 +36,14 @@ class BanController extends Controller
             ->get();
 
         $bans = Ban::select('bans.id', 'bans.date', 'bans.name', 'bans.steam_id', 'bans.ip', 'bans.expiration')
-            ->where('bans.server_id', $request->server_id)
+            ->where('bans.server_id', $request->input('server'))
             ->join('administrators', 'bans.administrator_id', '=', 'administrators.id')
             ->where('administrators.user_id', $user->id)
             ->where('administrators.status', 'Active')
             ->orderBy('bans.expiration', 'DESC')
             ->get();
 
-        $server = Server::find($request->server_id);
+        $server = Server::find($request->input('server'));
 
         return view('users.bans.index') 
             ->with('servers', $servers)

@@ -37,4 +37,12 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the administrators associated with the order.
+     */
+    public function administrators()
+    {
+        return $this->hasMany(Administrator::class);
+    }
 }

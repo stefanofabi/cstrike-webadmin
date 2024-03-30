@@ -59,7 +59,7 @@ class AdministratorController extends Controller
         try {
             $administrator = Administrator::findOrFail($request->id);
         } catch (ModelNotFoundException $exception) {
-            return response(['message' => Lang::get('errors.model_not_found')], 500);
+            return response(['message' => Lang::get('errors.model_not_found')], 404);
         }
 
         return response()->json([

@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException; 
 
 use App\Models\Order;
 use App\Models\Package;
+use App\Models\Administrator;
 
 use Lang;
 
@@ -81,17 +85,56 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
+
+        try {
+            $order = Order::findOrFail($request->id);
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 404);
+        }
+
+        return response()->json([
+            'order' => $order,
+            'package' => $order->package,
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         //
+
+        $user = auth()->user();
+
+        DB::beginTransaction();
+
+        try {
+            $order = Order::findOrFail($request->id);
+
+            $order->auth = $request->auth;
+            $order->password = $request->password;
+            $order->save();
+
+            $order->administrators()->update([
+                'name' => $user->name,
+                'auth' => $request->auth,
+                'password' => $request->password
+            ]);
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            return response(['message' => Lang::get('errors.model_not_found')], 404);
+        } catch(QueryException $exception) {
+            DB::rollBack();
+
+            return response(['message' => Lang::get('forms.failed_transaction')], 500);
+        }
+
+        return $order;
     }
 
     /**

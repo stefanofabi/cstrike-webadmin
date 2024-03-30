@@ -65,9 +65,7 @@
 
         <div class="col-md-6">
             <form action="{{ route('users/bans/index') }}" id="selectServer">
-                @csrf
-                
-                <select class="form-select" name="server_id" id="server">
+                <select class="form-select" name="server" id="server">
                     <option value=""> {{ trans('forms.select_option') }}</option>
                     @foreach ($servers as $server) 
                         <option value="{{ $server->id }}"> {{ $server->name }} </option>

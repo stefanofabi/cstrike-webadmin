@@ -12,12 +12,15 @@
                 $('#selectServer').submit();
             });
 
-            $('#server').val('{{ $server_id ?? '' }}')
+            $('#server').val('{{ $server->id ?? '' }}')
         });
         
     </script>
 
     <script type="module">
+        var administratorName = "{{ $administrator->name ?? '' }}";
+        var defaultValue = administratorName ? administratorName : '';
+        
         $('#myBansTable').DataTable({
             "language": {
                 "info": '{{ trans('datatables.info') }}',
@@ -39,7 +42,8 @@
                     '</select> {{ trans('datatables.records') }}',
                 "emptyTable": '{{ trans('datatables.no_data') }}',
                 "zeroRecords": '{{ trans('datatables.no_match_records') }}',
-            }
+            },
+            "search": {"search": defaultValue }
         });
     </script>
 
@@ -67,7 +71,7 @@
         <div class="col-md-6">
             <form action="{{ route('staffs/bans/index') }}" id="selectServer">
 
-                <select class="form-select" name="server_id" id="server">
+                <select class="form-select" name="server" id="server">
                     <option value=""> {{ trans('forms.select_option') }}</option>
                     @foreach ($servers as $server) 
                         <option value="{{ $server->id }}"> {{ $server->name }} </option>
