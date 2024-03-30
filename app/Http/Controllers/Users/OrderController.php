@@ -108,6 +108,11 @@ class OrderController extends Controller
     {
         //
 
+        $request->validate([
+            'auth' => 'required|string|min:4|max:32|regex:/^[a-zA-Z]+$/',
+            'password' => 'required|string|min:4|max:20|regex:/^[a-zA-Z0-9]+$/',
+        ]);
+
         $user = auth()->user();
 
         DB::beginTransaction();
@@ -120,7 +125,6 @@ class OrderController extends Controller
             $order->save();
 
             $order->administrators()->update([
-                'name' => $user->name,
                 'auth' => $request->auth,
                 'password' => $request->password
             ]);
