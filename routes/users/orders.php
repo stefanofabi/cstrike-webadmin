@@ -14,7 +14,7 @@ Route::controller(OrderController::class)
 
     Route::post('edit', 'edit')->name('edit')->middleware('is_my_order');
 
-    Route::post('update', 'update')->name('update')->middleware('is_my_order');
+    Route::post('update', 'update')->name('update')->middleware(['is_my_order', 'one_modification_per_month']);
 
     Route::get('pay/{id}', 'pay')->name('pay')->middleware('is_my_order');
 

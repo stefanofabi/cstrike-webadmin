@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
@@ -53,7 +54,7 @@ class OrderController extends Controller
         //
 
         $request->validate([
-            'auth' => 'required|string|min:4|max:32|regex:/^[a-zA-Z]+$/',
+            'auth' => 'required|string|min:4|max:32|regex:/^[a-zA-Z\s]+$/',
             'password' => 'required|string|min:4|max:20|regex:/^[a-zA-Z0-9]+$/',
         ]);
 
@@ -109,7 +110,7 @@ class OrderController extends Controller
         //
 
         $request->validate([
-            'auth' => 'required|string|min:4|max:32|regex:/^[a-zA-Z]+$/',
+            'auth' => 'required|string|min:4|max:32|regex:/^[a-zA-Z\s]+$/',
             'password' => 'required|string|min:4|max:20|regex:/^[a-zA-Z0-9]+$/',
         ]);
 
@@ -122,6 +123,7 @@ class OrderController extends Controller
 
             $order->auth = $request->auth;
             $order->password = $request->password;
+            $order->last_change = Carbon::now();
             $order->save();
 
             $order->administrators()->update([

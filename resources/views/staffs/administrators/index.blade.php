@@ -105,13 +105,7 @@
                 @if ($administrators->isNotEmpty())
                     @foreach ($administrators as $administrator)
                         <tr>
-                            <td id="administrator_name_{{ $administrator->id }}"> 
-                                {{ $administrator->name }} 
-
-                                @if ($administrator->status == 'Suspended')
-                                <span class="badge bg-danger"> {{ trans('administrators.suspended') }}</span> 
-                                @endif
-                            </td>
+                            <td id="administrator_name_{{ $administrator->id }}"> {{ $administrator->name }} </td>
 
                             <td id="administrator_server_{{ $administrator->id }}"> {{ $administrator->server->name }} </td>
                             

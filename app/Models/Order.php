@@ -19,7 +19,7 @@ class Order extends Model
         'total_paid',
         'status',
         'package_id',
-        
+        'last_change'
     ];
 
     /**

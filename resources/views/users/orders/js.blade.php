@@ -86,8 +86,8 @@
 				$("#modal_orders_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("orders.success_updated_order") }} </div>');
                 
 			}
-		}).fail( function() {
-    		$("#modal_orders_messages").html('<div class="alert alert-danger alert-dismissible fade show"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("orders.danger_updated_order") }} </div>');
+		}).fail( function(xhr) {
+    		$("#modal_orders_messages").html('<div class="alert alert-danger alert-dismissible fade show"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <strong> {{ trans("forms.danger") }}! </strong> ' + xhr.responseJSON.message +' </div>');
 		});
 
 		return false;   	

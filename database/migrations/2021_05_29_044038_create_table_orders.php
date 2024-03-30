@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double('total_paid')->default(0.0);
             $table->enum('status', ['Active', 'Pending', 'Expired']);
             $table->date('expiration')->nullable();
+            $table->date('last_change')->nullable();
             
 
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
