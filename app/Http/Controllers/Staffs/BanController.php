@@ -96,17 +96,14 @@ class BanController extends Controller
         try {
             // not neccesary json decode
             foreach ($request->servers as $server) {
-                $ban = new Ban(
-                    [
-                        'name' => $request->name ,
-                        'steam_id' => $request->steam_id,
-                        'ip' => $request->ip,
-                        'expiration' => $request->expiration,
-                        'reason' => $request->reason,
-                        'private_notes' => $request->private_notes,
-                        'server_id' => $server
-                    ]
-                );
+                $ban = new Ban();
+                $ban->name = $request->name;
+                $ban->steam_id = $request->steam_id;
+                $ban->ip = $request->ip;
+                $ban->expiration = $request->expiration;
+                $ban->reason = $request->reason;
+                $ban->private_notes = $request->private_notes;
+                $ban->server_id = $server;
     
                 $ban->save();
             }   
@@ -149,7 +146,11 @@ class BanController extends Controller
             return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
 
-        return $ban;
+        return response()->json([
+            'ban' => $ban,
+            'server' => $ban->server,
+            'administrator' => $ban->administrator,
+        ], 200);
     }
 
     /**
@@ -193,7 +194,6 @@ class BanController extends Controller
             $ban->expiration = $request->expiration;
             $ban->reason = $request->reason;
             $ban->private_notes = $request->private_notes;
-            $ban->server_id = $request->server_id;
             
             if (! $ban->save()) {
                 return response(['message' => Lang::get('forms.failed_transaction')], 500);

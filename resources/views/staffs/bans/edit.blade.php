@@ -54,15 +54,7 @@
 						<!-- Right Column -->
 						<div class="col">
 							<div class="mt-3">
-								<h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
-
-								<select class="form-select" name="server_id" id="modal_ban_server_id" required>
-									<option value="">  {{ trans('forms.select_option') }} </option>
-
-									@foreach ($servers as $server)
-										<option value="{{ $server->id }}">  {{ $server->name }} </option>
-									@endforeach
-								</select>
+								<span class="fs-5 fw-bold">  {{ trans('bans.servers_with_ban') }}: </span> <span id="modal_ban_server"> </span>
 							</div>
 
 							<div class="mt-3">
@@ -82,6 +74,10 @@
 								<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('7200')"> {{ trans('bans.5_days') }}</button>
 								<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
 								<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
+							</div>
+
+							<div class="mt-3">
+								<span class="fs-5 fw-bold">  {{ trans('bans.banned_by_admin') }}: </span> <span id="modal_ban_administrator"> </span>
 							</div>
 						</div>
 					</div>

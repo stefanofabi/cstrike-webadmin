@@ -28,7 +28,7 @@
         $("#modal_ban_steam_id").val('');
         $("#modal_ban_ip").val('');
         $("#modal_ban_reason").val('');
-        $("#modal_ban_server_id").val('');
+        $("#modal_ban_server").text('');
         $("#modal_ban_expiration").val('');
         $("#modal_ban_private_notes").val('');
 
@@ -52,17 +52,23 @@
             },
             success:  function (data) {
                 $("#modal_bans_messages").html("");
-                
-                // Load results
-                $("#modal_ban_id").val(data['id']);
-                $("#modal_ban_name").val(data['name']);
-                $("#modal_ban_steam_id").val(data['steam_id']);
-                $("#modal_ban_ip").val(data['ip']);                
-                $("#modal_ban_expiration").val(data['expiration']);
 
-                $("#modal_ban_reason").val(data['reason']);
-                $("#modal_ban_server_id").val(data['server_id']);
-                $("#modal_ban_private_notes").val(data['private_notes']);
+                var ban = data['ban'];
+                var server = data['server'];
+                var administrator = data['administrator'];
+
+                // Load results
+                $("#modal_ban_id").val(ban['id']);
+                $("#modal_ban_name").val(ban['name']);
+                $("#modal_ban_steam_id").val(ban['steam_id']);
+                $("#modal_ban_ip").val(ban['ip']);                
+                $("#modal_ban_expiration").val(ban['expiration']);
+
+                $("#modal_ban_reason").val(ban['reason']);
+                $("#modal_ban_server").text(server['name']);
+                $("#modal_ban_private_notes").val(ban['private_notes']);
+
+                $("#modal_ban_administrator").text(administrator['name']);
                 
             }
         }).fail( function() {
@@ -82,7 +88,6 @@
             "steam_id" : $("#modal_ban_steam_id").val(),
 			"ip" : $("#modal_ban_ip").val(),
             "reason" : $("#modal_ban_reason").val(),
-            "server_id" : $("#modal_ban_server_id").val(),
             "expiration" : $("#modal_ban_expiration").val(),
             "private_notes" : $("#modal_ban_private_notes").val(),
 		};

@@ -44,20 +44,18 @@
 													
 								<input type="text" class="form-control" placeholder="{{ trans('bans.enter_reason') }}" name="reason" id="modal_ban_reason" required>
 							</div>
+
+							<div class="mt-3">
+								<label for="auth"> <h5> <strong> {{ trans('bans.private_notes') }}: </strong> </h5> </label>
+
+								<textarea class="form-control" rows="3" name="private_notes" id="modal_ban_private_notes"></textarea>
+							</div>
 						</div>
 
 						<!-- Right Column -->
 						<div class="col-md">
-							<div>
-								<h5> <strong> {{ trans('bans.servers_with_ban') }}: </strong> </h5>
-
-								<select class="form-select" name="server_id" id="modal_ban_server_id" required>
-									<option value="">  {{ trans('forms.select_option') }} </option>
-
-									@foreach ($servers as $server)
-										<option value="{{ $server->id }}">  {{ $server->name }} </option>
-									@endforeach
-								</select>
+							<div class="mt-3">
+								<span class="fs-5 fw-bold">  {{ trans('bans.servers_with_ban') }}: </span> <span id="modal_ban_server"> </span>
 							</div>
 
 
@@ -79,12 +77,10 @@
 								<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('43200')"> {{ trans('bans.30_days') }}</button>
 								<button type="button" class="btn btn-primary btn-sm ml-1 mt-2 mb-2" onclick="setBanExpiration('')"> {{ trans('bans.permanently') }}</button>
 							</div>
-												
-							<div class="mt-3">
-								<label for="auth"> <h5> <strong> {{ trans('bans.private_notes') }}: </strong> </h5> </label>
 
-								<textarea class="form-control" rows="3" name="private_notes" id="modal_ban_private_notes"></textarea>
-							</div>
+							<div class="mt-3">
+								<span class="fs-5 fw-bold">  {{ trans('bans.banned_by_admin') }}: </span> <span id="modal_ban_administrator"> </span>
+							</div>			
 						</div>
 					</div>
 

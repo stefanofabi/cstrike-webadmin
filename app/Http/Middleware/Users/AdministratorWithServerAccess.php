@@ -16,6 +16,10 @@ class AdministratorWithServerAccess
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->validate([
+            'servers' => 'required|array',          
+        ]);
+        
         $user = auth()->user();
 
         $servers = $user->administrators->where('status', 'Active')->pluck('server_id');

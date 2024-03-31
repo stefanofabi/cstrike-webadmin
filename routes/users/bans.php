@@ -6,11 +6,11 @@ Route::controller(BanController::class)
 ->prefix('bans')
 ->as('bans/')
 ->group(function () {
-    Route::get('index', 'index')->name('index');
+    Route::get('index', 'index')->name('index')->middleware('see_bans');
 
     Route::get('create/{player_id?}', 'create')->name('create');
 
-    Route::post('store', 'store')->name('store')->middleware('administrator_with_server_access');
+    Route::post('store', 'store')->name('store')->middleware(['access_to_ban', 'administrator_with_server_access']);
 
     Route::post('edit', 'edit')->name('edit')
         ->middleware('is_my_ban');

@@ -75,6 +75,7 @@ class Kernel extends HttpKernel
         'order_pending' => \App\Http\Middleware\Staffs\OrderPending::class,
         'order_not_pending' => \App\Http\Middleware\Staffs\OrderNotPending::class,
         'have_purchase_order' => \App\Http\Middleware\Staffs\HavePurchaseOrder::class,
-        
+        'access_to_ban' => \App\Http\Middleware\Users\AccessToBan::class,
+        'see_bans' => \App\Http\Middleware\Users\SeeBans::class,
     ];
 }

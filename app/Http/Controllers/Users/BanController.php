@@ -29,10 +29,13 @@ class BanController extends Controller
         $user = auth()->user();
 
         $servers = Administrator::select('servers.id', 'servers.name', 'servers.ip')
-            ->join('servers', 'administrators.server_id', '=', 'servers.id')
+            ->join('servers', 'servers.id', '=', 'administrators.server_id')
+            ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
             ->where('administrators.user_id', $user->id)
             ->where('administrators.status', 'Active')
+            ->where('ranks.access_flags', 'like', '%d%')
             ->groupBy('servers.id', 'servers.name', 'servers.ip')
+            ->orderBy('servers.name', 'ASC')
             ->get();
 
         $bans = Ban::select('bans.id', 'bans.date', 'bans.name', 'bans.steam_id', 'bans.ip', 'bans.expiration')
@@ -63,8 +66,10 @@ class BanController extends Controller
 
         $servers = Administrator::select('servers.id', 'servers.name', 'servers.ip')
             ->join('servers', 'servers.id', '=', 'administrators.server_id')
+            ->join('ranks', 'ranks.id', '=', 'administrators.rank_id')
             ->where('administrators.user_id', $user->id)
             ->where('administrators.status', 'Active')
+            ->where('ranks.access_flags', 'like', '%d%')
             ->groupBy('servers.id', 'servers.name', 'servers.ip')
             ->orderBy('servers.name', 'ASC')
             ->get();
@@ -96,7 +101,7 @@ class BanController extends Controller
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
-            'servers' => 'required',          
+            'servers' => 'required|array',          
         ]);
 
         if (empty($request->steam_id) && empty($request->ip)) {
@@ -119,18 +124,17 @@ class BanController extends Controller
 
             // not neccesary json decode
             foreach ($request->servers as $server) {
-                $ban = new Ban(
-                    [
-                        'name' => $request->name ,
-                        'steam_id' => $request->steam_id,
-                        'ip' => $request->ip,
-                        'expiration' => $request->expiration,
-                        'reason' => $request->reason,
-                        'private_notes' => $request->private_notes,
-                        'administrator_id' => $administrators->where('server_id', $server)->first()->id,
-                        'server_id' => $server
-                    ]
-                );
+                $administrator_id = $administrators->where('server_id', $server)->first()->id;
+
+                $ban = new Ban();
+                $ban->name = $request->name;
+                $ban->steam_id = $request->steam_id;
+                $ban->ip = $request->ip;
+                $ban->expiration = $request->expiration;
+                $ban->reason = $request->reason;
+                $ban->private_notes = $request->private_notes;
+                $ban->administrator_id = $administrator_id;
+                $ban->server_id = $server;
     
                 $ban->save();
             }   
@@ -139,7 +143,7 @@ class BanController extends Controller
 
         } catch (QueryException $exception) {
             DB::rollBack();
-
+            
             return back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->all());
         }
 
@@ -173,7 +177,11 @@ class BanController extends Controller
             return response(['message' => Lang::get('errors.model_not_found')], 500);
         }
 
-        return $ban;
+        return response()->json([
+            'ban' => $ban,
+            'server' => $ban->server,
+            'administrator' => $ban->administrator,
+        ], 200);
     }
 
     /**
@@ -194,8 +202,6 @@ class BanController extends Controller
             'expiration' => 'date|nullable',
             'reason' => 'required|string',
             'private_notes' => 'string|nullable',
-            'administrator_id' => 'numeric|nullable',
-            'server_id' => 'required|numeric|min:1',
         ]);
 
         if (empty($request->steam_id) && empty($request->ip)) {
@@ -206,20 +212,15 @@ class BanController extends Controller
             return back()->withErrors(Lang::get('bans.admin_immunity'))->withInput($request->all());
         }
 
-        $updated = Ban::where('id', $request->id)
-            ->update(
-                [
-                    'name' => $request->name,
-                    'steam_id' => $request->steam_id,
-                    'ip' => $request->ip,
-                    'expiration' => $request->expiration,
-                    'reason' => $request->reason,
-                    'private_notes' => $request->private_notes,
-                    'server_id' => $request->server_id,
-                ]
-            );
-            
-        if (! $updated) {
+        $ban = Ban::findOrFail($request->id);
+        $ban->name = $request->name;
+        $ban->steam_id = $request->steam_id;
+        $ban->ip = $request->ip;
+        $ban->expiration = $request->expiration;
+        $ban->reason = $request->reason;
+        $ban->private_notes = $request->private_notes;
+        
+        if (! $ban->save()) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
         }
 
