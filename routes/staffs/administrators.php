@@ -17,7 +17,7 @@ Route::controller(AdministratorController::class)
             
     Route::post('update', 'update')->name('update');
 
-    Route::delete('destroy/{id}', 'destroy')->name('destroy');
+    Route::delete('destroy/{id}', 'destroy')->name('destroy')->middleware('have_purchase_order');
 
     Route::post('load_users', 'load_users')->name('load_users');
     
