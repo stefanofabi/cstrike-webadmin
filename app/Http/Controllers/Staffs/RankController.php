@@ -22,7 +22,7 @@ class RankController extends Controller
     {
         //
 
-        $ranks = Rank::OrderBy('name', 'ASC')->get();
+        $ranks = Rank::OrderBy('immunity', 'DESC')->get();
         
         return view('staffs.ranks.index')
             ->with('ranks', $ranks);
@@ -55,6 +55,7 @@ class RankController extends Controller
             'price' => 'required|numeric|min:0',      
             'access_flags' => 'required|array',   
             'color' => 'required',
+            'immunity' => 'required|numeric|min:0|max:100',
         ]);
 
         $rank = new Rank(
@@ -63,7 +64,6 @@ class RankController extends Controller
                 'price' => $request->price,
                 'access_flags' => implode($request->access_flags),
                 'color' => $request->color,
-                'purchase_link' => $request->purchase_link,
             ]
         );
 
@@ -98,7 +98,7 @@ class RankController extends Controller
         try {
             $rank = Rank::findOrFail($request->id);
         } catch (ModelNotFoundException $exception) {
-            return response(['message' => Lang::get('errors.model_not_found')], 500);
+            return response(['message' => Lang::get('errors.model_not_found')], 404);
         }
 
         return $rank;
@@ -121,6 +121,7 @@ class RankController extends Controller
             'price' => 'required|numeric|min:0',      
             'access_flags' => 'required',   
             'color' => 'required',
+            'immunity' => 'required|numeric|min:0|max:100',
         ]);
         
         try {
@@ -140,7 +141,7 @@ class RankController extends Controller
                     'price' => $request->price,
                     'access_flags' => $flags,
                     'color' => $request->color,
-                    'purchase_link' => $request->purchase_link,
+                    'immunity' => $request->immunity,
                 ]
             );
         
@@ -150,7 +151,7 @@ class RankController extends Controller
         } catch (QueryException $exception) {
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
         } catch (ModelNotFoundException $exception) {
-            return response(['message' => Lang::get('errors.model_not_found')], 500);
+            return response(['message' => Lang::get('errors.model_not_found')], 404);
         }
 
         return response(['message' => Lang::get('ranks.success_updated_rank')], 200);

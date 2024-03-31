@@ -53,6 +53,7 @@
                 <tr>
                     <th> {{ trans('ranks.name') }} </th>
                     <th> {{ trans('ranks.price') }} </th>
+                    <th> {{ trans('ranks.immunity') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -63,6 +64,7 @@
                         <tr>
                             <td id="rank_name_{{ $rank->id }}"> {{ $rank->name }} </td>
                             <td id="rank_price_{{ $rank->id }}"> ${{ number_format($rank->price, 2, ',', '.') }} </td>
+                            <td id="rank_immunity_{{ $rank->id }}"> {{ $rank->immunity }} </td>
 
                             <td class="text-end form-inline">          
                                 <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editRank" onclick="return editRank('{{ $rank->id }}')" title="{{ trans('ranks.edit_rank') }}">

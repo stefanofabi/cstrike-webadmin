@@ -32,15 +32,15 @@
 						</div>
 
 						<div class="col-9 mt-3">
-							<label for="name"> <h5> <strong> {{ trans('ranks.purchase_link') }}: </h5> </strong> </label>
-							
-							<input type="text" class="form-control" name="purchase_link" id="modal_rank_purchase_link" value="{{ @old('purchase_link') }}">
-						</div>
-
-						<div class="col-9 mt-3">
 							<label for="auth"> <h5> <strong> {{ trans('ranks.color') }}: </strong> </h5> </label>
 							
 							<input type="color" class="form-control" name="color" id="modal_rank_color" required>
+						</div>
+
+						<div class="col-9 mt-3">
+							<label for="name"> <h5> <strong> {{ trans('ranks.immunity') }}: </h5> </strong> </label>
+							
+							<input type="number" class="form-control" id="modal_rank_immunity" min="0" max="100" required>
 						</div>
 
 						<div class="mt-3">

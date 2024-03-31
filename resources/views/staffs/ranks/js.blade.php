@@ -21,7 +21,7 @@
         $("#modal_rank_name").val('');
         $("#modal_rank_price").val('');
         $("#modal_rank_color").val('');
-        $("#modal_rank_purchase_link").val('');
+        $("#modal_rank_immunity").val('');
         
         // All checkboxes
         $('input:checkbox').attr('checked', false);
@@ -53,7 +53,7 @@
                 $("#modal_rank_name").val(data['name']);
                 $("#modal_rank_price").val(data['price']);
                 $("#modal_rank_color").val(data['color']);
-                $("#modal_rank_purchase_link").val(data['purchase_link']);
+                $("#modal_rank_immunity").val(data['immunity']);
 
                 var access_flags = data['access_flags'].split('');
 
@@ -76,7 +76,7 @@
 			"id" : $("#modal_rank_id").val(),
 			"name" : $("#modal_rank_name").val(),
 			"price" : $("#modal_rank_price").val(),
-            "purchase_link" : $("#modal_rank_purchase_link").val(),
+            "immunity" : $("#modal_rank_immunity").val(),
             "color" : $("#modal_rank_color").val(),
             "access_flags" : JSON.stringify($('[name="access_flags[]"]').serializeArray()),
 		};
@@ -96,9 +96,10 @@
                 // Update the list of ranks
                 $("#rank_name_"+rank_id).html(parameters['name']);
                 $("#rank_price_"+rank_id).html('$'+parameters['price']);
+                $("#rank_immunity_"+rank_id).html(parameters['immunity']);
 			}
 		}).fail( function() {
-    		$("#modal_ranks_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("ranks.danger_updated_rank") }} </div>');
+    		$("#modal_ranks_messages").html('<div class="alert alert-danger alert-dismissible fade show" role="alert"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("ranks.danger_updated_rank") }} </div>');
 		});
 
         // It would be nice if there is a scroll to the message of the ajax result

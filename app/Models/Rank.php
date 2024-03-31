@@ -16,13 +16,13 @@ class Rank extends Model
         'name',
         'access_flags',
         'price',
-        'purchase_link',
         'color',
+        'immunity'
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'access_flags', 'price', 'purchase_link']);
+            ->logOnly(['name', 'access_flags', 'price', 'immunity']);
     }
 }
