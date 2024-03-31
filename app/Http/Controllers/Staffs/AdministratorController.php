@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 use App\Models\Administrator;
 use App\Models\Rank;
@@ -33,13 +34,10 @@ class AdministratorController extends Controller
 
         $servers = Server::orderBy('name', 'ASC')->get();
 
-        $users = User::permission('is_user')->orderBy('name', 'ASC')->get();
-
         return view('staffs.administrators.index')
             ->with('administrators', $administrators)
             ->with('ranks', $ranks)
-            ->with('servers', $servers)
-            ->with('users', $users);
+            ->with('servers', $servers);
     }
 
     /**
@@ -164,6 +162,7 @@ class AdministratorController extends Controller
             'account_flags' => 'required',
             'servers' => 'required',
             'expiration' => 'date|nullable',
+            'suspended' => 'required|in:true,false',
         ]);
 
         $administrator = Administrator::findOrFail($request->id);
@@ -174,7 +173,9 @@ class AdministratorController extends Controller
         foreach ($account_flags as $account_flag) {
             $flags .= "$account_flag->value";
         }
-            
+
+        $suspended = Str::of($request->suspended)->toBoolean();
+
         $administrator->name = $request->name;
         $administrator->auth = $request->auth;
         $administrator->password = $request->password;
@@ -182,8 +183,9 @@ class AdministratorController extends Controller
         $administrator->rank_id = $request->rank_id;
         $administrator->server_id = $request->server_id;
         $administrator->expiration = $request->expiration;
-        $administrator->status = $request->status;
-        $administrator->suspended = ($request->status == 'Suspended') ? Carbon::now() : null;
+        $administrator->status = ($suspended) ? 'Suspended' : 'Active';
+        $administrator->suspended = ($suspended) ? Carbon::now() : null;
+        
 
         if (! $administrator->save()) {
             return response(['message' => $exception->getMessage()], 500);

@@ -57,8 +57,8 @@
 
                 $("#modal_administrator_status").val(administrator['status']);
                 
-                if (administrator['status'] == 'Suspended') {
-                    $('#modal_administrator_suspended').html(administrator['suspended']);
+                if (administrator['suspended'] !== null) {
+                    $('#modal_administrator_suspended').attr('checked', true);
                 }
             }
         }).fail( function() {
@@ -83,7 +83,7 @@
             "user_id" : $("#modal_administrator_user_id").val(),
             "server_id" : $("#modal_administrator_server_id").val(),
             "expiration" : $('#modal_administrator_expiration').val(),
-            "status" : $('#modal_administrator_status').val()
+            "suspended" : $('#modal_administrator_suspended').prop('checked')
 		};
 
 		$.ajax({
@@ -101,6 +101,11 @@
                 $("#administrator_server_"+administrator_id).html($( "#modal_administrator_server_id option:selected" ).text());
                 $("#administrator_rank_"+administrator_id).html($( "#modal_administrator_rank_id option:selected" ).text());
                 $("#administrator_status_"+administrator_id).html($( "#modal_administrator_status option:selected" ).text());
+
+                if ($('#modal_administrator_suspended').prop('checked'))
+                    $("#administrator_status_"+administrator_id).html('<span class="badge bg-danger"> {{ trans('administrators.suspended') }} </span>');
+                else 
+                    $("#administrator_status_"+administrator_id).html('<span class="badge bg-success"> {{ trans('administrators.active') }} </span>');
 			}
 		}).fail( function() {
     		$("#modal_administrators_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("administrators.danger_updated_administrator") }} </div>');

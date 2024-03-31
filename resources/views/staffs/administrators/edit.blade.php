@@ -124,31 +124,11 @@
 								@endif
 							</div>
 
-							<div class="mt-3">
-								<h5> <strong> {{ trans('administrators.status') }}: </strong> </h5>
-
-								<select class="form-select" id="modal_administrator_status" required>
-									<option value="">  {{ trans('forms.select_option') }} </option>
-									<option value="Active">  {{ trans('administrators.active') }} </option>
-									<option value="Suspended">  {{ trans('administrators.suspended') }} </option>
-									<option value="Expired">  {{ trans('administrators.expired') }} </option>
-									<option value="Cancelled">  {{ trans('administrators.cancelled') }} </option>
-								</select>
-
-								<div class="mt-1"> {{ trans('administrators.suspend_administrator') }}: <span id="modal_administrator_suspended"> </span> </div>
+							<div class="form-check form-switch mt-3">
+								<input class="form-check-input" type="checkbox" id="modal_administrator_suspended">
+								<label class="form-check-label" for="modal_administrator_suspended"> {{ trans('administrators.suspend_administrator') }} </label>
 							</div>
 
-							<div class="mt-3">
-								<h5> <strong>{{ trans('administrators.administrator_account') }}: </strong> </h5>
-			
-								<select class="form-select" id="modal_administrator_user_id">
-									<option value="">  {{ trans('forms.select_option') }} </option>
-									
-									@foreach ($users as $user)
-										<option value="{{ $user->id }}">  {{ $user->name }} {{ $user->email }} </option>
-									@endforeach
-								</select>
-							</div>
 						</div>
 					</div>
 
