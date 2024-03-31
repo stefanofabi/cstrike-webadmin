@@ -72,6 +72,8 @@ class Kernel extends HttpKernel
         'is_my_administrator' => \App\Http\Middleware\Users\IsMyAdministrator::class,
         'is_my_order' => \App\Http\Middleware\Users\IsMyOrder::class,
         'one_modification_per_month' => \App\Http\Middleware\Users\OneModificationPerMonth::class,
+        'order_pending' => \App\Http\Middleware\Staffs\OrderPending::class,
+        'order_not_pending' => \App\Http\Middleware\Staffs\OrderNotPending::class,
 
     ];
 }

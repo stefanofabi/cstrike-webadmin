@@ -19,5 +19,9 @@ Route::controller(OrderController::class)
     
     Route::delete('destroy/{id}', 'destroy')->name('destroy');
     
-    Route::post('activate/{id}', 'activate')->name('activate');
+    Route::post('activate/{id}', 'activate')->name('activate')->middleware('order_pending');
+
+    Route::post('cancel/{id}', 'cancel')->name('cancel')->middleware('order_not_pending');
+
+    Route::post('renew/{id}', 'renew')->name('renew')->middleware('order_not_pending');
 });

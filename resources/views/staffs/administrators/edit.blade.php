@@ -132,6 +132,7 @@
 									<option value="Active">  {{ trans('administrators.active') }} </option>
 									<option value="Suspended">  {{ trans('administrators.suspended') }} </option>
 									<option value="Expired">  {{ trans('administrators.expired') }} </option>
+									<option value="Cancelled">  {{ trans('administrators.cancelled') }} </option>
 								</select>
 
 								<div class="mt-1"> {{ trans('administrators.suspend_administrator') }}: <span id="modal_administrator_suspended"> </span> </div>

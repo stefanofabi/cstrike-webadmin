@@ -41,5 +41,7 @@ return [
     'order_number' => 'Órden #:id',
     'pay_order_message' => 'Completá el pago de tu Administrador y comenzá a disfrutar los beneficios en nuestros servidores',
     'one_modification_per_month' => 'Solo podés modificar los datos una vez al mes',
+    'cancelled' => 'Cancelado',
+    'renew_order' => 'Renovar orden',
     
 ];

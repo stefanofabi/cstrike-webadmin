@@ -44,5 +44,7 @@ return [
     'order_number' => 'Order #:id',
     'pay_order_message' => 'Complete the payment of your Administrator and start enjoying the benefits on our servers',
     'one_modification_per_month' => 'You can only modify the data once a month',
+    'cancelled' => 'Cancelled',
+    'renew_order' => 'Renew order',
     
 ];

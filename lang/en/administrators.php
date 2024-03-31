@@ -52,5 +52,8 @@ return [
     'active' => 'Active',
     'see_administrator' => 'See Administrator',
     'expiration' => 'Expiration',
+    'cancelled' => 'Cancelled',
+    'find_order' => 'Find order',
+    'find_bans' => 'Find bans',
     
 ];

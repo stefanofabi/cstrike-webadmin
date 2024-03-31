@@ -127,6 +127,10 @@
                                         <span class="badge bg-warning"> {{ trans('administrators.expired') }} </span>
                                         @break
                                     @endcase
+
+                                    @case('Cancelled')
+                                    <span class="badge bg-primary"> {{ trans('administrators.cancelled') }} </span>
+                                    @break
                                 @endswitch 
                             </td>
 

@@ -22,7 +22,7 @@ return new class extends Migration
             
             $table->double('price')->nullable();
             $table->double('total_paid')->default(0.0);
-            $table->enum('status', ['Active', 'Pending', 'Expired']);
+            $table->enum('status', ['Active', 'Pending', 'Expired', 'Cancelled']);
             $table->date('expiration')->nullable();
             $table->date('last_change')->nullable();
             

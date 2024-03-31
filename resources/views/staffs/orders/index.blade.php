@@ -121,32 +121,29 @@
                                     @case('Expired')
                                     <span class="badge bg-danger"> {{ trans('orders.expired') }} </span>
                                     @break
+
+                                    @case('Cancelled')
+                                    <span class="badge bg-warning"> {{ trans('orders.cancelled') }} </span>
+                                    @break
                                     @endcase
                                 @endswitch
                             </td>
 
                             <td class="text-end">   
-                                @switch($order->status)
-                                    @case('Pending')
-                                    <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.activate_order') }}" onclick="activateOrder('{{ $order->id }}')"> 
-                                        <i class="fa-solid fa-circle-check"></i> 
-                                    </a>
-                                    @break
-                                    @endcase
 
-                                    @case('Active')
-                                    <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.cancel_order') }}" onclick="cancelOrder('{{ $order->id }}')"> 
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </a>
-                                    @break
-                                    @endcase
+                                
+                                <a type="button" class="btn btn-primary btn-sm @if ($order->status != 'Pending') disabled @endif" title="{{ trans('orders.activate_order') }}" onclick="activateOrder('{{ $order->id }}')"> 
+                                    <i class="fa-solid fa-circle-check"></i> 
+                                </a>
+                                
+                                <a type="button" class="btn btn-primary btn-sm @if ($order->status == 'Pending') disabled @endif" title="{{ trans('orders.renew_order') }}" onclick="renewOrder('{{ $order->id }}')"> 
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </a>
 
-                                    @case('Expired')
-                                    <span class="badge bg-danger"> {{ trans('orders.expired') }} </span>
-                                    @break
-                                    @endcase
-                                @endswitch
-
+                                <a type="button" class="btn btn-primary btn-sm @if ($order->status == 'Pending') disabled @endif" title="{{ trans('orders.cancel_order') }}" onclick="cancelOrder('{{ $order->id }}')"> 
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                                
                                 <a type="button" class="btn btn-primary btn-sm" title="{{ trans('orders.edit_order') }}" data-bs-toggle="modal" data-bs-target="#editOrder" onclick="return editOrder('{{ $order->id }}')">
                                     <span class="fas fa-edit"></span>
                                 </a>
@@ -165,6 +162,16 @@
                                     @csrf
                                     
                                 </form>  
+                                @else
+                                <form id="cancel_order_{{ $order->id }}" method="POST" action=" {{ route('staffs/orders/cancel', ['id' => $order->id]) }}">
+                                    @csrf
+                                    
+                                </form> 
+
+                                <form id="renew_order_{{ $order->id }}" method="POST" action=" {{ route('staffs/orders/renew', ['id' => $order->id]) }}">
+                                    @csrf
+                                    
+                                </form> 
                                 @endif
                             </td>
                         </tr>

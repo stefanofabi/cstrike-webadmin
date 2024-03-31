@@ -178,7 +178,7 @@ class OrderController extends Controller
 
             $package = $order->package;
 
-            $now = Carbon::now();
+            $newExpiration = Carbon::now()->addMonth();
 
             foreach ($package->privileges as $privilege) {
                 $administrator = new Administrator([
@@ -191,7 +191,7 @@ class OrderController extends Controller
                 $administrator->auth = $order->auth;
                 $administrator->password = $order->password;
                 $administrator->account_flags = 'ab';
-                $administrator->expiration = $now->addMonth();
+                $administrator->expiration = $newExpiration;
                 $administrator->status = 'Active';
                 $administrator->rank_id = $privilege->rank_id;
                 $administrator->server_id = $privilege->server_id;
@@ -201,8 +201,73 @@ class OrderController extends Controller
                 $administrator->save();
             }
             
-            $order->expiration = $now->addMonth();
+            $order->expiration = $newExpiration;
             $order->status = 'Active';
+            $order->save();
+            
+            DB::commit();
+        } catch(QueryException $exception) {
+            DB::rollBack();
+            
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        return redirect()->action([OrderController::class, 'index']);
+    }
+
+    /**
+     * Cancel order and administrators.
+     */
+    public function cancel(string $id)
+    {
+        //
+
+        DB::beginTransaction();
+
+        try {
+            $order = Order::findOrFail($id);
+
+            foreach ($order->administrators as $administrator) {
+                $administrator->status = 'Cancelled';
+                $administrator->save();
+            }
+            
+            $order->status = 'Cancelled';
+            $order->save();
+            
+            DB::commit();
+        } catch(QueryException $exception) {
+            DB::rollBack();
+            
+            return back()->withErrors(Lang::get('forms.failed_transaction'));
+        }
+
+        return redirect()->action([OrderController::class, 'index']);
+    }
+
+    /**
+     * Renew order and administrators.
+     */
+    public function renew(string $id)
+    {
+        //
+
+        DB::beginTransaction();
+
+        try {
+            $order = Order::findOrFail($id);
+
+            foreach ($order->administrators as $administrator) {
+                $newExpiration = Carbon::parse($administrator->expiration)->addMonth();
+
+                $administrator->status = 'Active';
+                $administrator->expiration = $newExpiration;
+                $administrator->save();
+            }
+            
+            $newExpiration = Carbon::parse($order->expiration)->addMonth();
+            $order->status = 'Active';
+            $order->expiration = $newExpiration;
             $order->save();
             
             DB::commit();

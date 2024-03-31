@@ -107,4 +107,18 @@
             form.submit();
         }
     }
+
+    function cancelOrder(order_id) {
+        if (confirm('{{ trans("forms.confirm") }}')) {
+            var form = document.getElementById('cancel_order_'+order_id);
+            form.submit();
+        }
+    }
+
+    function renewOrder(order_id) {
+        if (confirm('{{ trans("forms.confirm") }}')) {
+            var form = document.getElementById('renew_order_'+order_id);
+            form.submit();
+        }
+    }
 </script>

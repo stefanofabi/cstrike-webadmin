@@ -20,7 +20,7 @@ class CreateAdministratorsTable extends Migration
             $table->string('password')->nullable();
             $table->string('account_flags');
             $table->date('expiration')->nullable();
-            $table->enum('status', ['Active', 'Expired', 'Suspended']);
+            $table->enum('status', ['Active', 'Expired', 'Suspended', 'Cancelled']);
 
             $table->unsignedBigInteger('rank_id');
             $table->unsignedBigInteger('server_id');
