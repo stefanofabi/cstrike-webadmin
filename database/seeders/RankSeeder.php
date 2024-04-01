@@ -23,6 +23,7 @@ class RankSeeder extends Seeder
                 'access_flags' => 'abcdefhijkmnopqrstuv',
                 'price' => 3,
                 'color' => '#FF0000',
+                'immunity' => 100
 
             ],
             [
@@ -30,6 +31,7 @@ class RankSeeder extends Seeder
                 'access_flags' => 'bcdefhijkmnopqrstuv',
                 'price' => 2,
                 'color' => '#0CFF00',
+                'immunity' => 75
 
             ],
             [
@@ -37,6 +39,7 @@ class RankSeeder extends Seeder
                 'access_flags' => 'cefhijkmnopqrstuv',
                 'price' => 1,
                 'color' => '#FFA200',
+                'immunity' => 25
             ],
         ]);
     }
