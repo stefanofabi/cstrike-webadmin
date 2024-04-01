@@ -9,7 +9,7 @@
 #define VERSION "1.0"
 #define AUTHOR "4evergaming"
 
-//#define DEBUG
+#define DEBUG
 
 #define PREFIX "[SERVER]"
 
@@ -43,6 +43,8 @@ enum {
     DESTROY_BAN,
     SET_ONLINE_MODE,
 	LOG_CHAT,
+	CHECK_ADMIN_IMMMUNITY,
+	STORE_BAN_OFFLINE
 }
 
 new gBanAuth[MAX_BANS+1][44];
@@ -54,7 +56,9 @@ new gAdminStatus[MAX_PLAYERS+1][32];
 new gAdminImmunity[MAX_PLAYERS+1][32];
 
 // Ban Menu
-new gAdminBanPlayer[MAX_PLAYERS+1];
+new gAdminBanPlayer[MAX_PLAYERS+1][32];
+new gAdminBanAuth[MAX_PLAYERS+1][32];
+new gAdminBanIp[MAX_PLAYERS+1][32];
 new gAdminBanExpiration[MAX_PLAYERS+1][32];
 new gAdminBanReason[MAX_PLAYERS+1][32];
 new gLastPositionBan = 0;
@@ -67,7 +71,7 @@ public plugin_init() {
 	
 	register_concmd("amx_ban", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
 	register_concmd("amx_banip", "CmdBan", ADMIN_BAN, "<nick, #userid, authid> <time in minutes> <reason>");
-	register_concmd("amx_addban", "CmdBan", ADMIN_BAN, "<name> <authid or ip> <time in minutes> <reason>");
+	register_concmd("amx_addban", "CmdAddBan", ADMIN_BAN, "<name> <authid>  <ip> <time in minutes> <reason>");
 	register_concmd("amx_unban", "CmdUnban", ADMIN_BAN, "<authid or ip>");
 	
 	register_saycmd("adminmenu", "cmdOpenAdminMenu", ADMIN_ADMIN, "Open Admin Menu");
@@ -155,6 +159,67 @@ public CmdUnban(id) {
 	return PLUGIN_HANDLED;
 }
 
+public CmdAddBan(id) {
+	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
+	
+	if (equal(gAdminId[id], "")) {
+		getAdminData(id);
+		
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ERROR_GETTING_DATA_FOR_ADMINISTRATOR");
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	// Name
+	static arg[128];
+	read_argv(1, arg, sizeof(arg) - 1);
+	
+	formatex(gAdminBanPlayer[id], charsmax(gAdminBanPlayer), "%s", arg);
+	
+	// AuthId
+	read_argv(2, arg, sizeof(arg) - 1);
+	
+	// IF AUTHID == VALVE_ID_LAN OR HLTV, BAN PER IP TO NOT BAN EVERYONE */
+	if(containi(arg, "STEAM_") == -1) {
+		console_print(id, "STEAM ID is not Valid");
+		
+		return PLUGIN_HANDLED;
+	}
+	
+	formatex(gAdminBanAuth[id], charsmax(gAdminBanAuth), "%s", arg);
+	
+	// Ip
+	read_argv(3, arg, sizeof(arg) - 1);
+	formatex(gAdminBanIp[id], charsmax(gAdminBanIp), "%s", arg);
+	
+	
+	// Time
+	read_argv(4, arg, sizeof(arg) - 1);
+	if (equal(arg, "0")) {
+		gAdminBanExpiration[id] = "null";
+	} else {
+		new minutes = str_to_num(arg);
+		new seconds = minutes * 60;
+		
+		format_time(gAdminBanExpiration[id], 31, "^"%Y-%m-%d %H:%M^"", (get_systime() + seconds)); 
+	}
+	
+	// Reason
+	read_argv(5, arg, sizeof(arg) - 1);
+	formatex(gAdminBanReason[id], charsmax(gAdminBanReason), "%s", arg);
+	
+	new szQuery[300];
+	formatex(szQuery, charsmax(szQuery), "SELECT A.id FROM administrators A INNER JOIN ranks R ON R.id = A.rank_id WHERE auth = ^"%s^" AND R.immunity > %d AND R.access_flags NOT LIKE '%s'", gAdminBanPlayer[id], gAdminImmunity[id], "%a%");
+	
+	#if defined DEBUG
+		server_print("%s", szQuery);
+	#endif
+	
+	executeQuery(szQuery, id, CHECK_ADMIN_IMMMUNITY);
+	
+	return PLUGIN_HANDLED;
+}
+
 public CmdBan(id) {
 	if(!is_user_admin(id) || !has_flag(id, "d")) return PLUGIN_HANDLED;
 	
@@ -217,7 +282,7 @@ public CmdBan(id) {
 	}
 	
 	// Save index of the player
-	gAdminBanPlayer[id] = get_user_index(target_name);
+	formatex(gAdminBanPlayer[id], charsmax(gAdminBanPlayer), "%d", get_user_index(target_name));
 	
 	new szQuery[300];
 	formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^", %s,^"%s^",^"%s^",^"%d^")", target_name, target_authid, target_authip, gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
@@ -419,7 +484,7 @@ public handlerBanMenu(id, menu, item) {
 		return PLUGIN_HANDLED;
 	}
 	
-	gAdminBanPlayer[id] = player;
+	formatex(gAdminBanPlayer[id], charsmax(gAdminBanPlayer), "%d", player);
 	
 	openBanTimeMenu(id);
 	
@@ -497,7 +562,7 @@ public handlerBanReasonsMenu(id, menu, item) {
 		return PLUGIN_HANDLED;    
 	}
 	
-	new player = gAdminBanPlayer[id];
+	new player = str_to_num(gAdminBanPlayer[id]);
 	
 	if (! is_user_connected(player)) {
 		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "PLAYER_TO_BAN_NOT_CONNECTED");
@@ -850,11 +915,10 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 		
 		case STORE_BAN: {
 
-				new playerId = gAdminBanPlayer[id];
+				new playerId = str_to_num(gAdminBanPlayer[id]);
 				
 				if (! is_user_connected(playerId))
 					return;
-				
 				
 				new player_name[32];
 				new player_auth[44];
@@ -871,7 +935,6 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				addBanToMatrix(player_auth, player_ip);
 				
 				client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", player_name, id, "REASON", gAdminBanReason[id]);
-				client_cmd(id, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", player_name, id, "REASON", gAdminBanReason[id]);
 				
 				new dateBan[32];
 				format_time(dateBan, 31, "%Y-%m-%d %H:%M", get_systime()); 
@@ -896,6 +959,33 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 		case LOG_CHAT: {
 				
 		
+		}
+		
+		case CHECK_ADMIN_IMMMUNITY: {
+			if (SQL_NumResults(query)) {
+				console_print(id, "You cannot ban an Administrator with a higher rank");
+				return;
+			}
+			
+			new szQuery[300];
+			formatex(szQuery, charsmax(szQuery), "INSERT INTO bans (name, steam_id, ip, expiration, reason, administrator_id, server_id) VALUES(^"%s^",^"%s^",^"%s^", %s,^"%s^",^"%s^",^"%d^")", gAdminBanPlayer[id], gAdminBanAuth[id], gAdminBanIp[id], gAdminBanExpiration[id], gAdminBanReason[id], gAdminId[id], SERVER_ID);
+			
+			#if defined DEBUG
+				server_print("%s", szQuery);
+			#endif
+			
+			executeQuery(szQuery, id, STORE_BAN_OFFLINE);
+		}
+		
+		case STORE_BAN_OFFLINE: {
+		
+			if (! is_user_connected(id)) return;
+			
+			new admin_name[32];
+			get_user_name(id, admin_name, 31);
+			
+			client_print_color(0, print_chat, "^4%s ^1ADMIN ^4%s ^1%L ^4%s^1. %L: ^4%s.", PREFIX, admin_name, id, "HAS_BEEN_BANNED", gAdminBanPlayer[id], id, "REASON", gAdminBanReason[id]);
+			console_print(id, "Ban added successfully");
 		}
 	}
 }
@@ -963,7 +1053,7 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 				
 				
 				#if defined DEBUG
-					server_print("ADMIN LOADED: ^"%s^" ^"%s^" ^"%s^" ^"%s^" ^"%s^"", auth, password, accessFlags, accountFlags, status);
+					server_print("ADMIN LOADED: Auth: ^"%s^" Password: ^"%s^" Access Flags: ^"%s^" Account Flags: ^"%s^" Status: ^"%s^"", auth, password, accessFlags, accountFlags, status);
 				#endif
 				
 				SQL_NextRow(query);
