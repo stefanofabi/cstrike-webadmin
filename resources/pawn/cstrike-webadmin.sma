@@ -50,6 +50,8 @@ new gBanIp[MAX_BANS+1][32];
 
 new gAdminId[MAX_PLAYERS+1][32];
 new gAdminExpiration[MAX_PLAYERS+1][32];
+new gAdminStatus[MAX_PLAYERS+1][32];
+new gAdminImmunity[MAX_PLAYERS+1][32];
 
 // Ban Menu
 new gAdminBanPlayer[MAX_PLAYERS+1];
@@ -68,7 +70,8 @@ public plugin_init() {
 	register_concmd("amx_addban", "CmdBan", ADMIN_BAN, "<name> <authid or ip> <time in minutes> <reason>");
 	register_concmd("amx_unban", "CmdUnban", ADMIN_BAN, "<authid or ip>");
 	
-	register_saycmd("adminmenu","cmdOpenAdminMenu", ADMIN_ADMIN,"Open Admin Menu");
+	register_saycmd("adminmenu", "cmdOpenAdminMenu", ADMIN_ADMIN, "Open Admin Menu");
+	register_saycmd("vencimiento", "cmdSayVencimiento", ADMIN_USER, "Open Admin Menu");
 	
 	register_clcmd("nightvision", "cmdOpenAdminMenu");
 	
@@ -235,23 +238,28 @@ GetTargetFlags(id) {
 	return access(id, ADMIN_IMMUNITY) ? flags_no_immunity : flags_immunity;
 }
 
-public cmdOpenAdminMenu(id) {
-	
+public verifyAdminLoad(id) {
 	if (has_flag(id, "z") && !equal(gAdminExpiration[id], "")) {
-		// Admin expired
 		
-		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "ADMINISTRATOR_HAS_EXPIRED_THE_DAY", gAdminExpiration[id]);
+		if (equal(gAdminStatus[id], "Suspended")) {
+			client_print_color(id, print_chat, "^4%s ^1Tu Administrador esta suspendido por mal uso", PREFIX);
+		}
+		else if (equal(gAdminStatus[id], "Expired")) {
+			client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "ADMINISTRATOR_HAS_EXPIRED_THE_DAY", gAdminExpiration[id]);
+			client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "RENEW_ADMIN", WEB);
+		}
+		else if (equal(gAdminStatus[id], "Cancelled")) {
+			client_print_color(id, print_chat, "^4%s ^1Tu Administrador esta cancelado", PREFIX);
+		}
 		
-		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "RENEW_ADMIN", WEB);
-		
-		return PLUGIN_HANDLED;
+		return false;
 	}
 	
 	if (! is_user_admin(id)) {
 		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ONLY_ADMINISTRATORS");
 		client_print_color(id, print_chat, "^4%s ^1%L ^4%s", PREFIX, id, "BUY_ADMINISTRATOR", WEB);
 		
-		return PLUGIN_HANDLED;
+		return false;
 	}
 	
 	if (equal(gAdminId[id], "")) {
@@ -259,8 +267,26 @@ public cmdOpenAdminMenu(id) {
 		
 		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ERROR_GETTING_DATA_FOR_ADMINISTRATOR");
 		
-		return PLUGIN_HANDLED;
+		return false;
 	}
+
+	return true;
+}
+
+public cmdSayVencimiento(id) {
+	if (! verifyAdminLoad(id)) return PLUGIN_HANDLED;
+	
+	if (equal(gAdminExpiration[id], ""))
+		client_print_color(id, print_chat, "^4%s ^1Tu Administrador es ^4PERMANENTE", PREFIX);
+	else 
+		client_print_color(id, print_chat, "^4%s ^1El vencimiento de tu Administrador es el ^4%s", PREFIX, gAdminExpiration[id]);
+		
+	return PLUGIN_HANDLED;
+}
+
+public cmdOpenAdminMenu(id) {
+	
+	if (! verifyAdminLoad(id)) return PLUGIN_HANDLED;
 	
 	new gMenu = menu_create("\r[SERVER] \yAdmins Menu :", "handlerMenu");
 	menu_additem(gMenu, "Kick", "1");
@@ -529,7 +555,7 @@ public MYSQL_Init() {
 
 public loadAdmins() {
 	new szQuery[300];
-	formatex(szQuery, charsmax(szQuery), "SELECT A.auth, A.password, R.access_flags, A.account_flags, IF(A.expiration < CURRENT_DATE or A.suspended IS NOT NULL, 'expired', 'not expired') as expiration  FROM administrators A JOIN privileges P ON A.id = P.administrator_id JOIN ranks R ON A.rank_id = R.id WHERE P.server_id = %d",SERVER_ID);
+	formatex(szQuery, charsmax(szQuery), "SELECT A.auth, A.password, R.access_flags, A.account_flags, A.status FROM administrators A JOIN ranks R ON A.rank_id = R.id WHERE A.server_id = %d", SERVER_ID);
 	
 	#if defined DEBUG
 		server_print("%s", szQuery);
@@ -564,7 +590,7 @@ public client_putinserver(id) {
 		get_user_ip(id, ip, charsmax(ip), 1);
 		
 		new szQuery[300];
-		formatex(szQuery, charsmax(szQuery), "SELECT B.id, B.name, B.steam_id, B.ip, B.date, B.expiration, B.reason, A.name as administrator  FROM bans B LEFT JOIN administrators A ON B.administrator_id = A.id WHERE B.server_id = %d AND (steam_id = ^"%s^" OR ip = ^"%s^") LIMIT 1",SERVER_ID, auth, ip);
+		formatex(szQuery, charsmax(szQuery), "SELECT B.id, B.name, B.steam_id, B.ip, B.date, B.expiration, B.reason, A.name as administrator  FROM bans B LEFT JOIN administrators A ON B.administrator_id = A.id WHERE B.server_id = %d AND (steam_id = ^"%s^" OR ip = ^"%s^") LIMIT 1", SERVER_ID, auth, ip);
 		
 		#if defined DEBUG
 			server_print("%s", szQuery);
@@ -584,6 +610,8 @@ public client_putinserver(id) {
 public clearData(id) {
 	gAdminId[id] = "";
 	gAdminExpiration[id] = "";
+	gAdminStatus[id] = "";
+	gAdminImmunity[id] = "";
 }
 
 public getAdminData(id) {
@@ -601,8 +629,8 @@ public getAdminData(id) {
 	static ip[32];
 	get_user_ip(id, ip, charsmax(ip), 1);
 	
-	new szQuery[200];
-	formatex(szQuery, charsmax(szQuery), "SELECT id, DATE_FORMAT(expiration, '%s/%s/%s') as expiration FROM administrators WHERE auth = ^"%s^" OR auth = ^"%s^" OR auth = ^"%s^" LIMIT 1", "%d", "%m", "%Y", name, auth, ip)
+	new szQuery[400];
+	formatex(szQuery, charsmax(szQuery), "SELECT A.id, DATE_FORMAT(expiration, '%s/%s/%s') as expiration, A.status, R.immunity FROM administrators A INNER JOIN ranks R ON R.id = A.rank_id WHERE A.server_id = %d AND (A.auth = ^"%s^" OR A.auth = ^"%s^" OR A.auth = ^"%s^") LIMIT 1", "%d", "%m", "%Y", SERVER_ID, name, auth, ip)
 
 	executeQuery(szQuery, id, GET_ADMIN_DATA);
 	
@@ -744,21 +772,28 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 			
 			new colId = SQL_FieldNameToNum(query, "id");
 			new colExpiration = SQL_FieldNameToNum(query, "expiration");			
+			new colStatus = SQL_FieldNameToNum(query, "status");	
+			new colImmunity = SQL_FieldNameToNum(query, "immunity");	
 			
 			new administratorId[32];
 			new expiration[32];
-			
+			new status[32];
+			new immunity[32];
 			
 			while(SQL_MoreResults(query)) {
 				
 				SQL_ReadResult(query, colId, administratorId, 31);
 				SQL_ReadResult(query, colExpiration, expiration, 31);
+				SQL_ReadResult(query, colStatus, status, 31);
+				SQL_ReadResult(query, colImmunity, immunity, 31);
 				
 				gAdminId[id] = administratorId;
 				gAdminExpiration[id] = expiration;
+				gAdminStatus[id] = status;
+				gAdminImmunity[id] = immunity;
 				
 				#if defined DEBUG
-				server_print("ADMIN DATA - %s %s", gAdminId[id], gAdminExpiration[id]);
+				server_print("ADMIN DATA - %s %s %s %s", gAdminId[id], gAdminExpiration[id], gAdminStatus[id], gAdminImmunity[id]);
 				#endif
 				
 				SQL_NextRow(query);
@@ -902,14 +937,14 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 			new colPass = SQL_FieldNameToNum(query, "password");
 			new colAccessFlags = SQL_FieldNameToNum(query, "access_flags");
 			new colAccountFlags = SQL_FieldNameToNum(query, "account_flags");
-			new colExpiration = SQL_FieldNameToNum(query, "expiration");
+			new colStatus = SQL_FieldNameToNum(query, "status");
 						
 						
 			new auth[44];
 			new password[44];
 			new accessFlags[32];
 			new accountFlags[32];
-			new expiration[32];
+			new status[32];
 			
 			while(SQL_MoreResults(query)) {
 				
@@ -917,10 +952,10 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 				SQL_ReadResult(query, colPass, password, sizeof(password) -1);
 				SQL_ReadResult(query, colAccessFlags, accessFlags, sizeof(accessFlags) - 1);
 				SQL_ReadResult(query, colAccountFlags, accountFlags, sizeof(accountFlags) - 1);
-				SQL_ReadResult(query, colExpiration, expiration, sizeof(expiration) - 1);
+				SQL_ReadResult(query, colStatus, status, sizeof(status) - 1);
 				
 				
-				if(equal(expiration, "expired")) {
+				if(! equal(status, "Active")) {
 					accessFlags = "z";
 				}
 			
@@ -928,7 +963,7 @@ public DataLoadHandler( failstate, Handle:query, error[ ], error2, data[ ], data
 				
 				
 				#if defined DEBUG
-					server_print("ADMIN LOADED: ^"%s^" ^"%s^" ^"%s^" ^"%s^" ^"%s^"", auth, password, accessFlags, accountFlags, expiration);
+					server_print("ADMIN LOADED: ^"%s^" ^"%s^" ^"%s^" ^"%s^" ^"%s^"", auth, password, accessFlags, accountFlags, status);
 				#endif
 				
 				SQL_NextRow(query);
