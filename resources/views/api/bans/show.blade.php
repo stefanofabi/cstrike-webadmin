@@ -37,7 +37,7 @@
 
                         <tr>
                             <td> <strong> {{ trans('bans.expiration') }}: </strong> </td>
-                            <td> {{ $ban->expiration }} </td>
+                            <td> @if (empty($ban->expiration)) {{ trans('bans.permanently') }} @else {{ $ban->expiration }} @endif  </td>
                         </tr>
 
                         <tr>
