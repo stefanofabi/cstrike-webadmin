@@ -779,7 +779,7 @@ public printBanInformation(id, banId[], name[], steamId[], ip[], dateBan[], expi
 
 	if (! equal(banId, "")) {
 		client_cmd(id, "echo ^"^"");
-		client_cmd(id, "echo ^"%L: %s/show_ban/%s^"", id, "PRINT_MORE_INFORMATION_VISIT", WEB, banId);
+		client_cmd(id, "echo ^"%L: %s/bans/show/%s^"", id, "PRINT_MORE_INFORMATION_VISIT", WEB, banId);
 	}
 	
 	client_cmd(id, "echo ^"************************************************^"");
@@ -901,8 +901,6 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				SQL_ReadResult(query, colExpiration, expiration, 31);
 				SQL_ReadResult(query, colReason, reason, 31);
 				SQL_ReadResult(query, colAdministrator, administrator, 31);
-				
-				server_print("la fecha del ban es %s", expiration);
 				
 				printBanInformation(id, banId, name, steamId, ip, banDate, expiration, reason, administrator);
 				

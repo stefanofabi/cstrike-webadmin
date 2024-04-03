@@ -22,7 +22,7 @@ class ApiController extends Controller
 
         $ban = Ban::findOrFail($id);
     
-        return view('api.show_ban')
+        return view('api.bans.show')
             ->with('ban', $ban);    
     }
 }
