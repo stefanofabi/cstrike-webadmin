@@ -40,5 +40,6 @@ return [
     'protected_server_message' => 'Contamos con las últimas actualizaciones de seguridad de 4evergaming',
     'community_managed_by' => 'Comunidad supervisada y gestionada por',
     'go_to_administration_panel' => 'Ir al Panel de Administración',
+    'go_to_admin_panel' => 'Ir al panel Admin',
 
 ];  

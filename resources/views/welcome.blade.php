@@ -123,7 +123,7 @@
 
                 @can('is_user')
                 <a type="button" class="btn btn-primary m-1" href="{{ route('users/home') }}" target="_blank">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ trans('welcome.go_to_administration_panel') }}
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ trans('welcome.go_to_admin_panel') }}
                 </a>
                 @endcan
             </div>
