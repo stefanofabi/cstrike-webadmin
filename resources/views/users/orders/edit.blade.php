@@ -54,7 +54,7 @@
 					<!-- Modal footer -->
 					<div style="clear: both;" class="modal-footer">
 						<button type="submit" class="btn btn-primary"> {{ trans('forms.save') }} </button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal"> {{ trans('forms.cancel') }} </button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal"> {{ trans('forms.cancel') }} </button>
 					</div>
 
 				</form>
