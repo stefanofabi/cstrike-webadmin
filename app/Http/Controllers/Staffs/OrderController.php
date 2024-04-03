@@ -67,6 +67,7 @@ class OrderController extends Controller
         $package = Package::findOrFail($request->package_id);
 
         $order = new Order($request->all());
+        $order->date = Carbon::now();
         $order->package_id = $request->package_id;
         $order->user_id = $request->user_id;
         $order->status = "Pending";

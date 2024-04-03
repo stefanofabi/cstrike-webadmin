@@ -53,7 +53,7 @@
 						<div class="col-md-9 mt-3">
 							<label for="name"> <h5> <strong> {{ trans('orders.expiration') }}: </h5> </strong> </label>
 							
-							<input type="date" class="form-control" id="modal_order_expiration" required>
+							<input type="date" class="form-control" id="modal_order_expiration">
 						</div>
 				
 						<div class="col-md-9 mt-3">
