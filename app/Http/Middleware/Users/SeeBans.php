@@ -19,6 +19,9 @@ class SeeBans
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (empty($request->input('server'))) 
+            return $next($request);
+
         $server = Server::findOrFail($request->input('server'));
 
         $user = auth()->user();
