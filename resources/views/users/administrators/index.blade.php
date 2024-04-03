@@ -134,6 +134,8 @@
                             </td>
 
                             <td class="text-end">
+                                <a class="btn btn-success btn-sm" href="steam://connect/{{ $administrator->server->ip }}"> <i class="fas fa-sign-in-alt"></i> </a>
+
                                 <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#seeAdministrator" onclick="return seeAdministrator('{{ $administrator->id }}')" title="{{ trans('administrators.see_administrator') }}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>

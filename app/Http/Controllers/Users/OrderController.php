@@ -121,9 +121,13 @@ class OrderController extends Controller
         try {
             $order = Order::findOrFail($request->id);
 
+            if ($order->auth != $request->auth) {
+                $order->last_change = Carbon::now();
+            }
+            
             $order->auth = $request->auth;
             $order->password = $request->password;
-            $order->last_change = Carbon::now();
+            
             $order->save();
 
             $order->administrators()->update([

@@ -26,6 +26,10 @@ class OneModificationPerMonth
             return $next($request);
         }
 
+        if ($order->auth == $request->auth) {
+            return $next($request);
+        }
+
         $now = Carbon::now();
         $lastChange = Carbon::parse($order->last_change);
 
