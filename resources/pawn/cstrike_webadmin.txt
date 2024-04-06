@@ -22,6 +22,7 @@ HAS_BEEN_BANNED = has ban player
 REASON = Reason
 YOU_ARE_BANNED = You are banned from this server. Check your console
 HAS_BEEN_UNBANNED = has unban player
+ADMIN_WITH_HIGHER_IMMUNITY = You cannot act on a player with greater immunity
 
 [es]
 ADMINISTRATOR_HAS_EXPIRED_THE_DAY = Su administrador ha expirado el dia
@@ -47,3 +48,4 @@ HAS_BEEN_BANNED = ha prohibido al jugador
 REASON = Razon
 YOU_ARE_BANNED = Estas prohibido en este servidor. Revisa tu consola
 HAS_BEEN_UNBANNED = ha desbloqueado al jugador
+ADMIN_WITH_HIGHER_IMMUNITY = No podes accionar sobre un jugador con mayor inmunidad

@@ -53,7 +53,7 @@ new gBanIp[MAX_BANS+1][32];
 new gAdminId[MAX_PLAYERS+1][32];
 new gAdminExpiration[MAX_PLAYERS+1][32];
 new gAdminStatus[MAX_PLAYERS+1][32];
-new gAdminImmunity[MAX_PLAYERS+1][32];
+new gAdminImmunity[MAX_PLAYERS+1];
 
 // Ban Menu
 new gAdminBanPlayer[MAX_PLAYERS+1][32];
@@ -239,9 +239,15 @@ public CmdBan(id) {
 	if(!target) return PLUGIN_HANDLED;
 	
 	if (has_flag(target, "a")) {
-		client_cmd(id, "echo ^"^4%s ^1%L^"", PREFIX, id, "PLAYER_TO_BAN_HAS_IMMUNITY");
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "PLAYER_TO_BAN_HAS_IMMUNITY");
 		
 		return PLUGIN_HANDLED;
+	}
+	
+	if (gAdminImmunity[target] > gAdminImmunity[id]) {
+		client_print_color(id, print_chat, "^4%s ^1%L", PREFIX, id, "ADMIN_WITH_HIGHER_IMMUNITY");
+
+		return PLUGIN_HANDLED;	
 	}
 	
 	static target_authid[35];
@@ -676,7 +682,7 @@ public clearData(id) {
 	gAdminId[id] = "";
 	gAdminExpiration[id] = "";
 	gAdminStatus[id] = "";
-	gAdminImmunity[id] = "";
+	gAdminImmunity[id] = 0;
 }
 
 public getAdminData(id) {
@@ -855,7 +861,7 @@ public DataHandler( failstate, Handle:query, error[ ], error2, data[ ], datasize
 				gAdminId[id] = administratorId;
 				gAdminExpiration[id] = expiration;
 				gAdminStatus[id] = status;
-				gAdminImmunity[id] = immunity;
+				gAdminImmunity[id] = str_to_num(immunity);
 				
 				#if defined DEBUG
 				server_print("ADMIN DATA - %s %s %s %s", gAdminId[id], gAdminExpiration[id], gAdminStatus[id], gAdminImmunity[id]);
