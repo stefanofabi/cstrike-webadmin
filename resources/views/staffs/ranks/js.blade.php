@@ -1,16 +1,12 @@
 <script type="text/javascript">
-
-
+    
     $(document).ready(function(){
 
-        $("#checkAll").click(function () {  
-                
-            if ($('#checkAll').val() == 'on') {
-                $('#checkAll').val('off');
-                $('input:checkbox').attr('checked', false);
+        $("#checkAll").click(function () {
+            if ($('#checkAll').prop('checked')) {
+                $('input[type="checkbox"]').prop('checked', true);
             } else {
-                $('#checkAll').val('on');
-                $('input:checkbox').attr('checked', true);
+                $('input[type="checkbox"]').prop('checked', false);
             }
         });
     });
@@ -24,7 +20,7 @@
         $("#modal_rank_immunity").val('');
         
         // All checkboxes
-        $('input:checkbox').attr('checked', false);
+        $('input[type="checkbox"]').prop('checked', false);
     }
     
     function editRank(rank) {
@@ -46,8 +42,6 @@
             success:  function (data) {
                 $("#modal_ranks_messages").html("");
 
-                clearData();
-
                 // Load results
                 $("#modal_rank_id").val(data['id']);
                 $("#modal_rank_name").val(data['name']);
@@ -58,7 +52,7 @@
                 var access_flags = data['access_flags'].split('');
 
                 access_flags.forEach(function(access_flag, index) {
-                    $('#flag_'+access_flag).attr('checked', true);
+                    $('#flag_'+access_flag).prop('checked', true);
                 });
             }
         }).fail( function() {
