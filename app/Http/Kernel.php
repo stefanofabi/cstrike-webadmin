@@ -77,5 +77,7 @@ class Kernel extends HttpKernel
         'have_purchase_order' => \App\Http\Middleware\Staffs\HavePurchaseOrder::class,
         'access_to_ban' => \App\Http\Middleware\Users\AccessToBan::class,
         'see_bans' => \App\Http\Middleware\Users\SeeBans::class,
+        'administrator_with_higher_immunity' => \App\Http\Middleware\Users\AdminWithHigherImmunity::class,
+        
     ];
 }

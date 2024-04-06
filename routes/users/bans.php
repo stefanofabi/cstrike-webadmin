@@ -10,14 +10,13 @@ Route::controller(BanController::class)
 
     Route::get('create/{player_id?}', 'create')->name('create');
 
-    Route::post('store', 'store')->name('store')->middleware(['access_to_ban', 'administrator_with_server_access']);
+    Route::post('store', 'store')->name('store')->middleware(['access_to_ban', 'administrator_with_server_access', 'administrator_with_higher_immunity']);
 
     Route::post('edit', 'edit')->name('edit')
         ->middleware('is_my_ban');
             
     Route::post('update', 'update')->name('update')
-        ->middleware('administrator_with_server_access')
-        ->middleware('is_my_ban');
+        ->middleware(['is_my_ban', 'administrator_with_server_access' ,'administrator_with_higher_immunity']);
     
     Route::delete('destroy/{id}', 'destroy')->name('destroy')
         ->middleware('is_my_ban');
