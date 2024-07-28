@@ -18,5 +18,6 @@ return [
     'account_owner' => 'Titular de la cuenta',
     'owner_identification' => 'Documento del Titular',
     'notify_payment' => 'Después de realizar la transferencia, por favor envíanos comprobante de la transacción',
+    'important_note' => 'Nota importante',
     
 ];

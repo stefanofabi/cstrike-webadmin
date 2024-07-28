@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'MP' => SantiGraviano\LaravelMercadoPago\Facades\MP::class,
+        'CstrikeWebAdmin' => App\Helpers\CstrikeWebAdmin::class,
 
     ],
 

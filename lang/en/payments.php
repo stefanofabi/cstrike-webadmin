@@ -18,5 +18,6 @@ return [
     'account_owner' => 'Account owner',
     'owner_identification' => 'Owner identification',
     'notify_payment' => 'After making the transfer, please send us proof of the transaction',
+    'important_note' => 'Important note',
     
 ];
