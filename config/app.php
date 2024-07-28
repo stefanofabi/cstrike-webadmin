@@ -177,7 +177,6 @@ return [
 
         Spatie\Permission\PermissionServiceProvider::class,
         SantiGraviano\LaravelMercadoPago\Providers\MercadoPagoServiceProvider::class,
-        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
 
     ],
 
@@ -234,8 +233,7 @@ return [
 
         'MP' => SantiGraviano\LaravelMercadoPago\Facades\MP::class,
         'CstrikeWebAdmin' => App\Helpers\CstrikeWebAdmin::class,
-        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
-        
+
     ],
 
 ];

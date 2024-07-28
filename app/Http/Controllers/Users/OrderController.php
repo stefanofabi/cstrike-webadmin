@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 // Payments
 use MP;
-use Srmklive\PayPal\Services\ExpressCheckout;
-use Srmklive\PayPal\Services\AdaptivePayments;
 
 use App\Models\Order;
 use App\Models\Package;
@@ -171,14 +169,10 @@ class OrderController extends Controller
 
         // create payment link with mercadopago.com
         $mercadopago = $this->createOrderWithMercadoPago($order);
-        
-        // create order with paypal.com
-        $paypal = $this->createOrderWithPayPal($order);
 
         return view('users.orders.pay')
             ->with('order', $order)
-            ->with('mercadopago', $mercadopago)
-            ->with('paypal', $paypal);
+            ->with('mercadopago', $mercadopago);
     }
 
 
@@ -212,47 +206,5 @@ class OrderController extends Controller
         }
 
         return $mp['response'];
-    }
-
-    private function createOrderWithPayPal(Order $order) 
-    {
-        $data = [];
-        $data['items'] = [
-            [
-                'name' => $order->package->name,
-                'price' => $order->price,
-                'qty' => 1
-            ],
-        ];
-
-        $data['invoice_id'] = $order->id;
-        $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-        $data['return_url'] = route('users/orders/index', ['order' => $order->id]);
-        $data['cancel_url'] = route('users/orders/index', ['order' => $order->id]);
-
-        $total = 0;
-        foreach($data['items'] as $item) {
-            $total += $item['price'] * $item['qty'];
-        }
-
-        $data['total'] = $total;
-
-        // give a discount of 10% of the order amount
-        // $data['shipping_discount'] = round((10 / 100) * $total, 2);
-
-        try {
-            $provider = new ExpressCheckout;      // To use express checkout.
-
-            $response = $provider->setExpressCheckout($data);
-
-            // Use the following line when creating recurring payment profiles (subscriptions)
-            $response = $provider->setExpressCheckout($data, true);
-        } catch (Exception $e) {
-            
-            return null;
-        }
-
-        // This will redirect user to PayPal
-        return $response['paypal_link'];
     }
 }

@@ -12,8 +12,7 @@
         "laravel/ui": "^4.0",
         "santigraviano/laravel-mercadopago": "^1.0",
         "spatie/laravel-activitylog": "^4.8.0",
-        "spatie/laravel-permission": "^6.4.0",
-        "srmklive/paypal": "~1.0"
+        "spatie/laravel-permission": "^6.4.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.0",

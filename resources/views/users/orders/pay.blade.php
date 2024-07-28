@@ -35,8 +35,6 @@
         </a>
 
         <a class="btn btn-primary mt-3" href="{{ $mercadopago['init_point'] ?? '#' }}"> <i class="fa-solid fa-handshake"></i> MercadoPago </a>
-
-        <a class="btn btn-primary mt-3" href="{{ $paypal ?? '#' }}"> <i class="fa-brands fa-paypal"></i> PayPal </a>
     </div>
 
     <div class="collapse col-md-6 mt-3" id="bankTransfer">
