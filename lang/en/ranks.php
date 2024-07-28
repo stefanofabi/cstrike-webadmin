@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Language Lines
+    | Rank Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the ranks messages used by

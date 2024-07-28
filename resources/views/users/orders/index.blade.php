@@ -8,6 +8,9 @@
     @include('users.orders.js')
     
     <script type="module">
+        var orderId = "{{ $order->id ?? '' }}";
+        var defaultValue = orderId ? '#' + orderId : '';
+        
         $('#myOrdersTable').DataTable({
             "language": {
                 "info": '{{ trans('datatables.info') }}',
@@ -29,7 +32,8 @@
                     '</select> {{ trans('datatables.records') }}',
                 "emptyTable": '{{ trans('datatables.no_data') }}',
                 "zeroRecords": '{{ trans('datatables.no_match_records') }}',
-            }
+            },
+            "search": {"search": defaultValue }
         });
     </script>
 

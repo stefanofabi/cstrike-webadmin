@@ -4,10 +4,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home language lines
+    | Order language lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used during home views for various messages that we must show the user.
+    | The following language lines are used during order views for various messages that we must show the user.
     | You are free to modify these language lines according to your application's requirements.
     |
     */
@@ -46,5 +46,5 @@ return [
     'one_modification_per_month' => 'You can only modify the data once a month',
     'cancelled' => 'Cancelled',
     'renew_order' => 'Renew order',
-    
+
 ];

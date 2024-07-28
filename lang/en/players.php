@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Language Lines
+    | Player Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the players messages used by

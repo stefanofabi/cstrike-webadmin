@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Language Lines
+    | Server Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the servers messages used by

@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Language Lines
+    | Ban Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the bans messages used by

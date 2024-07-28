@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff5b8c0a1cd333579130439b7cc097ab",
+    "content-hash": "c95915ccca687a802fe9e6e1339b2f02",
     "packages": [
         {
             "name": "brick/math",
@@ -3170,6 +3170,51 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "santigraviano/laravel-mercadopago",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/santigraviano/laravel-mercadopago.git",
+                "reference": "42e25efcd85d7d576ac5f8cd56046a1a76dbdd67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/santigraviano/laravel-mercadopago/zipball/42e25efcd85d7d576ac5f8cd56046a1a76dbdd67",
+                "reference": "42e25efcd85d7d576ac5f8cd56046a1a76dbdd67",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SantiGraviano\\LaravelMercadoPago\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Santiago Graviano",
+                    "email": "santiago.graviano@gmail.com"
+                }
+            ],
+            "description": "Mercado Pago SDK v0.5.2 for Laravel",
+            "keywords": [
+                "laravel",
+                "mercadopago",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/santigraviano/laravel-mercadopago/issues",
+                "source": "https://github.com/santigraviano/laravel-mercadopago/tree/master"
+            },
+            "time": "2016-03-22T09:44:27+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",

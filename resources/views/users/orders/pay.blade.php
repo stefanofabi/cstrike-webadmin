@@ -27,4 +27,30 @@
         <div class="fs-5"> {{ trans('orders.password') }}: {{ $order->password }} </div>
     </div>
 
+    <div class="mt-3"> 
+        <h2> <i class="fa-solid fa-cart-shopping"></i> {{ trans('payments.choose_your_payment_method') }} </h2>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#bankTransfer" role="button" aria-expanded="false" aria-controls="bankTransfer">
+            <i class="fa-solid fa-building-columns"></i> {{ trans('payments.bank_transfer') }}
+        </a>
+        <a class="btn btn-primary" href="{{ $mp['init_point'] }}"> <i class="fa-solid fa-handshake"></i> MercadoPago </a>
+        <a class="btn btn-primary disabled" href="#"> <i class="fa-brands fa-paypal"></i> PayPal </a>
+    </div>
+
+    <div class="collapse col-md-6 mt-3" id="bankTransfer">
+        <div class="card card-body">
+            <h5 class="card-title">Datos Bancarios</h5>
+            <p><strong>{{ trans('payments.bank') }}:</strong> Banco Ejemplo</p>
+            <p><strong>{{ trans('payments.account_owner') }}:</strong> Juan Pérez</p>
+            <p><strong>{{ trans('payments.owner_identification') }}:</strong> Juan Pérez</p>
+            <p><strong>CBU:</strong> ES12 3456 7890 1234 5678 9012</p>
+            <p><strong>Alias:</strong> ES12 3456 7890 1234 5678 9012</p>
+        </div>
+
+        <div class="mt-3 alert alert-info" role="alert">
+            <h6><strong>Nota Importante:</strong></h6>
+            <p> {{ trans('payments.notify_payment') }} </p>
+        </div>
+    </div>
+
+
 @endsection

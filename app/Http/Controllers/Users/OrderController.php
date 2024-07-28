@@ -14,21 +14,25 @@ use App\Models\Package;
 use App\Models\Administrator;
 
 use Lang;
+use MP;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $user = auth()->user();
 
         $orders = Order::where('user_id', $user->id)->orderBy('date', 'DESC')->get(); 
 
+        $order = Order::find($request->order);
+
         return view('users.orders.index')
-            ->with('orders', $orders);
+            ->with('orders', $orders)
+            ->with('order', $order);
     }
 
     /**
@@ -160,7 +164,31 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
+        // create payment link with mercadopago.com
+        $preferenceData = [
+            'external_reference' => $order->id,
+            'items' => [
+                [
+                    'id' => $order->id,
+                    'title' => $order->package->name,
+                    'quantity' => 1,
+                    'currency_id' => 'ARS',
+                    'unit_price' => $order->price
+                ]
+            ],
+            'back_urls' => [
+                'success' => route('users/orders/index', ['order' => $order->id]),
+                'failure' => route('users/orders/index', ['order' => $order->id]),
+                'pending' => route('users/orders/index', ['order' => $order->id]),
+            ],
+            'auto_return' => 'approved',
+            //'notification_url' => route('mercadopago.webhook'),
+        ];
+  
+        $mp = MP::create_preference($preferenceData);
+
         return view('users.orders.pay')
-            ->with('order', $order);
+            ->with('order', $order)
+            ->with('mp', $mp['response']);
     }
 }

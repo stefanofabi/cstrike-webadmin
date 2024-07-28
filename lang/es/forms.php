@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home language lines
+    | Form language lines
     |--------------------------------------------------------------------------
     |
     | The following language lines are used during home views for various messages that we must show the user.
