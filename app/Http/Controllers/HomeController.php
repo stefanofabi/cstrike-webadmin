@@ -55,7 +55,7 @@ class HomeController extends Controller
     {
         //  
 
-        $packages = Package::OrderBy('name', 'ASC')->get();
+        $packages = Package::where('retired', false)->OrderBy('name', 'ASC')->get();
 
         $ranks = Rank::OrderBy('name', 'ASC')->get();
 

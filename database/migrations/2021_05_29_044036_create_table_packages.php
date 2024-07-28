@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->double('price');
-
+            $table->boolean('retired')->default(false);
+            
             $table->timestamps();
 
             $table->engine = 'InnoDB';

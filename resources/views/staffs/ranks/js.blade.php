@@ -54,6 +54,7 @@
                 access_flags.forEach(function(access_flag, index) {
                     $('#flag_'+access_flag).prop('checked', true);
                 });
+
             }
         }).fail( function() {
             $("#modal_ranks_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("ranks.danger_edited_rank") }} </div>');

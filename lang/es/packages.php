@@ -31,5 +31,12 @@ return [
     'buy_now_for' => 'Comprar ahora por $:price',
     'administrators_packages_for_sale' => 'Paquetes de Administradores a la venta',
     'types_of_administrators' => 'Tipos de Administradores',
+    'retired' => 'Retirado de las ventas',
+    'danger_edited_package' => 'Error al actualizar el paquete',
+    'success_updated_package' => 'Paquete actualizado exitosamente',
+    'package_is_not_available_for_purchase' => 'El paquete no esta disponible para comprar',
+    'retired' => 'Retirado',
+    'active' => 'Activo',
+    'status' => 'Estado',
 
 ];

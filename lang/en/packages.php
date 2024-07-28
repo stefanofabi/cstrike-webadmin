@@ -32,5 +32,11 @@ return [
     'administrators_packages_for_sale' => 'Administrator packages for sale',
     'types_of_administrators' => 'Types of administrators',
     'package' => 'Package',
+    'retired_from_sales' => 'Retired from sales',
+    'danger_edited_package' => 'Error updating package',
+    'success_updated_package' => 'Package successfully updated',
+    'retired' => 'Retired',
+    'active' => 'Active',
+    'status' => 'Status',
     
 ];

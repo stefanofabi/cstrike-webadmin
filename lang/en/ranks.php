@@ -53,5 +53,5 @@ return [
     'not_recommended' => 'Not recommended!',
     'color' => 'Color',
     'purchase_link' => 'Purchase link',
-    
+
 ];

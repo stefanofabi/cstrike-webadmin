@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Models\Package;
 use App\Models\Rank;
@@ -93,12 +94,17 @@ class PackageController extends Controller
         $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric',
-
+            'retired' => 'required|in:true,false'
         ]);
 
         $package = Package::findOrFail($request->id);
 
-        if (! $package->update($request->all()))
+        $package->name = $request->name;
+        $package->description = $request->description;
+        $package->price = $request->price;
+        $package->retired = Str::of($request->retired)->toBoolean();
+
+        if (! $package->save())
             return response(['message' => Lang::get('forms.failed_transaction')], 500);
 
         return $package;

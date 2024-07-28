@@ -54,5 +54,5 @@ return [
     'color' => 'Color',
     'purchase_link' => 'Enlace de compra',
     'login_before_purchasing' => 'Inicie sesión antes de comprar',
-
+    
 ];

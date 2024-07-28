@@ -119,6 +119,8 @@
         $("#modal_package_name").val('');
         $("#modal_package_description").val('');
         $("#modal_package_price").val('');
+
+        $("#modal_package_retired").html('');
     }
     
     function editPackage(package) {
@@ -148,9 +150,12 @@
                 $("#modal_package_description").val(data['description']);
                 $("#modal_package_price").val(data['price']);
 
+                if (data['retired']) {
+                    $('#modal_package_retired').attr('checked', true);
+                }
             }
         }).fail( function() {
-            $("#modal_packages_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("ranks.danger_edited_rank") }} </div>');
+            $("#modal_packages_messages").html('<div class="alert alert-warning alert-dismissible fade show" role="alert"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("packages.danger_edited_package") }} </div>');
         });
 
         return false;   	
@@ -165,6 +170,7 @@
 			"name" : $("#modal_package_name").val(),
             "description" : $("#modal_package_description").val(),
 			"price" : $("#modal_package_price").val(),
+            "retired" : $('#modal_package_retired').prop('checked')
 		};
 
 		$.ajax({
@@ -175,14 +181,14 @@
 				$("#modal_packages_messages").html('<div class="spinner-border text-info"> </div> {{ trans("forms.please_wait") }}');
 			},
 			success:  function (response) {
-				$("#modal_packages_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("ranks.success_updated_rank") }} </div>');
+				$("#modal_packages_messages").html('<div class="alert alert-success fade show"> <strong> {{ trans("forms.well_done") }}! </strong> {{ trans("packages.success_updated_package") }} </div>');
 
                 // Update the list of packages
                 $("#package_name_"+ package_id).html(parameters['name']);
                 $("#package_price_"+ package_id).html('$'+parameters['price']);
 			}
 		}).fail( function() {
-    		$("#modal_packages_messages").html('<div class="alert alert-danger fade show"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("ranks.danger_updated_rank") }} </div>');
+    		$("#modal_packages_messages").html('<div class="alert alert-danger alert-dismissible fade show" role="alert"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <strong> {{ trans("forms.danger") }}! </strong> {{ trans("packages.danger_updated_package") }} </div>');
 		});
 
         // It would be nice if there is a scroll to the message of the ajax result

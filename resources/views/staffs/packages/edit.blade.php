@@ -36,6 +36,13 @@
 							
 							<input type="number" step="0.1" class="form-control" id="modal_package_price" required>
 						</div>
+
+						<div class="col-md-9 mt-3">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="modal_package_retired">
+								<label class="form-check-label" for="modal_package_retired"> {{ trans('packages.retired_from_sales') }} </label>
+							</div>
+						</div>
 					</div>
 
 					<!-- Modal footer -->

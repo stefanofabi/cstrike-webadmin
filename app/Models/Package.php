@@ -13,7 +13,7 @@ class Package extends Model
         'name',
         'description',
         'price',
-        
+        'retired',
     ];
 
     /**

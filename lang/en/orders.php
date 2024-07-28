@@ -46,5 +46,6 @@ return [
     'one_modification_per_month' => 'You can only modify the data once a month',
     'cancelled' => 'Cancelled',
     'renew_order' => 'Renew order',
-
+    'package_is_not_available_for_purchase' => 'The package is not available for purchase',
+    
 ];

@@ -55,6 +55,7 @@
                 <tr>
                     <th> {{ trans('packages.name') }} </th>
                     <th> {{ trans('packages.price') }} </th>
+                    <th class="text-center"> {{ trans('packages.status') }} </th>
                     <th class="text-end"> {{ trans('forms.actions') }}</th>
                 </tr>
             </thead>
@@ -64,6 +65,13 @@
                         <tr>
                             <td id="package_name_{{ $package->id }}"> {{ $package->name }} </td>
                             <td id="package_price_{{ $package->id }}"> ${{ number_format($package->price, 2, ',', '.') }} </td>
+                            <td class="text-center" id="package_retired_{{ $package->id }}">
+                                @if ($package->retired)
+                                <span class="badge bg-danger"> {{ trans('packages.retired') }} </span>
+                                @else 
+                                <span class="badge bg-success"> {{ trans('packages.active') }} </span>
+                                @endif
+                            </td>
 
                             <td class="text-end">   
                                 <a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#managePrivileges" onclick="return managePrivileges('{{ $package->id }}')" title="{{ trans('packages.manage_privileges') }}">

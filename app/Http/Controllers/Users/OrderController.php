@@ -44,9 +44,13 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         //
-        $packages = Package::has('privileges')->orderBy('name', 'ASC')->get();
+        $packages = Package::where('retired', false)->has('privileges')->orderBy('name', 'ASC')->get();
 
         $package = Package::find($request->package);
+
+        if ($package->retired) {
+            $package = null;
+        }
 
         return view('users.orders.create')
             -> with('packages', $packages)
@@ -66,6 +70,10 @@ class OrderController extends Controller
         ]);
 
         $package = Package::findOrFail($request->package_id);
+
+        if ($package->retired)
+            return redirect()->back()->withErrors(Lang::get('orders.package_is_not_available_for_purchase'))->withInput($request->except('password'));
+
         $user = auth()->user();
         
         $order = new Order();
