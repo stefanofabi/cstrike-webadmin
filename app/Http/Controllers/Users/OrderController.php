@@ -62,6 +62,7 @@ class OrderController extends Controller
         $user = auth()->user();
         
         $order = new Order();
+        $order->date = Carbon::now();
         $order->auth = $request->auth;
         $order->password = $request->password;
         $order->package_id = $request->package_id;
