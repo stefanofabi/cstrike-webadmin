@@ -30,6 +30,10 @@
             </li>
 
             <li class="nav-item">
+                  <a class="nav-link" href="{{ route('staffs/system_parameters/index') }}"> {{ trans('home.system_parameters') }} </a>
+            </li>
+
+            <li class="nav-item">
                   <a class="nav-link" href="{{ route('staffs/players/index') }}"> {{ trans('home.players_log') }} </a>
             </li>
 

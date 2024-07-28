@@ -27,5 +27,6 @@ return [
     'packages' => 'Paquetes',
     'orders' => 'Ordenes',
     'my_orders' => 'Mis ordenes',
-    
+    'system_parameters' => 'Parámetros del sistema',
+
 ];

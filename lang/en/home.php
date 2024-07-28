@@ -27,5 +27,6 @@ return [
     'packages' => 'Packages',
     'orders' => 'Orders',
     'my_orders' => 'My orders',
+    'system_parameters' => 'System parameters',
     
 ];

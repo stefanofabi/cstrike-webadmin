@@ -30,6 +30,7 @@ class RoleSeeder extends Seeder
                 'crud_players',
                 'crud_packages',
                 'crud_orders',
+                'crud_system_parameters',
                 'activity_logs',
         	]
         );
