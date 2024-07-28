@@ -1,6 +1,6 @@
 ## About cstrike-webadmin
 
-The cstrike-webadmin project tries to be a page that helps administrators by adding the main features to currently manage a server. We facilitate some common tasks such as managing administrators, assigning ranks, banning players, among other things.
+The cstrike-webadmin project tries to be a page that helps administrators by adding the main features to currently manage a server. We facilitate some common tasks such as managing administrators, assigning ranks, banning players, sale of administrators, among other things.
 
 ### Pre requirements 📋
 ```
