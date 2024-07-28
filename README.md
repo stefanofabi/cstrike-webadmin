@@ -6,7 +6,7 @@ The cstrike-webadmin project tries to be a page that helps administrators by add
 ```
 Composer
 NPM
-PHP 7.x/8.x
+PHP 8 with mb-string extension
 Relational database (MySQL, MariaDB)
 ```
 
@@ -62,7 +62,7 @@ Remember to modify passwords in production!
 ## Contributing
 
 Thank you for considering contributing to the cstrike-webadmin app! You can do it in:
-- [MercadoPago](https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808479cfe0100179dcd305820bf0)
+- [MercadoPago](https://link.mercadopago.com.ar/4evergaming)
 - [PayPal](https://paypal.me/4evergaming)
 - [Bitcoin](https://www.blockchain.com/btc/address/1BxrkKPuLTkYUAeMrxzLEKvr5MGFu3NLpU)
 
