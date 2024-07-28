@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RankSeeder::class);
-        $this->call(GatewayPaymentSystemParameter::class);
+        $this->call(GeneralParameterSeeder::class);
+        $this->call(GatewayPaymentParameter::class);
+        $this->call(SocialMediaParameterSeeder::class);
         
     }
 }

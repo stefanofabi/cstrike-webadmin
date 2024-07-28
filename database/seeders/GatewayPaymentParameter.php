@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\SystemParameter;
 
-class GatewayPaymentSystemParameter extends Seeder
+class GatewayPaymentParameter extends Seeder
 {
     /**
      * Run the database seeds.
