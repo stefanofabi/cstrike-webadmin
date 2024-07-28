@@ -33,7 +33,9 @@
         <a class="btn btn-primary mt-3" data-bs-toggle="collapse" href="#bankTransfer" role="button" aria-expanded="false" aria-controls="bankTransfer">
             <i class="fa-solid fa-building-columns"></i> {{ trans('payments.bank_transfer') }}
         </a>
-        <a class="btn btn-primary mt-3" href="{{ $mp['init_point'] }}"> <i class="fa-solid fa-handshake"></i> MercadoPago </a>
+
+        <a class="btn btn-primary mt-3" href="{{ $mp['init_point'] ?? '#' }}"> <i class="fa-solid fa-handshake"></i> MercadoPago </a>
+
         <a class="btn btn-primary mt-3 disabled" href="#"> <i class="fa-brands fa-paypal"></i> PayPal </a>
     </div>
 

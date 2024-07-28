@@ -15,6 +15,7 @@ use App\Models\Administrator;
 
 use Lang;
 use MP;
+use Exception;
 
 class OrderController extends Controller
 {
@@ -77,7 +78,7 @@ class OrderController extends Controller
         if (! $order->save())
             return redirect()->back()->withErrors(Lang::get('forms.failed_transaction'))->withInput($request->except('password'));
 
-        return redirect()->action([OrderController::class, 'index']);
+        return redirect()->route('users/orders/pay', ['id' => $order->id]);
     }
 
     /**
@@ -165,6 +166,16 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         // create payment link with mercadopago.com
+        $mp = $this->createOrderWithMercadoPago($order);
+        
+        return view('users.orders.pay')
+            ->with('order', $order)
+            ->with('mp', $mp);
+    }
+
+
+    private function createOrderWithMercadoPago(Order $order) 
+    {
         $preferenceData = [
             'external_reference' => $order->id,
             'items' => [
@@ -184,11 +195,14 @@ class OrderController extends Controller
             'auto_return' => 'approved',
             //'notification_url' => route('mercadopago.webhook'),
         ];
-  
-        $mp = MP::create_preference($preferenceData);
 
-        return view('users.orders.pay')
-            ->with('order', $order)
-            ->with('mp', $mp['response']);
+        try {
+            $mp = MP::create_preference($preferenceData);
+        } catch (Exception $e) {
+
+            return null;
+        }
+
+        return $mp['response'];
     }
 }
