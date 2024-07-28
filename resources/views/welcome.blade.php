@@ -43,6 +43,16 @@
         .table-wrapper-scroll-y {
             display: block;
         }
+
+        .social-icons {
+            font-size: 24px; /* Tamaño del ícono */
+            margin: 0 10px; /* Espaciado entre íconos */
+            color: #333; /* Color de los íconos */
+            transition: color 0.3s;
+        }
+        .social-icons:hover {
+            color: #007bff; /* Color al pasar el ratón por encima */
+        }
     </style>
 @endsection
 
@@ -99,7 +109,7 @@
 
         <div class="col-md-4 pt-3">
 
-            <div class="text-center"> <h1> {{ trans('welcome.welcome_title', ['community' => config('app.name')]) }} </h1> </div>
+            <div class="text-center"> <h1> {{ trans('welcome.welcome_title', ['community' => CstrikeWebAdmin::getSystemParameterValueByKey('COMMUNITY_NAME')]) }} </h1> </div>
             <div class="text-center"> {{ trans('welcome.welcome_message') }} </div>
 
             <div class="text-center mt-3"> 
@@ -137,6 +147,16 @@
                 @endif
                 @endforeach
             </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ CstrikeWebAdmin::getSystemParameterValueByKey('WHATSAPP') }}" class="social-icons" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="{{ CstrikeWebAdmin::getSystemParameterValueByKey('INSTAGRAM') }}" class="social-icons" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="{{ CstrikeWebAdmin::getSystemParameterValueByKey('FACEBOOK') }}" class="social-icons" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="{{ CstrikeWebAdmin::getSystemParameterValueByKey('YOUTUBE') }}" class="social-icons" target="_blank" title="Youtube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="{{ CstrikeWebAdmin::getSystemParameterValueByKey('TIKTOK') }}" class="social-icons" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+
+            </div>
+            
         </div>
     </div>
 

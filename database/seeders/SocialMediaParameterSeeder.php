@@ -38,6 +38,13 @@ class SocialMediaParameterSeeder extends Seeder
                 'category' => 'Social Media',
                 'description' => 'URL of the YouTube channel'
             ],
+            [
+                'name' => 'TikTok',
+                'key' => 'TIKTOK',
+                'value' => 'https://tiktok.com/myCommunity',
+                'category' => 'Social Media',
+                'description' => 'TikTok username'
+            ],
         ]);
     }
 }
